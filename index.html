@@ -1,4 +1,4 @@
-<!-- VERSION: 6.1 - Added Effective+UpdatedDate filtering for Program Elective Table, improved version filtering in Degree Map Table to use most recent UpdatedDate within each Effective, updated Compare Programs to always show full Program Elective lists with match highlighting, updated Compare Versions to use Effective-aware filtering with Program Elective comparison and color-coded change tracking, added shared helper functions (getFilteredCourses, getFilteredElectives, parseDateMDY, parseEffectiveSort), updated all three data tables -->
+<!-- VERSION: 6.2 - Added Effective+UpdatedDate filtering for Program Elective Table, improved version filtering in Degree Map Table to use most recent UpdatedDate within each Effective, updated Compare Programs to always show full Program Elective lists with match highlighting, updated Compare Versions to use Effective-aware filtering with Program Elective comparison and color-coded change tracking, pending versions no longer shown by default in Degree Map/Compare Programs/Quick Print, added shared helper functions (getFilteredCourses, getFilteredElectives, parseDateMDY, parseEffectiveSort, getDefaultEffective), updated all three data tables, updated Culinary Management Effective to Fall 2020 -->
 <!-- VERSION: 6.0b - *TEST*Added Compare Map Versions sub-tab with side-by-side version diff and color-coded change tracking (New/Modified/Moved/Removed), added sub-tab toggle to Compare Maps, removed version selectors from Compare Programs, added same-program guard in Compare Programs -->
 <!-- VERSION: 5.3 - Added "LaGuardia Community College" to print headers -->
 <!-- VERSION: 5.2 - Updated FYS course codes, added "Program Core - FYS" requirement type with new tag color, updated FYS equivalency in Compare Maps, fixed Program Electives to show Requirements tag, updated degree map data -->
@@ -2893,7 +2893,7 @@
 <body>
     <div class="header">
         <h1>📚 LaGuardia Degree Map App</h1>
-        <div class="subtitle">Version 6.1 - Released February 23, 2026</a></div>
+        <div class="subtitle">Version 6.2 - Released February 24, 2026</a></div>
         <div class="subtitle">For Faculty & Staff only | Developed by Josh Goldblatt using Claude</a></div>
     </div>
     
@@ -14652,6 +14652,19 @@ var prereqData = [
             return effectiveDates;
         }
         
+        // Get the best default Effective date: most recent non-pending, falling back to most recent pending
+        function getDefaultEffective(majorCode, dataSource) {
+            const effectiveDates = getEffectiveDates(majorCode, dataSource);
+            if (effectiveDates.length === 0) return null;
+            
+            // Prefer the most recent non-pending version
+            const nonPending = effectiveDates.filter(e => !e.toLowerCase().includes('- pending'));
+            if (nonPending.length > 0) return nonPending[0];
+            
+            // All versions are pending — fall back to the most recent pending
+            return effectiveDates[0];
+        }
+        
         // Filter courses by Effective date, then by most recent UpdatedDate within that Effective.
         // Rows with empty Effective are universal (shown in all versions).
         // Within a selected Effective, only the most recent UpdatedDate batch is shown.
@@ -14805,7 +14818,7 @@ var prereqData = [
             if (selectedEffective) {
                 currentEffectiveDate = selectedEffective;
             } else if (effectiveDates.length > 0) {
-                currentEffectiveDate = effectiveDates[0]; // Most recent
+                currentEffectiveDate = getDefaultEffective(majorCode); // Most recent non-pending
             } else {
                 currentEffectiveDate = null;
             }
@@ -15795,13 +15808,13 @@ var prereqData = [
             
             if (!programA || !programB) return;
             
-            // Get courses for each map - always use current/latest version
+            // Get courses for each map - use default (non-pending) version
             const effectiveDatesA = getEffectiveDates(majorCodeA);
-            const latestEffectiveA = effectiveDatesA.length > 0 ? effectiveDatesA[0] : null;
+            const latestEffectiveA = getDefaultEffective(majorCodeA);
             let coursesA = latestEffectiveA ? getFilteredCourses(majorCodeA, latestEffectiveA) : degreeMapData.filter(c => String(c.MajorCode) === String(majorCodeA));
             
             const effectiveDatesB = getEffectiveDates(majorCodeB);
-            const latestEffectiveB = effectiveDatesB.length > 0 ? effectiveDatesB[0] : null;
+            const latestEffectiveB = getDefaultEffective(majorCodeB);
             let coursesB = latestEffectiveB ? getFilteredCourses(majorCodeB, latestEffectiveB) : degreeMapData.filter(c => String(c.MajorCode) === String(majorCodeB));
             
             // Build set of course codes for each map (for matching)
@@ -16934,8 +16947,12 @@ var prereqData = [
                         displayName: `${program.NameOfMajor} - ${program['Degree Type']}`
                     });
                 } else {
-                    // Add each version as separate entry
-                    effectiveDates.forEach(effective => {
+                    // Separate pending and non-pending versions
+                    const nonPending = effectiveDates.filter(e => !e.toLowerCase().includes('- pending'));
+                    const pending = effectiveDates.filter(e => e.toLowerCase().includes('- pending'));
+                    
+                    // Add non-pending versions
+                    nonPending.forEach(effective => {
                         programVersions.push({
                             majorCode: majorCode,
                             name: program.NameOfMajor,
@@ -16945,6 +16962,20 @@ var prereqData = [
                             displayName: `${program.NameOfMajor} - ${program['Degree Type']}`
                         });
                     });
+                    
+                    // Only add pending versions if there are no non-pending versions
+                    if (nonPending.length === 0) {
+                        pending.forEach(effective => {
+                            programVersions.push({
+                                majorCode: majorCode,
+                                name: program.NameOfMajor,
+                                degreeType: program['Degree Type'],
+                                department: program.Department,
+                                effective: effective,
+                                displayName: `${program.NameOfMajor} - ${program['Degree Type']}`
+                            });
+                        });
+                    }
                 }
             });
             
