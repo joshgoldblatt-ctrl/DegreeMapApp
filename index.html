@@ -1,3 +1,4 @@
+<!-- VERSION: 7.6 - Advisor Notes print on page 2 (page-break-before); fixed checkbox alignment on program elective rows (program-elective-container was inheriting course-item padding AND having its own header padding, causing double indent) -->
 <!-- VERSION: 7.5 - Added per-program session Advisor Notes: toggle button below each map, persists across navigation within session, prints only when content is present; added effectiveDateCache pre-computation to speed up sidebar list rendering (77 full degreeMapData scans replaced with single pass + cache lookup) -->
 <!-- VERSION: 7.4 - Practical Nursing (LPN) Semester 2 regular session corrected from SCB204 Anatomy & Physiology II to SCB203 Anatomy & Physiology I; added GoatCounter analytics snippet; corrected title tag and output filename to LaGuardia Degree Map App -->
 <!-- VERSION: 7.3 - Fixed sidebar APPROVED badge for regular curriculum update programs; renamed Major 44 to "Education - TESOL Linguistics"; Compare Versions now counts elective option changes (New/Modified/Removed Elective Options) in stats bar -->
@@ -17,7 +18,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>LaGuardia Degree Map App v7.5</title>
+    <title>LaGuardia Degree Map App v7.6</title>
     <style>
         * {
             margin: 0;
@@ -737,6 +738,12 @@
             margin-bottom: 10px;
             overflow: hidden;
         }
+
+        /* course-item adds padding but program-elective-header has its own —
+           override to avoid double-indenting the checkbox */
+        .course-item.program-elective-container {
+            padding: 0;
+        }
         
         /* Status colors for program electives */
         .program-elective-container.take-next {
@@ -761,6 +768,7 @@
         .program-elective-header {
             display: flex;
             align-items: center;
+            gap: 8px;
             padding: 8px 10px;
             cursor: pointer;
             transition: background-color 0.2s;
@@ -3400,9 +3408,10 @@
             }
             .advisor-notes-section.has-content {
                 display: block !important;
-                margin-top: 20px !important;
-                border-top: 1px solid #999 !important;
-                padding-top: 12px !important;
+                page-break-before: always !important;
+                margin-top: 0 !important;
+                border-top: none !important;
+                padding-top: 20px !important;
             }
             .advisor-notes-toggle {
                 display: none !important;
@@ -3594,7 +3603,7 @@
 <body>
     <div class="header">
         <h1>📚 LaGuardia Degree Map App</h1>
-        <div class="subtitle">Version 7.5 - Released March 24, 2026</a></div>
+        <div class="subtitle">Version 7.6 - Released March 24, 2026</a></div>
         <div class="subtitle">For Faculty & Staff only | Developed by Josh Goldblatt using Claude</a></div>
     </div>
     
