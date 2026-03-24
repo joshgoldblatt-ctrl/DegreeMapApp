@@ -1,3 +1,4 @@
+<!-- VERSION: 7.5 - Added per-program session Advisor Notes: toggle button below each map, persists across navigation within session, prints only when content is present; added effectiveDateCache pre-computation to speed up sidebar list rendering (77 full degreeMapData scans replaced with single pass + cache lookup) -->
 <!-- VERSION: 7.4 - Practical Nursing (LPN) Semester 2 regular session corrected from SCB204 Anatomy & Physiology II to SCB203 Anatomy & Physiology I; added GoatCounter analytics snippet; corrected title tag and output filename to LaGuardia Degree Map App -->
 <!-- VERSION: 7.3 - Fixed sidebar APPROVED badge for regular curriculum update programs; renamed Major 44 to "Education - TESOL Linguistics"; Compare Versions now counts elective option changes (New/Modified/Removed Elective Options) in stats bar -->
 <!-- VERSION: 7.2 - Added Recreational Therapy extended notes, updated Rec Therapy Semester 2 Flexible Core, updated Major 72 index note -->
@@ -16,7 +17,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>LaGuardia Degree Map App v7.4</title>
+    <title>LaGuardia Degree Map App v7.5</title>
     <style>
         * {
             margin: 0;
@@ -492,6 +493,63 @@
             box-shadow: 0 2px 4px rgba(0,0,0,0.2);
         }
         
+
+        /* Advisor Notes */
+        .advisor-notes-section {
+            margin: 24px 0 8px 0;
+            border-top: 2px solid #e0e0e0;
+            padding-top: 16px;
+        }
+        .advisor-notes-toggle {
+            background: none;
+            border: 1px solid #90CAF9;
+            color: #1565C0;
+            padding: 6px 14px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 0.85em;
+            font-weight: 600;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            transition: background 0.15s;
+        }
+        .advisor-notes-toggle:hover {
+            background: #E3F2FD;
+        }
+        .advisor-notes-body {
+            display: none;
+            margin-top: 12px;
+        }
+        .advisor-notes-body.open {
+            display: block;
+        }
+        .advisor-notes-label {
+            font-size: 0.85em;
+            font-weight: 600;
+            color: #555;
+            margin-bottom: 6px;
+            display: block;
+        }
+        .advisor-notes-textarea {
+            width: 100%;
+            min-height: 100px;
+            padding: 10px 12px;
+            border: 1px solid #ccc;
+            border-radius: 6px;
+            font-family: Arial, sans-serif;
+            font-size: 0.9em;
+            resize: vertical;
+            box-sizing: border-box;
+            color: #333;
+            line-height: 1.5;
+        }
+        .advisor-notes-textarea:focus {
+            outline: none;
+            border-color: #90CAF9;
+            box-shadow: 0 0 0 2px rgba(144,202,249,0.3);
+        }
+
         @media print {
             a.course-link .course-code-badge,
             a.course-link .multi-option-badge {
@@ -3335,6 +3393,43 @@
                 text-decoration: line-through;
                 color: #999;
             }
+
+            /* Advisor Notes — only print when has-content class is present */
+            .advisor-notes-section {
+                display: none !important;
+            }
+            .advisor-notes-section.has-content {
+                display: block !important;
+                margin-top: 20px !important;
+                border-top: 1px solid #999 !important;
+                padding-top: 12px !important;
+            }
+            .advisor-notes-toggle {
+                display: none !important;
+            }
+            .advisor-notes-body {
+                display: block !important;
+            }
+            .advisor-notes-label {
+                font-size: 10pt !important;
+                font-weight: bold !important;
+                color: #000 !important;
+                margin-bottom: 6px !important;
+                display: block !important;
+            }
+            .advisor-notes-textarea {
+                border: none !important;
+                padding: 0 !important;
+                font-size: 10pt !important;
+                resize: none !important;
+                width: 100% !important;
+                color: #000 !important;
+                background: transparent !important;
+                box-shadow: none !important;
+                white-space: pre-wrap !important;
+                overflow: visible !important;
+            }
+
         }
         
         /* Updates Tab Styles */
@@ -3499,7 +3594,7 @@
 <body>
     <div class="header">
         <h1>📚 LaGuardia Degree Map App</h1>
-        <div class="subtitle">Version 7.4 - Released March 18, 2026</a></div>
+        <div class="subtitle">Version 7.5 - Released March 24, 2026</a></div>
         <div class="subtitle">For Faculty & Staff only | Developed by Josh Goldblatt using Claude</a></div>
     </div>
     
@@ -15322,6 +15417,29 @@ var prereqData = [
         })();
         
         console.log('Data loaded on page load:', degreeListData.length, 'programs');
+
+        // Pre-compute effective dates per major code for fast sidebar badge rendering.
+        // Without this, getProgramStatusBadges() scans all 1800 degreeMapData rows for
+        // every program in the sidebar list (~77 scans × 1800 rows = ~138k iterations).
+        var effectiveDateCache = (function() {
+            var cache = {};
+            for (var i = 0; i < degreeMapData.length; i++) {
+                var row = degreeMapData[i];
+                var code = String(row.MajorCode);
+                var eff = (row.Effective || '').trim();
+                if (!eff) continue;
+                if (!cache[code]) cache[code] = {};
+                cache[code][eff] = true; // use object as set for deduplication
+            }
+            // Convert to sorted arrays (most recent first) matching getEffectiveDates() output
+            var result = {};
+            for (var mc in cache) {
+                var dates = Object.keys(cache[mc]);
+                dates.sort(function(a, b) { return parseEffectiveSort(b) - parseEffectiveSort(a); });
+                result[mc] = dates;
+            }
+            return result;
+        }());
         
         // CSV Parser (keeping for compatibility but not used)
         function parseCSV(text) {
@@ -15589,6 +15707,11 @@ var prereqData = [
         
         // Get unique Effective dates for a major, sorted most recent first
         function getEffectiveDates(majorCode, dataSource) {
+            // Use pre-computed cache for the default data source (fast path)
+            if (!dataSource && effectiveDateCache) {
+                return effectiveDateCache[String(majorCode)] || [];
+            }
+            // Fall back to full scan when a custom dataSource is provided
             const data = dataSource || degreeMapData;
             const allRows = data.filter(d => String(d.MajorCode) === String(majorCode));
             const effectiveDates = [...new Set(allRows.map(c => (c.Effective || '').trim()).filter(e => e))];
@@ -16105,6 +16228,9 @@ var prereqData = [
             
             document.getElementById('map-viewer').innerHTML = html;
             document.getElementById('map-actions').style.display = 'flex';
+            
+            // Inject advisor notes below the map
+            injectAdvisorNotes(majorCode);
             
             // Populate print electives summary
             populatePrintElectivesSummary(majorCode, majorInfo, majorCourses);
@@ -19154,6 +19280,79 @@ var prereqData = [
         }
         
         // Event listeners
+
+        // ── Advisor Notes ────────────────────────────────────────────────────
+        var advisorNotesStore = {};
+
+        function injectAdvisorNotes(majorCode) {
+            var viewer = document.getElementById('map-viewer');
+            if (!viewer) return;
+
+            // Remove any existing notes section first
+            var existing = document.getElementById('advisor-notes-section');
+            if (existing) existing.parentNode.removeChild(existing);
+
+            var savedText = advisorNotesStore[String(majorCode)] || '';
+            var isOpen = savedText.length > 0;
+
+            // Build section using DOM methods to avoid template literal nesting issues
+            var section = document.createElement('div');
+            section.className = 'advisor-notes-section' + (savedText ? ' has-content' : '');
+            section.id = 'advisor-notes-section';
+
+            // Toggle button
+            var btn = document.createElement('button');
+            btn.className = 'advisor-notes-toggle';
+            btn.id = 'advisor-notes-toggle';
+            btn.innerHTML = '\uD83D\uDCDD <span id="advisor-notes-toggle-label">' + (isOpen ? 'Hide Notes' : 'Add Notes') + '</span>';
+            btn.onclick = function() { toggleAdvisorNotes(); };
+
+            // Body
+            var body = document.createElement('div');
+            body.className = 'advisor-notes-body' + (isOpen ? ' open' : '');
+            body.id = 'advisor-notes-body';
+
+            var label = document.createElement('span');
+            label.className = 'advisor-notes-label';
+            label.textContent = 'Advisor Notes';
+
+            var textarea = document.createElement('textarea');
+            textarea.className = 'advisor-notes-textarea';
+            textarea.id = 'advisor-notes-textarea';
+            textarea.placeholder = 'Type session notes here. These will print with the degree map.';
+            textarea.value = savedText;
+            textarea.setAttribute('data-major', String(majorCode));
+            textarea.oninput = function() { saveAdvisorNotes(this.getAttribute('data-major')); };
+
+            body.appendChild(label);
+            body.appendChild(textarea);
+            section.appendChild(btn);
+            section.appendChild(body);
+            viewer.appendChild(section);
+        }
+
+        function toggleAdvisorNotes() {
+            var body = document.getElementById('advisor-notes-body');
+            var label = document.getElementById('advisor-notes-toggle-label');
+            if (!body) return;
+            var isOpen = body.classList.toggle('open');
+            if (label) label.textContent = isOpen ? 'Hide Notes' : 'Add Notes';
+        }
+
+        function saveAdvisorNotes(majorCode) {
+            var textarea = document.getElementById('advisor-notes-textarea');
+            var section = document.getElementById('advisor-notes-section');
+            if (!textarea || !section) return;
+            var text = textarea.value;
+            advisorNotesStore[String(majorCode)] = text;
+            if (text.trim().length > 0) {
+                section.classList.add('has-content');
+            } else {
+                section.classList.remove('has-content');
+            }
+        }
+        // ── End Advisor Notes ─────────────────────────────────────────────────
+
         document.addEventListener('DOMContentLoaded', function() {
             console.log('DOM loaded - initializing app');
             
