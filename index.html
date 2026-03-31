@@ -1,3 +1,4 @@
+<!-- VERSION: 7.7 - Veterinary Technology Fall 2026 approved map (SCV151 note added); embedded updated Index and Degree Map tables; added Vet Tech to Updates tab Health Sciences group; Compare Versions now detects Note field changes as MODIFIED and displays notes in version panels; corrected SCB209 note (removed erroneously added note, only SCV151 carries the note) -->
 <!-- VERSION: 7.6 - Advisor Notes print on page 2 (page-break-before); fixed checkbox alignment on program elective rows (program-elective-container was inheriting course-item padding AND having its own header padding, causing double indent) -->
 <!-- VERSION: 7.5 - Added per-program session Advisor Notes: toggle button below each map, persists across navigation within session, prints only when content is present; added effectiveDateCache pre-computation to speed up sidebar list rendering (77 full degreeMapData scans replaced with single pass + cache lookup) -->
 <!-- VERSION: 7.4 - Practical Nursing (LPN) Semester 2 regular session corrected from SCB204 Anatomy & Physiology II to SCB203 Anatomy & Physiology I; added GoatCounter analytics snippet; corrected title tag and output filename to LaGuardia Degree Map App -->
@@ -18,7 +19,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>LaGuardia Degree Map App v7.6</title>
+    <title>LaGuardia Degree Map App v7.7</title>
     <style>
         * {
             margin: 0;
@@ -1812,6 +1813,21 @@
             white-space: nowrap;
         }
         
+        .version-course-row {
+            display: flex;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 4px;
+        }
+
+        .version-course-note {
+            font-size: 11px;
+            color: #555;
+            font-style: italic;
+            margin-top: 3px;
+            padding-left: 2px;
+        }
+
         .version-course-session {
             font-size: 10px;
             padding: 2px 6px;
@@ -3603,7 +3619,7 @@
 <body>
     <div class="header">
         <h1>📚 LaGuardia Degree Map App</h1>
-        <div class="subtitle">Version 7.6 - Released March 24, 2026</a></div>
+        <div class="subtitle">Version 7.7 - Released March 30, 2026</a></div>
         <div class="subtitle">For Faculty & Staff only | Developed by Josh Goldblatt using Claude</a></div>
     </div>
     
@@ -3919,6 +3935,12 @@
                                 <a class="update-link update-link-map" onclick="switchTab('degree-maps'); setTimeout(() => loadDegreeMap('65', 'Fall 2026; Approved'), 100)">View Map</a>
                                 <a class="update-link update-link-compare" onclick="navigateToVersionCompare('65')">Compare Versions</a>
                             </div>
+                            <div class="update-program-item">
+                                <span class="update-program-name">Veterinary Technology</span>
+                                <span class="program-status-badge badge-approved">APPROVED</span>
+                                <a class="update-link update-link-map" onclick="switchTab('degree-maps'); setTimeout(() => loadDegreeMap('68', 'Fall 2026; Approved'), 100)">View Map</a>
+                                <a class="update-link update-link-compare" onclick="navigateToVersionCompare('68')">Compare Versions</a>
+                            </div>
                         </div>
                     </div>
                     
@@ -4027,7 +4049,7 @@
             {"MajorCode": "65", "NameOfMajor": "Physical Therapist Assistant (PTA)", "Degree Type": "AAS", "Department": "Health Sciences", "Active": "Active", "ProgramWebsite": "https://www.laguardia.edu/majors/physical-therapist-assistant/", "CollegeCatalogue": "https://laguardia.catalog.cuny.edu/programs/PYTRA-AAS", "Note": "Fall 2026 curriculum update approved"},
             {"MajorCode": "66", "NameOfMajor": "Practical Nursing (LPN)", "Degree Type": "AAS", "Department": "Health Sciences", "Active": "Active", "ProgramWebsite": "https://www.laguardia.edu/majors/practical-nursing-program/", "CollegeCatalogue": "https://laguardia.catalog.cuny.edu/programs/PRNRS-CERT", "Note": ""},
             {"MajorCode": "67", "NameOfMajor": "Radiologic Technology", "Degree Type": "AAS", "Department": "Health Sciences", "Active": "Active", "ProgramWebsite": "https://www.laguardia.edu/majors/radiologic-technology/", "CollegeCatalogue": "https://laguardia.catalog.cuny.edu/programs/RDTCH-AAS", "Note": ""},
-            {"MajorCode": "68", "NameOfMajor": "Veterinary Technology", "Degree Type": "AAS", "Department": "Health Sciences", "Active": "Active", "ProgramWebsite": "https://www.laguardia.edu/majors/veterinary-technology/", "CollegeCatalogue": "https://laguardia.catalog.cuny.edu/programs/VTCH-AAS", "Note": ""},
+            {"MajorCode": "68", "NameOfMajor": "Veterinary Technology", "Degree Type": "AAS", "Department": "Health Sciences", "Active": "Active", "ProgramWebsite": "https://www.laguardia.edu/majors/veterinary-technology/", "CollegeCatalogue": "https://laguardia.catalog.cuny.edu/programs/VTCH-AAS", "Note": "Fall 2026 course revision approved"},
             {"MajorCode": "69", "NameOfMajor": "Occupational Therapy Assistant (OTA)", "Degree Type": "AAS", "Department": "Health Sciences", "Active": "Active", "ProgramWebsite": "https://www.laguardia.edu/majors/occupational-therapy-assistant/", "CollegeCatalogue": "https://laguardia.catalog.cuny.edu/programs/OCTHR-AAS", "Note": "Fall 2026 curriculum update approved"},
             {"MajorCode": "70", "NameOfMajor": "Registered Nursing (RN)", "Degree Type": "AAS", "Department": "Health Sciences", "Active": "Active", "ProgramWebsite": "https://www.laguardia.edu/majors/nursing/", "CollegeCatalogue": "https://laguardia.catalog.cuny.edu/programs/NRS-AAS", "Note": ""},
             {"MajorCode": "71", "NameOfMajor": "Recreational Therapy", "Degree Type": "AS", "Department": "Health Sciences", "Active": "Not yet approved", "ProgramWebsite": "https://www.laguardia.edu/majors/therapeutic-recreation/", "CollegeCatalogue": "https://laguardia.catalog.cuny.edu/programs/THERARC-AS", "Note": "Fall 2026 - previously Therapeautic Recreation - approval pending"},
@@ -5700,6 +5722,30 @@
             {"MajorCode": "68", "NameOfMajor": "Veterinary Technology", "Active": "Active", "Degree Type": "AAS", "Semester": "Semester 4", "CourseName": "Farm Animal Nursing", "CourseCode": "SCV214", "Credits": "3", "Requirements": "Program Core", "Capstone": "", "Session": "", "Note": "", "ReqType": "all", "ReqGroupId": "", "UpdatedDate": "", "UpdateNote": "", "Effective": "Fall 2025"},
             {"MajorCode": "68", "NameOfMajor": "Veterinary Technology", "Active": "Active", "Degree Type": "AAS", "Semester": "Semester 4", "CourseName": "Flexible Core Course", "CourseCode": "", "Credits": "3", "Requirements": "Flexible Core Bucket", "Capstone": "", "Session": "", "Note": "", "ReqType": "all", "ReqGroupId": "", "UpdatedDate": "", "UpdateNote": "", "Effective": "Fall 2025"},
             {"MajorCode": "68", "NameOfMajor": "Veterinary Technology", "Active": "Active", "Degree Type": "AAS", "Semester": "Semester 4", "CourseName": "Companion Animal Internship - Full-Time", "CourseCode": "SCV234", "Credits": "2", "Requirements": "Program Core", "Capstone": "", "Session": "Session II", "Note": "", "ReqType": "all", "ReqGroupId": "", "UpdatedDate": "", "UpdateNote": "", "Effective": "Fall 2025"},
+            {"MajorCode": "68", "NameOfMajor": "Veterinary Technology", "Active": "Active", "Degree Type": "AAS", "Semester": "Semester 1", "CourseName": "First Year Seminar for Health Sciences", "CourseCode": "HSF90", "Credits": "0", "Requirements": "Program Core - FYS", "Capstone": "", "Session": "", "Note": "", "ReqType": "all", "ReqGroupId": "", "UpdatedDate": "", "UpdateNote": "", "Effective": "Fall 2026; Approved"},
+            {"MajorCode": "68", "NameOfMajor": "Veterinary Technology", "Active": "Active", "Degree Type": "AAS", "Semester": "Semester 1", "CourseName": "English Composition I, Composition I Accelerated", "CourseCode": "ENG101, ENA101", "Credits": "3", "Requirements": "Required Core - English I", "Capstone": "", "Session": "", "Note": "Key course", "ReqType": "pick_1_ENG", "ReqGroupId": "", "UpdatedDate": "", "UpdateNote": "", "Effective": "Fall 2026; Approved"},
+            {"MajorCode": "68", "NameOfMajor": "Veterinary Technology", "Active": "Active", "Degree Type": "AAS", "Semester": "Semester 1", "CourseName": "College Algebra and Trigonometry, Algebra & Trigonometry", "CourseCode": "MAT115, MAT117", "Credits": "3", "Requirements": "Required Core - Math", "Capstone": "", "Session": "", "Note": "Key course", "ReqType": "pick_1_MQR", "ReqGroupId": "", "UpdatedDate": "", "UpdateNote": "", "Effective": "Fall 2026; Approved"},
+            {"MajorCode": "68", "NameOfMajor": "Veterinary Technology", "Active": "Active", "Degree Type": "AAS", "Semester": "Semester 1", "CourseName": "Foundations in Chemistry, General Chemistry I", "CourseCode": "SCC110, SCC201", "Credits": "4", "Requirements": "Required Core - Life & Physical Science", "Capstone": "", "Session": "", "Note": "Key course", "ReqType": "pick_1_LPS", "ReqGroupId": "", "UpdatedDate": "", "UpdateNote": "", "Effective": "Fall 2026; Approved"},
+            {"MajorCode": "68", "NameOfMajor": "Veterinary Technology", "Active": "Active", "Degree Type": "AAS", "Semester": "Semester 1", "CourseName": "Vertebrate Anatomy I", "CourseCode": "SCB208", "Credits": "4", "Requirements": "Flexible Core (required)", "Capstone": "", "Session": "", "Note": "Key course", "ReqType": "all_FLEX", "ReqGroupId": "", "UpdatedDate": "", "UpdateNote": "", "Effective": "Fall 2026; Approved"},
+            {"MajorCode": "68", "NameOfMajor": "Veterinary Technology", "Active": "Active", "Degree Type": "AAS", "Semester": "Semester 1", "CourseName": "Critical Thinking", "CourseCode": "HUP102", "Credits": "3", "Requirements": "Flexible Core (recommended)", "Capstone": "", "Session": "Session II", "Note": "", "ReqType": "all_FLEX", "ReqGroupId": "", "UpdatedDate": "", "UpdateNote": "", "Effective": "Fall 2026; Approved"},
+            {"MajorCode": "68", "NameOfMajor": "Veterinary Technology", "Active": "Active", "Degree Type": "AAS", "Semester": "Semester 2", "CourseName": "English Composition II", "CourseCode": "ENG102", "Credits": "3", "Requirements": "Required Core - English II", "Capstone": "", "Session": "", "Note": "", "ReqType": "all", "ReqGroupId": "", "UpdatedDate": "", "UpdateNote": "", "Effective": "Fall 2026; Approved"},
+            {"MajorCode": "68", "NameOfMajor": "Veterinary Technology", "Active": "Active", "Degree Type": "AAS", "Semester": "Semester 2", "CourseName": "Introduction to Veterinary Technology", "CourseCode": "SCV101", "Credits": "2", "Requirements": "Program Core", "Capstone": "", "Session": "", "Note": "", "ReqType": "all", "ReqGroupId": "", "UpdatedDate": "", "UpdateNote": "", "Effective": "Fall 2026; Approved"},
+            {"MajorCode": "68", "NameOfMajor": "Veterinary Technology", "Active": "Active", "Degree Type": "AAS", "Semester": "Semester 2", "CourseName": "Research Animal Technology", "CourseCode": "SCV201", "Credits": "4", "Requirements": "Program Core", "Capstone": "", "Session": "", "Note": "", "ReqType": "all", "ReqGroupId": "", "UpdatedDate": "", "UpdateNote": "", "Effective": "Fall 2026; Approved"},
+            {"MajorCode": "68", "NameOfMajor": "Veterinary Technology", "Active": "Active", "Degree Type": "AAS", "Semester": "Semester 2", "CourseName": "Vertebrate Anatomy II", "CourseCode": "SCB209", "Credits": "3", "Requirements": "Program Core", "Capstone": "", "Session": "", "Note": "", "ReqType": "all", "ReqGroupId": "", "UpdatedDate": "", "UpdateNote": "", "Effective": "Fall 2026; Approved"},
+            {"MajorCode": "68", "NameOfMajor": "Veterinary Technology", "Active": "Active", "Degree Type": "AAS", "Semester": "Semester 2", "CourseName": "Shelter Medicine and Management", "CourseCode": "SCV151", "Credits": "2", "Requirements": "Program Core", "Capstone": "", "Session": "Session II", "Note": "May be taken prior to the clinical phase", "ReqType": "all", "ReqGroupId": "", "UpdatedDate": "", "UpdateNote": "Course previously could not be taken until the clinical phase", "Effective": "Fall 2026; Approved"},
+            {"MajorCode": "68", "NameOfMajor": "Veterinary Technology", "Active": "Active", "Degree Type": "AAS", "Semester": "Semester 2", "CourseName": "Research Animal Internship - Part-Time", "CourseCode": "SCV231", "Credits": "2", "Requirements": "Program Core", "Capstone": "", "Session": "Session II", "Note": "", "ReqType": "all", "ReqGroupId": "", "UpdatedDate": "", "UpdateNote": "", "Effective": "Fall 2026; Approved"},
+            {"MajorCode": "68", "NameOfMajor": "Veterinary Technology", "Active": "Active", "Degree Type": "AAS", "Semester": "Semester 3", "CourseName": "Introduction to Veterinary Nursing", "CourseCode": "SCV202", "Credits": "2", "Requirements": "Program Core", "Capstone": "", "Session": "", "Note": "", "ReqType": "all", "ReqGroupId": "", "UpdatedDate": "", "UpdateNote": "", "Effective": "Fall 2026; Approved"},
+            {"MajorCode": "68", "NameOfMajor": "Veterinary Technology", "Active": "Active", "Degree Type": "AAS", "Semester": "Semester 3", "CourseName": "Veterinary Nursing Technology I, Veterinary Nursing Tech I (Off Campus)", "CourseCode": "SCV203, SCV204", "Credits": "2", "Requirements": "Program Core", "Capstone": "", "Session": "", "Note": "", "ReqType": "pick_1", "ReqGroupId": "", "UpdatedDate": "", "UpdateNote": "", "Effective": "Fall 2026; Approved"},
+            {"MajorCode": "68", "NameOfMajor": "Veterinary Technology", "Active": "Active", "Degree Type": "AAS", "Semester": "Semester 3", "CourseName": "Veterinary Laboratory Techniques", "CourseCode": "SCV213", "Credits": "3", "Requirements": "Program Core", "Capstone": "", "Session": "", "Note": "", "ReqType": "all", "ReqGroupId": "", "UpdatedDate": "", "UpdateNote": "", "Effective": "Fall 2026; Approved"},
+            {"MajorCode": "68", "NameOfMajor": "Veterinary Technology", "Active": "Active", "Degree Type": "AAS", "Semester": "Semester 3", "CourseName": "Veterinary Pathophysiology", "CourseCode": "SCV247", "Credits": "2", "Requirements": "Program Core", "Capstone": "", "Session": "", "Note": "", "ReqType": "all", "ReqGroupId": "", "UpdatedDate": "", "UpdateNote": "", "Effective": "Fall 2026; Approved"},
+            {"MajorCode": "68", "NameOfMajor": "Veterinary Technology", "Active": "Active", "Degree Type": "AAS", "Semester": "Semester 3", "CourseName": "General Microbiology", "CourseCode": "SCB260", "Credits": "4", "Requirements": "Program Core", "Capstone": "", "Session": "", "Note": "", "ReqType": "all", "ReqGroupId": "", "UpdatedDate": "", "UpdateNote": "", "Effective": "Fall 2026; Approved"},
+            {"MajorCode": "68", "NameOfMajor": "Veterinary Technology", "Active": "Active", "Degree Type": "AAS", "Semester": "Semester 3", "CourseName": "Veterinary Radiology", "CourseCode": "SCV212", "Credits": "3", "Requirements": "Program Core", "Capstone": "", "Session": "Session II", "Note": "", "ReqType": "all", "ReqGroupId": "", "UpdatedDate": "", "UpdateNote": "", "Effective": "Fall 2026; Approved"},
+            {"MajorCode": "68", "NameOfMajor": "Veterinary Technology", "Active": "Active", "Degree Type": "AAS", "Semester": "Semester 3", "CourseName": "Exotic Animal Medicine", "CourseCode": "SCV220", "Credits": "2", "Requirements": "Program Core", "Capstone": "", "Session": "Session II", "Note": "", "ReqType": "all", "ReqGroupId": "", "UpdatedDate": "", "UpdateNote": "", "Effective": "Fall 2026; Approved"},
+            {"MajorCode": "68", "NameOfMajor": "Veterinary Technology", "Active": "Active", "Degree Type": "AAS", "Semester": "Semester 4", "CourseName": "Veterinary Nursing II", "CourseCode": "SCV211", "Credits": "4", "Requirements": "Program Core", "Capstone": "", "Session": "", "Note": "", "ReqType": "all", "ReqGroupId": "", "UpdatedDate": "", "UpdateNote": "", "Effective": "Fall 2026; Approved"},
+            {"MajorCode": "68", "NameOfMajor": "Veterinary Technology", "Active": "Active", "Degree Type": "AAS", "Semester": "Semester 4", "CourseName": "Veterinary Pharmacology & Toxicology (Capstone)", "CourseCode": "SCV262", "Credits": "3", "Requirements": "Program Core", "Capstone": "", "Session": "", "Note": "", "ReqType": "all", "ReqGroupId": "", "UpdatedDate": "", "UpdateNote": "", "Effective": "Fall 2026; Approved"},
+            {"MajorCode": "68", "NameOfMajor": "Veterinary Technology", "Active": "Active", "Degree Type": "AAS", "Semester": "Semester 4", "CourseName": "Farm Animal Nursing", "CourseCode": "SCV214", "Credits": "3", "Requirements": "Program Core", "Capstone": "", "Session": "", "Note": "", "ReqType": "all", "ReqGroupId": "", "UpdatedDate": "", "UpdateNote": "", "Effective": "Fall 2026; Approved"},
+            {"MajorCode": "68", "NameOfMajor": "Veterinary Technology", "Active": "Active", "Degree Type": "AAS", "Semester": "Semester 4", "CourseName": "Flexible Core Course", "CourseCode": "", "Credits": "3", "Requirements": "Flexible Core Bucket", "Capstone": "", "Session": "", "Note": "", "ReqType": "all", "ReqGroupId": "", "UpdatedDate": "", "UpdateNote": "", "Effective": "Fall 2026; Approved"},
+            {"MajorCode": "68", "NameOfMajor": "Veterinary Technology", "Active": "Active", "Degree Type": "AAS", "Semester": "Semester 4", "CourseName": "Companion Animal Internship - Full-Time", "CourseCode": "SCV234", "Credits": "2", "Requirements": "Program Core", "Capstone": "", "Session": "Session II", "Note": "", "ReqType": "all", "ReqGroupId": "", "UpdatedDate": "", "UpdateNote": "", "Effective": "Fall 2026; Approved"},
             {"MajorCode": "66", "NameOfMajor": "Practical Nursing (LPN)", "Active": "Active", "Degree Type": "Certificate", "Semester": "Semester 1", "CourseName": "First Year Seminar for Health Sciences", "CourseCode": "HSF90", "Credits": "0", "Requirements": "Program Core - FYS", "Capstone": "", "Session": "", "Note": "", "ReqType": "all", "ReqGroupId": "", "UpdatedDate": "", "UpdateNote": "", "Effective": "Fall 2020"},
             {"MajorCode": "66", "NameOfMajor": "Practical Nursing (LPN)", "Active": "Active", "Degree Type": "Certificate", "Semester": "Semester 1", "CourseName": "English Composition I, Composition I Accelerated", "CourseCode": "ENG101, ENA101", "Credits": "3", "Requirements": "Program Core", "Capstone": "", "Session": "", "Note": "Key course", "ReqType": "pick_1", "ReqGroupId": "", "UpdatedDate": "", "UpdateNote": "", "Effective": "Fall 2020"},
             {"MajorCode": "66", "NameOfMajor": "Practical Nursing (LPN)", "Active": "Active", "Degree Type": "Certificate", "Semester": "Semester 1", "CourseName": "General Psychology", "CourseCode": "SSY101", "Credits": "3", "Requirements": "Program Core", "Capstone": "", "Session": "", "Note": "Key course", "ReqType": "all", "ReqGroupId": "", "UpdatedDate": "", "UpdateNote": "", "Effective": "Fall 2020"},
@@ -17743,12 +17789,14 @@ var prereqData = [
                         const semChanged = matchedOld.Semester !== row.Semester;
                         const sessChanged = (matchedOld.Session || '') !== (row.Session || '');
                         const nameChanged = matchedOld.CourseName !== row.CourseName;
+                        const noteChanged = (matchedOld.Note || '') !== (row.Note || '');
+                        const contentChanged = nameChanged || noteChanged;
                         
-                        if ((semChanged || sessChanged) && nameChanged) {
+                        if ((semChanged || sessChanged) && contentChanged) {
                             changeType = 'MODIFIED_MOVED';
                         } else if (semChanged || sessChanged) {
                             changeType = 'MOVED';
-                        } else if (nameChanged) {
+                        } else if (contentChanged) {
                             changeType = 'MODIFIED';
                         }
                     }
@@ -18246,19 +18294,24 @@ var prereqData = [
             const credits = course.Credits || '';
             const requirements = course.Requirements || '';
             const session = course.Session || '';
+            const note = course.Note || '';
             
             const creditsHtml = credits ? `<span class="version-course-credits">${credits}cr</span>` : '';
             const reqHtml = requirements ? `<span class="version-course-req">${requirements}</span>` : '';
             const sessionHtml = session ? `<span class="version-course-session">${session}</span>` : '';
+            const noteHtml = note ? `<div class="version-course-note">📝 ${note}</div>` : '';
             
             return `
                 <div class="version-course ${cssClass}">
-                    <span class="version-course-code">${courseCode}</span>
-                    <span class="version-course-name">${courseName}</span>
-                    ${creditsHtml}
-                    ${sessionHtml}
-                    ${reqHtml}
-                    ${badgeHtml}
+                    <div class="version-course-row">
+                        <span class="version-course-code">${courseCode}</span>
+                        <span class="version-course-name">${courseName}</span>
+                        ${creditsHtml}
+                        ${sessionHtml}
+                        ${reqHtml}
+                        ${badgeHtml}
+                    </div>
+                    ${noteHtml}
                 </div>
             `;
         }
