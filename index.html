@@ -1,3 +1,4 @@
+<!-- VERSION: 7.13 - Added extended notes for Major 65 Physical Therapist Assistant: PTA candidacy / clinical phase info and 6-semester pacing note -->
 <!-- VERSION: 7.12 - Standardized ReqGroupId -> ReqGroupID across embedded degreeMapData and all JS references, matching the Program Elective Table CSV column name -->
 <!-- VERSION: 7.11 - Health Studies programs (73-78) curriculum update: Semester 3 Community Health Elective replaced by required SCH205 Public Health; Community Health Elective options now linked via HealthStudiesCommunityHealthElective ReqGroupID; stripped trailing whitespace from SCH215 and SCB208 course names -->
 <!-- VERSION: 7.10 - Embedded updated Index and Degree Map tables (full degree type names in map data, ReqType fixes for Major 3/67/78); map title now shows degree type as badge (full name) and effective date as badge for all maps; removed Effective/Updated metadata line; batch/quick print updated to match; new badge-effective (grey) for older terms, badge-degree-type (blue) for degree type -->
@@ -24,7 +25,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>LaGuardia Degree Map App v7.12</title>
+    <title>LaGuardia Degree Map App v7.13</title>
     <style>
         * {
             margin: 0;
@@ -3789,7 +3790,7 @@
 <body>
     <div class="header">
         <h1>📚 LaGuardia Degree Map App</h1>
-        <div class="subtitle">Version 7.12 - Released April 20, 2026</a></div>
+        <div class="subtitle">Version 7.13 - Released April 23, 2026</a></div>
         <div class="subtitle">For Faculty & Staff only | Developed by Josh Goldblatt using Claude</a></div>
     </div>
     
@@ -16088,6 +16089,15 @@ var prereqData = [
                         <li><strong>Scientific World:</strong> SCB204 Anatomy & Physiology II or SSY230 Abnormal Psychology</li>
                         <li><strong>Individual & Society:</strong> SSY240 Developmental Psychology I (pre-req for SSY241 which is required)</li>
                     </ul>
+                `
+            },
+            '65': {
+                title: 'Degree Map Notes – Physical Therapist Assistant',
+                html: `
+                    <h3>PTA Candidacy &amp; Clinical Phase</h3>
+                    <p>Students may apply for PTA candidacy every fall or spring semester (Session I only) for consideration of acceptance into the clinical phase. Key courses must be completed before the end of Session I of the semester in which you are applying.</p>
+                    <h3>Map Pacing</h3>
+                    <p>This map shows a recommended sequence for students who wish to complete the program at a slower pace of 6 semesters. <em>The program is designed to be completed in 5 semesters.</em></p>
                 `
             }
         };
