@@ -1,3 +1,4 @@
+<!-- VERSION: 7.16 - Print layout fix: when Advisor Notes have content, the Advisor Notes section (header + textarea) stays together via page-break-inside: avoid, and Transfer & Career Journey flows immediately after on the same page instead of forcing a third page; behavior unchanged when notes are empty -->
 <!-- VERSION: 7.15 - Alphabetized Updates tab department groups (Business & Technology, Community Health & Wellness, Education & Language Acquisition, English, Health Sciences, Humanities, Social Sciences) -->
 <!-- VERSION: 7.14 - English - Journalism (Major 40): renamed from Liberal Arts - Journalism, new Fall 2026 Approved curriculum version added; Psychology (Major 57): Note field updated for Statistical Methods (Spring 2027 offering + opt-in for pre-Fall 2026 students); English Department group added to Updates tab -->
 <!-- VERSION: 7.13 - Added extended notes for Major 65 Physical Therapist Assistant: PTA candidacy / clinical phase info and 6-semester pacing note -->
@@ -27,7 +28,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>LaGuardia Degree Map App v7.15</title>
+    <title>LaGuardia Degree Map App v7.16</title>
     <style>
         * {
             margin: 0;
@@ -3533,6 +3534,8 @@
             .advisor-notes-section.has-content {
                 display: block !important;
                 page-break-before: always !important;
+                page-break-inside: avoid !important;
+                break-inside: avoid !important;
                 margin-top: 0 !important;
                 border-top: none !important;
                 padding-top: 20px !important;
@@ -3579,6 +3582,12 @@
                 padding-top: 16px;
                 font-size: 10pt;
                 font-family: Arial, sans-serif;
+            }
+            /* When advisor notes have content, T&C flows immediately after on the same page */
+            body:has(.advisor-notes-section.has-content) .tc-journey-print-page {
+                page-break-before: avoid !important;
+                break-before: avoid !important;
+                padding-top: 24px !important;
             }
             .tc-journey-print-title {
                 font-size: 13pt;
@@ -3792,7 +3801,7 @@
 <body>
     <div class="header">
         <h1>📚 LaGuardia Degree Map App</h1>
-        <div class="subtitle">Version 7.15 - Released May 26, 2026</a></div>
+        <div class="subtitle">Version 7.16 - Released May 26, 2026</a></div>
         <div class="subtitle">For Faculty & Staff only | Developed by Josh Goldblatt using Claude</a></div>
     </div>
     
