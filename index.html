@@ -1,3 +1,5 @@
+<!-- VERSION: 7.20 - Added extended notes for Pre Veterinary Technology (75): key courses with catalog links + Community Health and Wellness elective list. DATA CORRECTION: source doc had SCB208 linked to 0769021 (SCC201's catalog ID); corrected to 0768851 per July 2026 course link table -->
+<!-- VERSION: 7.19 - (1) Program Elective Table refresh: Comm Studies (11) bucket labels reworded, Health Studies General (73) gained HealthStudiesGeneralElective group (HSS216/HUP114/BTO280/LRC103), Paralegal (51) gained BTP214, "- pending" removed from elective Effective values for majors 29/51/53/58/73-78 (no functional impact; status displays come from main Degree Map Table). SubGroup whitespace normalized on embed (source CSV had double space in "Bucket  2" causing wrong sort order; Josh fixed source). (2) Subgroup sort now whitespace-insensitive. (3) Removed all elective option counts from UI: subgroup headers, "Other Options" header, and "Click dropdown for options" hint. (4) Added extended notes for Communication Studies (11), Health Studies General (73), PreNursing (74), Pre-Rad Tech (76), Pre-OTA (77), Pre-PTA (78) with catalog links on Health Studies key courses -->
 <!-- VERSION: 7.18 - Added Calculus I (MAT201) note "Students may need to first take MAT115 or 117 AND MAT200" to the four engineering programs' Fall 2025 versions: Civil (10), Earth System Science (18), Electrical (19), Mechanical (46). Intentionally scoped to engineering only per Josh -->
 <!-- VERSION: 7.17 - Data refresh from July 2026 source files: courseLinkData rebuilt (1374 entries; +25 codes incl. SSY201/HES/HUZ series, -13 retired codes, SSJ204 URL corrected) and prereqData rebuilt (812 entries; +27 codes, -3 retired, 21 rows updated incl. HTR series rework, OTA fieldwork renames, SSH231 rename). Course codes normalized to no-space format. KNOWN DATA NOTE: LIB204 has two conflicting rows in source (URL + prereqs); first occurrence used pending confirmation from program director. ELQ101 had two URLs; first used per Josh. SSJ204 duplicate resolved using 9/9/2025 Eff Date row -->
 <!-- VERSION: 7.16 - Print layout fix: when Advisor Notes have content, the Advisor Notes section (header + textarea) stays together via page-break-inside: avoid, and Transfer & Career Journey flows immediately after on the same page instead of forcing a third page; behavior unchanged when notes are empty -->
@@ -30,7 +32,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>LaGuardia Degree Map App v7.18</title>
+    <title>LaGuardia Degree Map App v7.20</title>
     <style>
         * {
             margin: 0;
@@ -3803,7 +3805,7 @@
 <body>
     <div class="header">
         <h1>📚 LaGuardia Degree Map App</h1>
-        <div class="subtitle">Version 7.18 - Released July 9, 2026</a></div>
+        <div class="subtitle">Version 7.20 - Released July 9, 2026</a></div>
         <div class="subtitle">For Faculty & Staff only | Developed by Josh Goldblatt using Claude</a></div>
     </div>
     
@@ -6132,24 +6134,24 @@
             {"MajorCode": "58", "ReqGroupID": "PublicCommunityHealthElective", "SubGroup": "", "CourseCode": "SCN240", "CourseName": "Food and Culture", "Effective": "Fall 2024", "UpdatedDate": ""},
             {"MajorCode": "58", "ReqGroupID": "PublicCommunityHealthElective", "SubGroup": "", "CourseCode": "SSE103", "CourseName": "Introduction to Microeconomics", "Effective": "Fall 2024", "UpdatedDate": ""},
             {"MajorCode": "58", "ReqGroupID": "PublicCommunityHealthElective", "SubGroup": "", "CourseCode": "SSE104", "CourseName": "Introduction to Macroeconomics", "Effective": "Fall 2024", "UpdatedDate": ""},
-            {"MajorCode": "58", "ReqGroupID": "PublicCommunityHealthElective", "SubGroup": "Option 1 - Complete", "CourseCode": "LRC101", "CourseName": "Internet Research Strategies", "Effective": "Fall 2026 - pending", "UpdatedDate": "2/23/2026"},
-            {"MajorCode": "58", "ReqGroupID": "PublicCommunityHealthElective", "SubGroup": "Option 1 - Pick 2", "CourseCode": "BTO280", "CourseName": "U.S. Healthcare Administration and Delivery", "Effective": "Fall 2026 - pending", "UpdatedDate": "2/23/2026"},
-            {"MajorCode": "58", "ReqGroupID": "PublicCommunityHealthElective", "SubGroup": "Option 1 - Pick 2", "CourseCode": "HSS216", "CourseName": "Introduction to Motivational Interviewing", "Effective": "Fall 2026 - pending", "UpdatedDate": "2/23/2026"},
-            {"MajorCode": "58", "ReqGroupID": "PublicCommunityHealthElective", "SubGroup": "Option 1 - Pick 2", "CourseCode": "HUC192", "CourseName": "Health Communication", "Effective": "Fall 2026 - pending", "UpdatedDate": "2/23/2026"},
-            {"MajorCode": "58", "ReqGroupID": "PublicCommunityHealthElective", "SubGroup": "Option 1 - Pick 2", "CourseCode": "HUP114", "CourseName": "Medical Ethics", "Effective": "Fall 2026 - pending", "UpdatedDate": "2/23/2026"},
-            {"MajorCode": "58", "ReqGroupID": "PublicCommunityHealthElective", "SubGroup": "Option 1 - Pick 2", "CourseCode": "LIN190", "CourseName": "Pandemics in Global Contexts", "Effective": "Fall 2026 - pending", "UpdatedDate": "2/23/2026"},
-            {"MajorCode": "58", "ReqGroupID": "PublicCommunityHealthElective", "SubGroup": "Option 1 - Pick 2", "CourseCode": "SCD200", "CourseName": "Introductory Nutrition", "Effective": "Fall 2026 - pending", "UpdatedDate": "2/23/2026"},
-            {"MajorCode": "58", "ReqGroupID": "PublicCommunityHealthElective", "SubGroup": "Option 1 - Pick 2", "CourseCode": "SCD203", "CourseName": "Life Cycle Nutrition", "Effective": "Fall 2026 - pending", "UpdatedDate": "2/23/2026"},
-            {"MajorCode": "58", "ReqGroupID": "PublicCommunityHealthElective", "SubGroup": "Option 1 - Pick 2", "CourseCode": "SCH150", "CourseName": "Drugs, Society and Human Behavior", "Effective": "Fall 2026 - pending", "UpdatedDate": "2/23/2026"},
-            {"MajorCode": "58", "ReqGroupID": "PublicCommunityHealthElective", "SubGroup": "Option 1 - Pick 2", "CourseCode": "SCH210", "CourseName": "Human Sexuality", "Effective": "Fall 2026 - pending", "UpdatedDate": "2/23/2026"},
-            {"MajorCode": "58", "ReqGroupID": "PublicCommunityHealthElective", "SubGroup": "Option 1 - Pick 2", "CourseCode": "SCN240", "CourseName": "Food and Culture", "Effective": "Fall 2026 - pending", "UpdatedDate": "2/23/2026"},
-            {"MajorCode": "58", "ReqGroupID": "PublicCommunityHealthElective", "SubGroup": "Option 1 - Pick 2", "CourseCode": "SCN194", "CourseName": "HIV/AIDS, Science and Society", "Effective": "Fall 2026 - pending", "UpdatedDate": "2/23/2026"},
-            {"MajorCode": "58", "ReqGroupID": "PublicCommunityHealthElective", "SubGroup": "Option 1 - Pick 2", "CourseCode": "SSE103", "CourseName": "Introduction to Microeconomics", "Effective": "Fall 2026 - pending", "UpdatedDate": "2/23/2026"},
-            {"MajorCode": "58", "ReqGroupID": "PublicCommunityHealthElective", "SubGroup": "Option 1 - Pick 2", "CourseCode": "SSE104", "CourseName": "Introduction to Macroeconomics", "Effective": "Fall 2026 - pending", "UpdatedDate": "2/23/2026"},
-            {"MajorCode": "58", "ReqGroupID": "PublicCommunityHealthElective", "SubGroup": "Option 2 - Pick 2", "CourseCode": "SCB115", "CourseName": "Principles of Biology", "Effective": "Fall 2026 - pending", "UpdatedDate": "2/23/2026"},
-            {"MajorCode": "58", "ReqGroupID": "PublicCommunityHealthElective", "SubGroup": "Option 2 - Pick 2", "CourseCode": "SCC110", "CourseName": "Foundations of Chemistry", "Effective": "Fall 2026 - pending", "UpdatedDate": "2/23/2026"},
-            {"MajorCode": "58", "ReqGroupID": "PublicCommunityHealthElective", "SubGroup": "Option 2 - Pick 2", "CourseCode": "SCB203", "CourseName": "Anatomy & Physiology I", "Effective": "Fall 2026 - pending", "UpdatedDate": "2/23/2026"},
-            {"MajorCode": "58", "ReqGroupID": "PublicCommunityHealthElective", "SubGroup": "Option 2 - Pick 2", "CourseCode": "SCB204", "CourseName": "Anatomy & Physiology II", "Effective": "Fall 2026 - pending", "UpdatedDate": "2/23/2026"},
+            {"MajorCode": "58", "ReqGroupID": "PublicCommunityHealthElective", "SubGroup": "Option 1 - Complete", "CourseCode": "LRC101", "CourseName": "Internet Research Strategies", "Effective": "Fall 2026", "UpdatedDate": "2/23/2026"},
+            {"MajorCode": "58", "ReqGroupID": "PublicCommunityHealthElective", "SubGroup": "Option 1 - Pick 2", "CourseCode": "BTO280", "CourseName": "U.S. Healthcare Administration and Delivery", "Effective": "Fall 2026", "UpdatedDate": "2/23/2026"},
+            {"MajorCode": "58", "ReqGroupID": "PublicCommunityHealthElective", "SubGroup": "Option 1 - Pick 2", "CourseCode": "HSS216", "CourseName": "Introduction to Motivational Interviewing", "Effective": "Fall 2026", "UpdatedDate": "2/23/2026"},
+            {"MajorCode": "58", "ReqGroupID": "PublicCommunityHealthElective", "SubGroup": "Option 1 - Pick 2", "CourseCode": "HUC192", "CourseName": "Health Communication", "Effective": "Fall 2026", "UpdatedDate": "2/23/2026"},
+            {"MajorCode": "58", "ReqGroupID": "PublicCommunityHealthElective", "SubGroup": "Option 1 - Pick 2", "CourseCode": "HUP114", "CourseName": "Medical Ethics", "Effective": "Fall 2026", "UpdatedDate": "2/23/2026"},
+            {"MajorCode": "58", "ReqGroupID": "PublicCommunityHealthElective", "SubGroup": "Option 1 - Pick 2", "CourseCode": "LIN190", "CourseName": "Pandemics in Global Contexts", "Effective": "Fall 2026", "UpdatedDate": "2/23/2026"},
+            {"MajorCode": "58", "ReqGroupID": "PublicCommunityHealthElective", "SubGroup": "Option 1 - Pick 2", "CourseCode": "SCD200", "CourseName": "Introductory Nutrition", "Effective": "Fall 2026", "UpdatedDate": "2/23/2026"},
+            {"MajorCode": "58", "ReqGroupID": "PublicCommunityHealthElective", "SubGroup": "Option 1 - Pick 2", "CourseCode": "SCD203", "CourseName": "Life Cycle Nutrition", "Effective": "Fall 2026", "UpdatedDate": "2/23/2026"},
+            {"MajorCode": "58", "ReqGroupID": "PublicCommunityHealthElective", "SubGroup": "Option 1 - Pick 2", "CourseCode": "SCH150", "CourseName": "Drugs, Society and Human Behavior", "Effective": "Fall 2026", "UpdatedDate": "2/23/2026"},
+            {"MajorCode": "58", "ReqGroupID": "PublicCommunityHealthElective", "SubGroup": "Option 1 - Pick 2", "CourseCode": "SCH210", "CourseName": "Human Sexuality", "Effective": "Fall 2026", "UpdatedDate": "2/23/2026"},
+            {"MajorCode": "58", "ReqGroupID": "PublicCommunityHealthElective", "SubGroup": "Option 1 - Pick 2", "CourseCode": "SCN240", "CourseName": "Food and Culture", "Effective": "Fall 2026", "UpdatedDate": "2/23/2026"},
+            {"MajorCode": "58", "ReqGroupID": "PublicCommunityHealthElective", "SubGroup": "Option 1 - Pick 2", "CourseCode": "SCN194", "CourseName": "HIV/AIDS, Science and Society", "Effective": "Fall 2026", "UpdatedDate": "2/23/2026"},
+            {"MajorCode": "58", "ReqGroupID": "PublicCommunityHealthElective", "SubGroup": "Option 1 - Pick 2", "CourseCode": "SSE103", "CourseName": "Introduction to Microeconomics", "Effective": "Fall 2026", "UpdatedDate": "2/23/2026"},
+            {"MajorCode": "58", "ReqGroupID": "PublicCommunityHealthElective", "SubGroup": "Option 1 - Pick 2", "CourseCode": "SSE104", "CourseName": "Introduction to Macroeconomics", "Effective": "Fall 2026", "UpdatedDate": "2/23/2026"},
+            {"MajorCode": "58", "ReqGroupID": "PublicCommunityHealthElective", "SubGroup": "Option 2 - Pick 2", "CourseCode": "SCB115", "CourseName": "Principles of Biology", "Effective": "Fall 2026", "UpdatedDate": "2/23/2026"},
+            {"MajorCode": "58", "ReqGroupID": "PublicCommunityHealthElective", "SubGroup": "Option 2 - Pick 2", "CourseCode": "SCC110", "CourseName": "Foundations of Chemistry", "Effective": "Fall 2026", "UpdatedDate": "2/23/2026"},
+            {"MajorCode": "58", "ReqGroupID": "PublicCommunityHealthElective", "SubGroup": "Option 2 - Pick 2", "CourseCode": "SCB203", "CourseName": "Anatomy & Physiology I", "Effective": "Fall 2026", "UpdatedDate": "2/23/2026"},
+            {"MajorCode": "58", "ReqGroupID": "PublicCommunityHealthElective", "SubGroup": "Option 2 - Pick 2", "CourseCode": "SCB204", "CourseName": "Anatomy & Physiology II", "Effective": "Fall 2026", "UpdatedDate": "2/23/2026"},
             {"MajorCode": "49", "ReqGroupID": "NewMediaTechnologyCourse", "SubGroup": "Digital Media - Pick 5", "CourseCode": "HUW125", "CourseName": "Introduction to Computer Art", "Effective": "Fall 2024", "UpdatedDate": ""},
             {"MajorCode": "49", "ReqGroupID": "NewMediaTechnologyCourse", "SubGroup": "Digital Media - Pick 5", "CourseCode": "HUW126", "CourseName": "Computer Art II", "Effective": "Fall 2024", "UpdatedDate": ""},
             {"MajorCode": "49", "ReqGroupID": "NewMediaTechnologyCourse", "SubGroup": "Digital Media - Pick 5", "CourseCode": "HUA103", "CourseName": "Beginning Drawing", "Effective": "Fall 2024", "UpdatedDate": ""},
@@ -6183,34 +6185,34 @@
             {"MajorCode": "51", "ReqGroupID": "ParalegalElective", "SubGroup": "", "CourseCode": "BTP209", "CourseName": "Criminal Law and Procedure", "Effective": "Fall 2022", "UpdatedDate": ""},
             {"MajorCode": "51", "ReqGroupID": "ParalegalElective", "SubGroup": "", "CourseCode": "BTP212", "CourseName": "Immigration Law", "Effective": "Fall 2022", "UpdatedDate": ""},
             {"MajorCode": "51", "ReqGroupID": "ParalegalElective", "SubGroup": "", "CourseCode": "BTP213", "CourseName": "Bankruptcy Law", "Effective": "Fall 2022", "UpdatedDate": ""},
-            {"MajorCode": "51", "ReqGroupID": "ParalegalElective", "SubGroup": "", "CourseCode": "BTP201", "CourseName": "Administrative Law", "Effective": "Fall 2026 - pending", "UpdatedDate": "2/23/2026"},
-            {"MajorCode": "51", "ReqGroupID": "ParalegalElective", "SubGroup": "", "CourseCode": "BTP202", "CourseName": "Wills, Trusts and Estates", "Effective": "Fall 2026 - pending", "UpdatedDate": "2/23/2026"},
-            {"MajorCode": "51", "ReqGroupID": "ParalegalElective", "SubGroup": "", "CourseCode": "BTP203", "CourseName": "Family Law", "Effective": "Fall 2026 - pending", "UpdatedDate": "2/23/2026"},
-            {"MajorCode": "51", "ReqGroupID": "ParalegalElective", "SubGroup": "", "CourseCode": "BTP207", "CourseName": "Real Estate Law for Paralegals", "Effective": "Fall 2026 - pending", "UpdatedDate": "2/23/2026"},
-            {"MajorCode": "51", "ReqGroupID": "ParalegalElective", "SubGroup": "", "CourseCode": "BTP208", "CourseName": "The Law of Business Enterprises for Paralegals", "Effective": "Fall 2026 - pending", "UpdatedDate": "2/23/2026"},
-            {"MajorCode": "51", "ReqGroupID": "ParalegalElective", "SubGroup": "", "CourseCode": "BTP209", "CourseName": "Criminal Law and Procedure", "Effective": "Fall 2026 - pending", "UpdatedDate": "2/23/2026"},
-            {"MajorCode": "51", "ReqGroupID": "ParalegalElective", "SubGroup": "", "CourseCode": "BTP212", "CourseName": "Immigration Law", "Effective": "Fall 2026 - pending", "UpdatedDate": "2/23/2026"},
-            {"MajorCode": "51", "ReqGroupID": "ParalegalElective", "SubGroup": "", "CourseCode": "BTP213", "CourseName": "Bankruptcy Law", "Effective": "Fall 2026 - pending", "UpdatedDate": "2/23/2026"},
-            {"MajorCode": "51", "ReqGroupID": "ParalegalElective", "SubGroup": "", "CourseCode": "BTP214", "CourseName": "Intellectual Property", "Effective": "Fall 2026 - pending", "UpdatedDate": "2/23/2026"},
+            {"MajorCode": "51", "ReqGroupID": "ParalegalElective", "SubGroup": "", "CourseCode": "BTP201", "CourseName": "Administrative Law", "Effective": "Fall 2026", "UpdatedDate": "2/23/2026"},
+            {"MajorCode": "51", "ReqGroupID": "ParalegalElective", "SubGroup": "", "CourseCode": "BTP202", "CourseName": "Wills, Trusts and Estates", "Effective": "Fall 2026", "UpdatedDate": "2/23/2026"},
+            {"MajorCode": "51", "ReqGroupID": "ParalegalElective", "SubGroup": "", "CourseCode": "BTP203", "CourseName": "Family Law", "Effective": "Fall 2026", "UpdatedDate": "2/23/2026"},
+            {"MajorCode": "51", "ReqGroupID": "ParalegalElective", "SubGroup": "", "CourseCode": "BTP207", "CourseName": "Real Estate Law for Paralegals", "Effective": "Fall 2026", "UpdatedDate": "2/23/2026"},
+            {"MajorCode": "51", "ReqGroupID": "ParalegalElective", "SubGroup": "", "CourseCode": "BTP208", "CourseName": "The Law of Business Enterprises for Paralegals", "Effective": "Fall 2026", "UpdatedDate": "2/23/2026"},
+            {"MajorCode": "51", "ReqGroupID": "ParalegalElective", "SubGroup": "", "CourseCode": "BTP209", "CourseName": "Criminal Law and Procedure", "Effective": "Fall 2026", "UpdatedDate": "2/23/2026"},
+            {"MajorCode": "51", "ReqGroupID": "ParalegalElective", "SubGroup": "", "CourseCode": "BTP212", "CourseName": "Immigration Law", "Effective": "Fall 2026", "UpdatedDate": "2/23/2026"},
+            {"MajorCode": "51", "ReqGroupID": "ParalegalElective", "SubGroup": "", "CourseCode": "BTP213", "CourseName": "Bankruptcy Law", "Effective": "Fall 2026", "UpdatedDate": "2/23/2026"},
+            {"MajorCode": "51", "ReqGroupID": "ParalegalElective", "SubGroup": "", "CourseCode": "BTP214", "CourseName": "Intellectual Property", "Effective": "Fall 2026", "UpdatedDate": "2/23/2026"},
             {"MajorCode": "53", "ReqGroupID": "PhotographyElective", "SubGroup": "", "CourseCode": "HUA155", "CourseName": "The View Camera, Large Format Photography", "Effective": "Fall 2024", "UpdatedDate": ""},
             {"MajorCode": "53", "ReqGroupID": "PhotographyElective", "SubGroup": "", "CourseCode": "HUA238", "CourseName": "Alternative Photography", "Effective": "Fall 2024", "UpdatedDate": ""},
             {"MajorCode": "53", "ReqGroupID": "PhotographyElective", "SubGroup": "", "CourseCode": "HUA291", "CourseName": "Experiential Learning in Photography", "Effective": "Fall 2024", "UpdatedDate": ""},
             {"MajorCode": "53", "ReqGroupID": "PhotographyElective", "SubGroup": "", "CourseCode": "HUV240", "CourseName": "Video Production Workshop I", "Effective": "Fall 2024", "UpdatedDate": ""},
-            {"MajorCode": "53", "ReqGroupID": "PhotographyElective", "SubGroup": "", "CourseCode": "HUZ155", "CourseName": "The View Camera, Large Format Photography", "Effective": "Fall 2026 - pending", "UpdatedDate": "2/26/2026"},
-            {"MajorCode": "53", "ReqGroupID": "PhotographyElective", "SubGroup": "", "CourseCode": "HUZ238", "CourseName": "Alternative Photography", "Effective": "Fall 2026 - pending", "UpdatedDate": "2/26/2026"},
-            {"MajorCode": "53", "ReqGroupID": "PhotographyElective", "SubGroup": "", "CourseCode": "HUZ291", "CourseName": "Experiential Learning in Photography", "Effective": "Fall 2026 - pending", "UpdatedDate": "2/26/2026"},
-            {"MajorCode": "53", "ReqGroupID": "PhotographyElective", "SubGroup": "", "CourseCode": "HUV240", "CourseName": "Video Production Workshop I", "Effective": "Fall 2026 - pending", "UpdatedDate": "2/26/2026"},
-            {"MajorCode": "11", "ReqGroupID": "CommunicationsElective", "SubGroup": "Bucket 1 - Pick 3", "CourseCode": "HUC112", "CourseName": "Small Group Communication", "Effective": "Fall 2023", "UpdatedDate": ""},
-            {"MajorCode": "11", "ReqGroupID": "CommunicationsElective", "SubGroup": "Bucket 1 - Pick 3", "CourseCode": "HUC117", "CourseName": "Communication and Technology", "Effective": "Fall 2023", "UpdatedDate": ""},
-            {"MajorCode": "11", "ReqGroupID": "CommunicationsElective", "SubGroup": "Bucket 1 - Pick 3", "CourseCode": "HUC118", "CourseName": "Gender and Communication", "Effective": "Fall 2023", "UpdatedDate": ""},
-            {"MajorCode": "11", "ReqGroupID": "CommunicationsElective", "SubGroup": "Bucket 1 - Pick 3", "CourseCode": "HUC120", "CourseName": "Introduction to Media Studies", "Effective": "Fall 2023", "UpdatedDate": ""},
-            {"MajorCode": "11", "ReqGroupID": "CommunicationsElective", "SubGroup": "Bucket 1 - Pick 3", "CourseCode": "HUC136", "CourseName": "Persuasion", "Effective": "Fall 2023", "UpdatedDate": ""},
-            {"MajorCode": "11", "ReqGroupID": "CommunicationsElective", "SubGroup": "Bucket 1 - Pick 3", "CourseCode": "HUC141", "CourseName": "Public Relations", "Effective": "Fall 2023", "UpdatedDate": ""},
-            {"MajorCode": "11", "ReqGroupID": "CommunicationsElective", "SubGroup": "Bucket  2 - Pick 2", "CourseCode": "HUC142", "CourseName": "Public Relations Writing", "Effective": "Fall 2023", "UpdatedDate": ""},
-            {"MajorCode": "11", "ReqGroupID": "CommunicationsElective", "SubGroup": "Bucket  2 - Pick 2", "CourseCode": "HUC192", "CourseName": "Health Communication", "Effective": "Fall 2023", "UpdatedDate": ""},
-            {"MajorCode": "11", "ReqGroupID": "CommunicationsElective", "SubGroup": "Bucket  2 - Pick 2", "CourseCode": "HUC204", "CourseName": "Race and Communication", "Effective": "Fall 2023", "UpdatedDate": ""},
-            {"MajorCode": "11", "ReqGroupID": "CommunicationsElective", "SubGroup": "Bucket  2 - Pick 2", "CourseCode": "HUC212", "CourseName": "Organizational Communication", "Effective": "Fall 2023", "UpdatedDate": ""},
-            {"MajorCode": "11", "ReqGroupID": "CommunicationsElective", "SubGroup": "Bucket  2 - Pick 2", "CourseCode": "HUC220", "CourseName": "Experiential Learning in Communication Studies", "Effective": "Fall 2023", "UpdatedDate": ""},
+            {"MajorCode": "53", "ReqGroupID": "PhotographyElective", "SubGroup": "", "CourseCode": "HUZ155", "CourseName": "The View Camera, Large Format Photography", "Effective": "Fall 2026", "UpdatedDate": "2/26/2026"},
+            {"MajorCode": "53", "ReqGroupID": "PhotographyElective", "SubGroup": "", "CourseCode": "HUZ238", "CourseName": "Alternative Photography", "Effective": "Fall 2026", "UpdatedDate": "2/26/2026"},
+            {"MajorCode": "53", "ReqGroupID": "PhotographyElective", "SubGroup": "", "CourseCode": "HUZ291", "CourseName": "Experiential Learning in Photography", "Effective": "Fall 2026", "UpdatedDate": "2/26/2026"},
+            {"MajorCode": "53", "ReqGroupID": "PhotographyElective", "SubGroup": "", "CourseCode": "HUV240", "CourseName": "Video Production Workshop I", "Effective": "Fall 2026", "UpdatedDate": "2/26/2026"},
+            {"MajorCode": "11", "ReqGroupID": "CommunicationsElective", "SubGroup": "Bucket 1 - pick 3 courses", "CourseCode": "HUC112", "CourseName": "Small Group Communication", "Effective": "Fall 2023", "UpdatedDate": ""},
+            {"MajorCode": "11", "ReqGroupID": "CommunicationsElective", "SubGroup": "Bucket 1 - pick 3 courses", "CourseCode": "HUC117", "CourseName": "Communication and Technology", "Effective": "Fall 2023", "UpdatedDate": ""},
+            {"MajorCode": "11", "ReqGroupID": "CommunicationsElective", "SubGroup": "Bucket 1 - pick 3 courses", "CourseCode": "HUC118", "CourseName": "Gender and Communication", "Effective": "Fall 2023", "UpdatedDate": ""},
+            {"MajorCode": "11", "ReqGroupID": "CommunicationsElective", "SubGroup": "Bucket 1 - pick 3 courses", "CourseCode": "HUC120", "CourseName": "Introduction to Media Studies", "Effective": "Fall 2023", "UpdatedDate": ""},
+            {"MajorCode": "11", "ReqGroupID": "CommunicationsElective", "SubGroup": "Bucket 1 - pick 3 courses", "CourseCode": "HUC136", "CourseName": "Persuasion", "Effective": "Fall 2023", "UpdatedDate": ""},
+            {"MajorCode": "11", "ReqGroupID": "CommunicationsElective", "SubGroup": "Bucket 1 - pick 3 courses", "CourseCode": "HUC141", "CourseName": "Public Relations", "Effective": "Fall 2023", "UpdatedDate": ""},
+            {"MajorCode": "11", "ReqGroupID": "CommunicationsElective", "SubGroup": "Bucket 2 - pick 2 courses", "CourseCode": "HUC142", "CourseName": "Public Relations Writing", "Effective": "Fall 2023", "UpdatedDate": ""},
+            {"MajorCode": "11", "ReqGroupID": "CommunicationsElective", "SubGroup": "Bucket 2 - pick 2 courses", "CourseCode": "HUC192", "CourseName": "Health Communication", "Effective": "Fall 2023", "UpdatedDate": ""},
+            {"MajorCode": "11", "ReqGroupID": "CommunicationsElective", "SubGroup": "Bucket 2 - pick 2 courses", "CourseCode": "HUC204", "CourseName": "Race and Communication", "Effective": "Fall 2023", "UpdatedDate": ""},
+            {"MajorCode": "11", "ReqGroupID": "CommunicationsElective", "SubGroup": "Bucket 2 - pick 2 courses", "CourseCode": "HUC212", "CourseName": "Organizational Communication", "Effective": "Fall 2023", "UpdatedDate": ""},
+            {"MajorCode": "11", "ReqGroupID": "CommunicationsElective", "SubGroup": "Bucket 2 - pick 2 courses", "CourseCode": "HUC220", "CourseName": "Experiential Learning in Communication Studies", "Effective": "Fall 2023", "UpdatedDate": ""},
             {"MajorCode": "23", "ReqGroupID": "CreatingWritingElective_CW", "SubGroup": "", "CourseCode": "ENG271", "CourseName": "Poetry Writing", "Effective": "Fall 2023", "UpdatedDate": ""},
             {"MajorCode": "23", "ReqGroupID": "CreatingWritingElective_CW", "SubGroup": "", "CourseCode": "ENG273", "CourseName": "Playwriting Workshop", "Effective": "Fall 2023", "UpdatedDate": ""},
             {"MajorCode": "23", "ReqGroupID": "CreatingWritingElective_CW", "SubGroup": "", "CourseCode": "ENG274", "CourseName": "Creative Nonfiction Workshop", "Effective": "Fall 2023", "UpdatedDate": ""},
@@ -6654,15 +6656,15 @@
             {"MajorCode": "29", "ReqGroupID": "HealthScienceandHumanServicesElective_Human Services", "SubGroup": "", "CourseCode": "SCN240", "CourseName": "Food and Culture", "Effective": "Fall 2025", "UpdatedDate": ""},
             {"MajorCode": "29", "ReqGroupID": "HealthScienceandHumanServicesElective_Human Services", "SubGroup": "", "CourseCode": "SSS100", "CourseName": "Introduction to Sociology Contemporary Society", "Effective": "Fall 2025", "UpdatedDate": ""},
             {"MajorCode": "29", "ReqGroupID": "HealthScienceandHumanServicesElective_Human Services", "SubGroup": "", "CourseCode": "SSY101", "CourseName": "General Psychology", "Effective": "Fall 2025", "UpdatedDate": ""},
-            {"MajorCode": "29", "ReqGroupID": "HealthScienceandHumanServicesElective_Human Services", "SubGroup": "", "CourseCode": "HSS208", "CourseName": "Human Services and Disabilities", "Effective": "Fall 2026 - pending", "UpdatedDate": "2/26/2026"},
-            {"MajorCode": "29", "ReqGroupID": "HealthScienceandHumanServicesElective_Human Services", "SubGroup": "", "CourseCode": "HSS218", "CourseName": "Group Interviewing and Counseling", "Effective": "Fall 2026 - pending", "UpdatedDate": "2/26/2026"},
-            {"MajorCode": "29", "ReqGroupID": "HealthScienceandHumanServicesElective_Human Services", "SubGroup": "", "CourseCode": "SCD200", "CourseName": "Introductory Nutrition", "Effective": "Fall 2026 - pending", "UpdatedDate": "2/26/2026"},
-            {"MajorCode": "29", "ReqGroupID": "HealthScienceandHumanServicesElective_Human Services", "SubGroup": "", "CourseCode": "SCH150", "CourseName": "Drugs, Society and Human Behavior", "Effective": "Fall 2026 - pending", "UpdatedDate": "2/26/2026"},
-            {"MajorCode": "29", "ReqGroupID": "HealthScienceandHumanServicesElective_Human Services", "SubGroup": "", "CourseCode": "SCH210", "CourseName": "Human Sexuality", "Effective": "Fall 2026 - pending", "UpdatedDate": "2/26/2026"},
-            {"MajorCode": "29", "ReqGroupID": "HealthScienceandHumanServicesElective_Human Services", "SubGroup": "", "CourseCode": "SCN194", "CourseName": "HIV/AIDS, Science and Society", "Effective": "Fall 2026 - pending", "UpdatedDate": "2/26/2026"},
-            {"MajorCode": "29", "ReqGroupID": "HealthScienceandHumanServicesElective_Human Services", "SubGroup": "", "CourseCode": "SCN240", "CourseName": "Food and Culture", "Effective": "Fall 2026 - pending", "UpdatedDate": "2/26/2026"},
-            {"MajorCode": "29", "ReqGroupID": "HealthScienceandHumanServicesElective_Human Services", "SubGroup": "", "CourseCode": "SSS100", "CourseName": "Introduction to Sociology Contemporary Society", "Effective": "Fall 2026 - pending", "UpdatedDate": "2/26/2026"},
-            {"MajorCode": "29", "ReqGroupID": "HealthScienceandHumanServicesElective_Human Services", "SubGroup": "", "CourseCode": "SSY101", "CourseName": "General Psychology", "Effective": "Fall 2026 - pending", "UpdatedDate": "2/26/2026"},
+            {"MajorCode": "29", "ReqGroupID": "HealthScienceandHumanServicesElective_Human Services", "SubGroup": "", "CourseCode": "HSS208", "CourseName": "Human Services and Disabilities", "Effective": "Fall 2026", "UpdatedDate": "2/26/2026"},
+            {"MajorCode": "29", "ReqGroupID": "HealthScienceandHumanServicesElective_Human Services", "SubGroup": "", "CourseCode": "HSS218", "CourseName": "Group Interviewing and Counseling", "Effective": "Fall 2026", "UpdatedDate": "2/26/2026"},
+            {"MajorCode": "29", "ReqGroupID": "HealthScienceandHumanServicesElective_Human Services", "SubGroup": "", "CourseCode": "SCD200", "CourseName": "Introductory Nutrition", "Effective": "Fall 2026", "UpdatedDate": "2/26/2026"},
+            {"MajorCode": "29", "ReqGroupID": "HealthScienceandHumanServicesElective_Human Services", "SubGroup": "", "CourseCode": "SCH150", "CourseName": "Drugs, Society and Human Behavior", "Effective": "Fall 2026", "UpdatedDate": "2/26/2026"},
+            {"MajorCode": "29", "ReqGroupID": "HealthScienceandHumanServicesElective_Human Services", "SubGroup": "", "CourseCode": "SCH210", "CourseName": "Human Sexuality", "Effective": "Fall 2026", "UpdatedDate": "2/26/2026"},
+            {"MajorCode": "29", "ReqGroupID": "HealthScienceandHumanServicesElective_Human Services", "SubGroup": "", "CourseCode": "SCN194", "CourseName": "HIV/AIDS, Science and Society", "Effective": "Fall 2026", "UpdatedDate": "2/26/2026"},
+            {"MajorCode": "29", "ReqGroupID": "HealthScienceandHumanServicesElective_Human Services", "SubGroup": "", "CourseCode": "SCN240", "CourseName": "Food and Culture", "Effective": "Fall 2026", "UpdatedDate": "2/26/2026"},
+            {"MajorCode": "29", "ReqGroupID": "HealthScienceandHumanServicesElective_Human Services", "SubGroup": "", "CourseCode": "SSS100", "CourseName": "Introduction to Sociology Contemporary Society", "Effective": "Fall 2026", "UpdatedDate": "2/26/2026"},
+            {"MajorCode": "29", "ReqGroupID": "HealthScienceandHumanServicesElective_Human Services", "SubGroup": "", "CourseCode": "SSY101", "CourseName": "General Psychology", "Effective": "Fall 2026", "UpdatedDate": "2/26/2026"},
             {"MajorCode": "58", "ReqGroupID": "PublicCommunityHealthElective", "SubGroup": "", "CourseCode": "BTO280", "CourseName": "U.S. Healthcare Administration and Delivery", "Effective": "Fall 2024", "UpdatedDate": ""},
             {"MajorCode": "58", "ReqGroupID": "PublicCommunityHealthElective", "SubGroup": "", "CourseCode": "HSS216", "CourseName": "Introduction to Motivational Interviewing", "Effective": "Fall 2024", "UpdatedDate": ""},
             {"MajorCode": "58", "ReqGroupID": "PublicCommunityHealthElective", "SubGroup": "", "CourseCode": "HUC192", "CourseName": "Health Communication", "Effective": "Fall 2024", "UpdatedDate": ""},
@@ -6676,19 +6678,19 @@
             {"MajorCode": "58", "ReqGroupID": "PublicCommunityHealthElective", "SubGroup": "", "CourseCode": "SCN240", "CourseName": "Food and Culture", "Effective": "Fall 2024", "UpdatedDate": ""},
             {"MajorCode": "58", "ReqGroupID": "PublicCommunityHealthElective", "SubGroup": "", "CourseCode": "SSE103", "CourseName": "Introduction to Microeconomics", "Effective": "Fall 2024", "UpdatedDate": ""},
             {"MajorCode": "58", "ReqGroupID": "PublicCommunityHealthElective", "SubGroup": "", "CourseCode": "SSE104", "CourseName": "Introduction to Macroeconomics", "Effective": "Fall 2024", "UpdatedDate": ""},
-            {"MajorCode": "58", "ReqGroupID": "PublicCommunityHealthElective", "SubGroup": "", "CourseCode": "BTO280", "CourseName": "U.S. Healthcare Administration and Delivery", "Effective": "Fall 2026 - pending", "UpdatedDate": "2/26/2026"},
-            {"MajorCode": "58", "ReqGroupID": "PublicCommunityHealthElective", "SubGroup": "", "CourseCode": "HSS216", "CourseName": "Introduction to Motivational Interviewing", "Effective": "Fall 2026 - pending", "UpdatedDate": "2/26/2026"},
-            {"MajorCode": "58", "ReqGroupID": "PublicCommunityHealthElective", "SubGroup": "", "CourseCode": "HUC192", "CourseName": "Health Communication", "Effective": "Fall 2026 - pending", "UpdatedDate": "2/26/2026"},
-            {"MajorCode": "58", "ReqGroupID": "PublicCommunityHealthElective", "SubGroup": "", "CourseCode": "HUP114", "CourseName": "Medical Ethics", "Effective": "Fall 2026 - pending", "UpdatedDate": "2/26/2026"},
-            {"MajorCode": "58", "ReqGroupID": "PublicCommunityHealthElective", "SubGroup": "", "CourseCode": "LIN190", "CourseName": "Pandemics in Global Contexts", "Effective": "Fall 2026 - pending", "UpdatedDate": "2/26/2026"},
-            {"MajorCode": "58", "ReqGroupID": "PublicCommunityHealthElective", "SubGroup": "", "CourseCode": "SCD200", "CourseName": "Introductory Nutrition", "Effective": "Fall 2026 - pending", "UpdatedDate": "2/26/2026"},
-            {"MajorCode": "58", "ReqGroupID": "PublicCommunityHealthElective", "SubGroup": "", "CourseCode": "SCD203", "CourseName": "Life Cycle Nutrition", "Effective": "Fall 2026 - pending", "UpdatedDate": "2/26/2026"},
-            {"MajorCode": "58", "ReqGroupID": "PublicCommunityHealthElective", "SubGroup": "", "CourseCode": "SCH150", "CourseName": "Drugs, Society and Human Behavior", "Effective": "Fall 2026 - pending", "UpdatedDate": "2/26/2026"},
-            {"MajorCode": "58", "ReqGroupID": "PublicCommunityHealthElective", "SubGroup": "", "CourseCode": "SCH210", "CourseName": "Human Sexuality", "Effective": "Fall 2026 - pending", "UpdatedDate": "2/26/2026"},
-            {"MajorCode": "58", "ReqGroupID": "PublicCommunityHealthElective", "SubGroup": "", "CourseCode": "SCN194", "CourseName": "HIV/AIDS, Science and Society", "Effective": "Fall 2026 - pending", "UpdatedDate": "2/26/2026"},
-            {"MajorCode": "58", "ReqGroupID": "PublicCommunityHealthElective", "SubGroup": "", "CourseCode": "SCN240", "CourseName": "Food and Culture", "Effective": "Fall 2026 - pending", "UpdatedDate": "2/26/2026"},
-            {"MajorCode": "58", "ReqGroupID": "PublicCommunityHealthElective", "SubGroup": "", "CourseCode": "SSE103", "CourseName": "Introduction to Microeconomics", "Effective": "Fall 2026 - pending", "UpdatedDate": "2/26/2026"},
-            {"MajorCode": "58", "ReqGroupID": "PublicCommunityHealthElective", "SubGroup": "", "CourseCode": "SSE104", "CourseName": "Introduction to Macroeconomics", "Effective": "Fall 2026 - pending", "UpdatedDate": "2/26/2026"},
+            {"MajorCode": "58", "ReqGroupID": "PublicCommunityHealthElective", "SubGroup": "", "CourseCode": "BTO280", "CourseName": "U.S. Healthcare Administration and Delivery", "Effective": "Fall 2026", "UpdatedDate": "2/26/2026"},
+            {"MajorCode": "58", "ReqGroupID": "PublicCommunityHealthElective", "SubGroup": "", "CourseCode": "HSS216", "CourseName": "Introduction to Motivational Interviewing", "Effective": "Fall 2026", "UpdatedDate": "2/26/2026"},
+            {"MajorCode": "58", "ReqGroupID": "PublicCommunityHealthElective", "SubGroup": "", "CourseCode": "HUC192", "CourseName": "Health Communication", "Effective": "Fall 2026", "UpdatedDate": "2/26/2026"},
+            {"MajorCode": "58", "ReqGroupID": "PublicCommunityHealthElective", "SubGroup": "", "CourseCode": "HUP114", "CourseName": "Medical Ethics", "Effective": "Fall 2026", "UpdatedDate": "2/26/2026"},
+            {"MajorCode": "58", "ReqGroupID": "PublicCommunityHealthElective", "SubGroup": "", "CourseCode": "LIN190", "CourseName": "Pandemics in Global Contexts", "Effective": "Fall 2026", "UpdatedDate": "2/26/2026"},
+            {"MajorCode": "58", "ReqGroupID": "PublicCommunityHealthElective", "SubGroup": "", "CourseCode": "SCD200", "CourseName": "Introductory Nutrition", "Effective": "Fall 2026", "UpdatedDate": "2/26/2026"},
+            {"MajorCode": "58", "ReqGroupID": "PublicCommunityHealthElective", "SubGroup": "", "CourseCode": "SCD203", "CourseName": "Life Cycle Nutrition", "Effective": "Fall 2026", "UpdatedDate": "2/26/2026"},
+            {"MajorCode": "58", "ReqGroupID": "PublicCommunityHealthElective", "SubGroup": "", "CourseCode": "SCH150", "CourseName": "Drugs, Society and Human Behavior", "Effective": "Fall 2026", "UpdatedDate": "2/26/2026"},
+            {"MajorCode": "58", "ReqGroupID": "PublicCommunityHealthElective", "SubGroup": "", "CourseCode": "SCH210", "CourseName": "Human Sexuality", "Effective": "Fall 2026", "UpdatedDate": "2/26/2026"},
+            {"MajorCode": "58", "ReqGroupID": "PublicCommunityHealthElective", "SubGroup": "", "CourseCode": "SCN194", "CourseName": "HIV/AIDS, Science and Society", "Effective": "Fall 2026", "UpdatedDate": "2/26/2026"},
+            {"MajorCode": "58", "ReqGroupID": "PublicCommunityHealthElective", "SubGroup": "", "CourseCode": "SCN240", "CourseName": "Food and Culture", "Effective": "Fall 2026", "UpdatedDate": "2/26/2026"},
+            {"MajorCode": "58", "ReqGroupID": "PublicCommunityHealthElective", "SubGroup": "", "CourseCode": "SSE103", "CourseName": "Introduction to Microeconomics", "Effective": "Fall 2026", "UpdatedDate": "2/26/2026"},
+            {"MajorCode": "58", "ReqGroupID": "PublicCommunityHealthElective", "SubGroup": "", "CourseCode": "SSE104", "CourseName": "Introduction to Macroeconomics", "Effective": "Fall 2026", "UpdatedDate": "2/26/2026"},
             {"MajorCode": "63", "ReqGroupID": "TheaterElective", "SubGroup": "", "CourseCode": "HUM201", "CourseName": "American Musical Theatre Workshop 1", "Effective": "Fall 2023", "UpdatedDate": ""},
             {"MajorCode": "63", "ReqGroupID": "TheaterElective", "SubGroup": "", "CourseCode": "HUM202", "CourseName": "American Musical Theatre Workshop 2", "Effective": "Fall 2023", "UpdatedDate": ""},
             {"MajorCode": "63", "ReqGroupID": "TheaterElective", "SubGroup": "", "CourseCode": "HUT175", "CourseName": "Directing for the Stage", "Effective": "Fall 2023", "UpdatedDate": ""},
@@ -7149,36 +7151,40 @@
             {"MajorCode": "44", "ReqGroupID": "TESOLLinguisticsOption", "SubGroup": "TESOL - Complete both", "CourseCode": "ELN122", "CourseName": "Foundations of American Ed", "Effective": "Fall 2024", "UpdatedDate": ""},
             {"MajorCode": "44", "ReqGroupID": "TESOLLinguisticsOption", "SubGroup": "Linguistics - Complete both", "CourseCode": "ELL210", "CourseName": "English Morphology", "Effective": "Fall 2024", "UpdatedDate": ""},
             {"MajorCode": "44", "ReqGroupID": "TESOLLinguisticsOption", "SubGroup": "Linguistics - Complete both", "CourseCode": "SSY101", "CourseName": "General Psychology", "Effective": "Fall 2024", "UpdatedDate": ""},
-            {"MajorCode": "73", "ReqGroupID": "HealthStudiesCommunityHealthElective", "SubGroup": "", "CourseCode": "SCH150", "CourseName": "Drugs Society and Human Behavior", "Effective": "Fall 2026 - pending", "UpdatedDate": "2/26/2026"},
-            {"MajorCode": "73", "ReqGroupID": "HealthStudiesCommunityHealthElective", "SubGroup": "", "CourseCode": "SCH210", "CourseName": "Human Sexuality", "Effective": "Fall 2026 - pending", "UpdatedDate": "2/26/2026"},
-            {"MajorCode": "73", "ReqGroupID": "HealthStudiesCommunityHealthElective", "SubGroup": "", "CourseCode": "SCN194", "CourseName": "HIV/AIDS Science and Society", "Effective": "Fall 2026 - pending", "UpdatedDate": "2/26/2026"},
-            {"MajorCode": "73", "ReqGroupID": "HealthStudiesCommunityHealthElective", "SubGroup": "", "CourseCode": "SCD200", "CourseName": "Introductory Nutrition", "Effective": "Fall 2026 - pending", "UpdatedDate": "2/26/2026"},
-            {"MajorCode": "73", "ReqGroupID": "HealthStudiesCommunityHealthElective", "SubGroup": "", "CourseCode": "SCN240", "CourseName": "Food and Culture", "Effective": "Fall 2026 - pending", "UpdatedDate": "2/26/2026"},
-            {"MajorCode": "74", "ReqGroupID": "HealthStudiesCommunityHealthElective", "SubGroup": "", "CourseCode": "SCH150", "CourseName": "Drugs Society and Human Behavior", "Effective": "Fall 2026 - pending", "UpdatedDate": "2/26/2026"},
-            {"MajorCode": "74", "ReqGroupID": "HealthStudiesCommunityHealthElective", "SubGroup": "", "CourseCode": "SCH210", "CourseName": "Human Sexuality", "Effective": "Fall 2026 - pending", "UpdatedDate": "2/26/2026"},
-            {"MajorCode": "74", "ReqGroupID": "HealthStudiesCommunityHealthElective", "SubGroup": "", "CourseCode": "SCN194", "CourseName": "HIV/AIDS Science and Society", "Effective": "Fall 2026 - pending", "UpdatedDate": "2/26/2026"},
-            {"MajorCode": "74", "ReqGroupID": "HealthStudiesCommunityHealthElective", "SubGroup": "", "CourseCode": "SCD200", "CourseName": "Introductory Nutrition", "Effective": "Fall 2026 - pending", "UpdatedDate": "2/26/2026"},
-            {"MajorCode": "74", "ReqGroupID": "HealthStudiesCommunityHealthElective", "SubGroup": "", "CourseCode": "SCN240", "CourseName": "Food and Culture", "Effective": "Fall 2026 - pending", "UpdatedDate": "2/26/2026"},
-            {"MajorCode": "75", "ReqGroupID": "HealthStudiesCommunityHealthElective", "SubGroup": "", "CourseCode": "SCH150", "CourseName": "Drugs Society and Human Behavior", "Effective": "Fall 2026 - pending", "UpdatedDate": "2/26/2026"},
-            {"MajorCode": "75", "ReqGroupID": "HealthStudiesCommunityHealthElective", "SubGroup": "", "CourseCode": "SCH210", "CourseName": "Human Sexuality", "Effective": "Fall 2026 - pending", "UpdatedDate": "2/26/2026"},
-            {"MajorCode": "75", "ReqGroupID": "HealthStudiesCommunityHealthElective", "SubGroup": "", "CourseCode": "SCN194", "CourseName": "HIV/AIDS Science and Society", "Effective": "Fall 2026 - pending", "UpdatedDate": "2/26/2026"},
-            {"MajorCode": "75", "ReqGroupID": "HealthStudiesCommunityHealthElective", "SubGroup": "", "CourseCode": "SCD200", "CourseName": "Introductory Nutrition", "Effective": "Fall 2026 - pending", "UpdatedDate": "2/26/2026"},
-            {"MajorCode": "75", "ReqGroupID": "HealthStudiesCommunityHealthElective", "SubGroup": "", "CourseCode": "SCN240", "CourseName": "Food and Culture", "Effective": "Fall 2026 - pending", "UpdatedDate": "2/26/2026"},
-            {"MajorCode": "76", "ReqGroupID": "HealthStudiesCommunityHealthElective", "SubGroup": "", "CourseCode": "SCH150", "CourseName": "Drugs Society and Human Behavior", "Effective": "Fall 2026 - pending", "UpdatedDate": "2/26/2026"},
-            {"MajorCode": "76", "ReqGroupID": "HealthStudiesCommunityHealthElective", "SubGroup": "", "CourseCode": "SCH210", "CourseName": "Human Sexuality", "Effective": "Fall 2026 - pending", "UpdatedDate": "2/26/2026"},
-            {"MajorCode": "76", "ReqGroupID": "HealthStudiesCommunityHealthElective", "SubGroup": "", "CourseCode": "SCN194", "CourseName": "HIV/AIDS Science and Society", "Effective": "Fall 2026 - pending", "UpdatedDate": "2/26/2026"},
-            {"MajorCode": "76", "ReqGroupID": "HealthStudiesCommunityHealthElective", "SubGroup": "", "CourseCode": "SCD200", "CourseName": "Introductory Nutrition", "Effective": "Fall 2026 - pending", "UpdatedDate": "2/26/2026"},
-            {"MajorCode": "76", "ReqGroupID": "HealthStudiesCommunityHealthElective", "SubGroup": "", "CourseCode": "SCN240", "CourseName": "Food and Culture", "Effective": "Fall 2026 - pending", "UpdatedDate": "2/26/2026"},
-            {"MajorCode": "77", "ReqGroupID": "HealthStudiesCommunityHealthElective", "SubGroup": "", "CourseCode": "SCH150", "CourseName": "Drugs Society and Human Behavior", "Effective": "Fall 2026 - pending", "UpdatedDate": "2/26/2026"},
-            {"MajorCode": "77", "ReqGroupID": "HealthStudiesCommunityHealthElective", "SubGroup": "", "CourseCode": "SCH210", "CourseName": "Human Sexuality", "Effective": "Fall 2026 - pending", "UpdatedDate": "2/26/2026"},
-            {"MajorCode": "77", "ReqGroupID": "HealthStudiesCommunityHealthElective", "SubGroup": "", "CourseCode": "SCN194", "CourseName": "HIV/AIDS Science and Society", "Effective": "Fall 2026 - pending", "UpdatedDate": "2/26/2026"},
-            {"MajorCode": "77", "ReqGroupID": "HealthStudiesCommunityHealthElective", "SubGroup": "", "CourseCode": "SCD200", "CourseName": "Introductory Nutrition", "Effective": "Fall 2026 - pending", "UpdatedDate": "2/26/2026"},
-            {"MajorCode": "77", "ReqGroupID": "HealthStudiesCommunityHealthElective", "SubGroup": "", "CourseCode": "SCN240", "CourseName": "Food and Culture", "Effective": "Fall 2026 - pending", "UpdatedDate": "2/26/2026"},
-            {"MajorCode": "78", "ReqGroupID": "HealthStudiesCommunityHealthElective", "SubGroup": "", "CourseCode": "SCH150", "CourseName": "Drugs Society and Human Behavior", "Effective": "Fall 2026 - pending", "UpdatedDate": "2/26/2026"},
-            {"MajorCode": "78", "ReqGroupID": "HealthStudiesCommunityHealthElective", "SubGroup": "", "CourseCode": "SCH210", "CourseName": "Human Sexuality", "Effective": "Fall 2026 - pending", "UpdatedDate": "2/26/2026"},
-            {"MajorCode": "78", "ReqGroupID": "HealthStudiesCommunityHealthElective", "SubGroup": "", "CourseCode": "SCN194", "CourseName": "HIV/AIDS Science and Society", "Effective": "Fall 2026 - pending", "UpdatedDate": "2/26/2026"},
-            {"MajorCode": "78", "ReqGroupID": "HealthStudiesCommunityHealthElective", "SubGroup": "", "CourseCode": "SCD200", "CourseName": "Introductory Nutrition", "Effective": "Fall 2026 - pending", "UpdatedDate": "2/26/2026"},
-            {"MajorCode": "78", "ReqGroupID": "HealthStudiesCommunityHealthElective", "SubGroup": "", "CourseCode": "SCN240", "CourseName": "Food and Culture", "Effective": "Fall 2026 - pending", "UpdatedDate": "2/26/2026"}
+            {"MajorCode": "73", "ReqGroupID": "HealthStudiesGeneralElective", "SubGroup": "", "CourseCode": "HSS216", "CourseName": "Motivational Interviewing", "Effective": "Fall 2026", "UpdatedDate": "2/26/2026"},
+            {"MajorCode": "73", "ReqGroupID": "HealthStudiesGeneralElective", "SubGroup": "", "CourseCode": "HUP114", "CourseName": "Medical Ethics", "Effective": "Fall 2026", "UpdatedDate": "2/26/2026"},
+            {"MajorCode": "73", "ReqGroupID": "HealthStudiesGeneralElective", "SubGroup": "", "CourseCode": "BTO280", "CourseName": "U.S. Healthcare Administration and Delivery", "Effective": "Fall 2026", "UpdatedDate": "2/26/2026"},
+            {"MajorCode": "73", "ReqGroupID": "HealthStudiesGeneralElective", "SubGroup": "", "CourseCode": "LRC103", "CourseName": "Internet Research Strategies", "Effective": "Fall 2026", "UpdatedDate": "2/26/2026"},
+            {"MajorCode": "73", "ReqGroupID": "HealthStudiesCommunityHealthElective", "SubGroup": "", "CourseCode": "SCH150", "CourseName": "Drugs Society and Human Behavior", "Effective": "Fall 2026", "UpdatedDate": "2/26/2026"},
+            {"MajorCode": "73", "ReqGroupID": "HealthStudiesCommunityHealthElective", "SubGroup": "", "CourseCode": "SCH210", "CourseName": "Human Sexuality", "Effective": "Fall 2026", "UpdatedDate": "2/26/2026"},
+            {"MajorCode": "73", "ReqGroupID": "HealthStudiesCommunityHealthElective", "SubGroup": "", "CourseCode": "SCN194", "CourseName": "HIV/AIDS Science and Society", "Effective": "Fall 2026", "UpdatedDate": "2/26/2026"},
+            {"MajorCode": "73", "ReqGroupID": "HealthStudiesCommunityHealthElective", "SubGroup": "", "CourseCode": "SCD200", "CourseName": "Introductory Nutrition", "Effective": "Fall 2026", "UpdatedDate": "2/26/2026"},
+            {"MajorCode": "73", "ReqGroupID": "HealthStudiesCommunityHealthElective", "SubGroup": "", "CourseCode": "SCN240", "CourseName": "Food and Culture", "Effective": "Fall 2026", "UpdatedDate": "2/26/2026"},
+            {"MajorCode": "74", "ReqGroupID": "HealthStudiesCommunityHealthElective", "SubGroup": "", "CourseCode": "SCH150", "CourseName": "Drugs Society and Human Behavior", "Effective": "Fall 2026", "UpdatedDate": "2/26/2026"},
+            {"MajorCode": "74", "ReqGroupID": "HealthStudiesCommunityHealthElective", "SubGroup": "", "CourseCode": "SCH210", "CourseName": "Human Sexuality", "Effective": "Fall 2026", "UpdatedDate": "2/26/2026"},
+            {"MajorCode": "74", "ReqGroupID": "HealthStudiesCommunityHealthElective", "SubGroup": "", "CourseCode": "SCN194", "CourseName": "HIV/AIDS Science and Society", "Effective": "Fall 2026", "UpdatedDate": "2/26/2026"},
+            {"MajorCode": "74", "ReqGroupID": "HealthStudiesCommunityHealthElective", "SubGroup": "", "CourseCode": "SCD200", "CourseName": "Introductory Nutrition", "Effective": "Fall 2026", "UpdatedDate": "2/26/2026"},
+            {"MajorCode": "74", "ReqGroupID": "HealthStudiesCommunityHealthElective", "SubGroup": "", "CourseCode": "SCN240", "CourseName": "Food and Culture", "Effective": "Fall 2026", "UpdatedDate": "2/26/2026"},
+            {"MajorCode": "75", "ReqGroupID": "HealthStudiesCommunityHealthElective", "SubGroup": "", "CourseCode": "SCH150", "CourseName": "Drugs Society and Human Behavior", "Effective": "Fall 2026", "UpdatedDate": "2/26/2026"},
+            {"MajorCode": "75", "ReqGroupID": "HealthStudiesCommunityHealthElective", "SubGroup": "", "CourseCode": "SCH210", "CourseName": "Human Sexuality", "Effective": "Fall 2026", "UpdatedDate": "2/26/2026"},
+            {"MajorCode": "75", "ReqGroupID": "HealthStudiesCommunityHealthElective", "SubGroup": "", "CourseCode": "SCN194", "CourseName": "HIV/AIDS Science and Society", "Effective": "Fall 2026", "UpdatedDate": "2/26/2026"},
+            {"MajorCode": "75", "ReqGroupID": "HealthStudiesCommunityHealthElective", "SubGroup": "", "CourseCode": "SCD200", "CourseName": "Introductory Nutrition", "Effective": "Fall 2026", "UpdatedDate": "2/26/2026"},
+            {"MajorCode": "75", "ReqGroupID": "HealthStudiesCommunityHealthElective", "SubGroup": "", "CourseCode": "SCN240", "CourseName": "Food and Culture", "Effective": "Fall 2026", "UpdatedDate": "2/26/2026"},
+            {"MajorCode": "76", "ReqGroupID": "HealthStudiesCommunityHealthElective", "SubGroup": "", "CourseCode": "SCH150", "CourseName": "Drugs Society and Human Behavior", "Effective": "Fall 2026", "UpdatedDate": "2/26/2026"},
+            {"MajorCode": "76", "ReqGroupID": "HealthStudiesCommunityHealthElective", "SubGroup": "", "CourseCode": "SCH210", "CourseName": "Human Sexuality", "Effective": "Fall 2026", "UpdatedDate": "2/26/2026"},
+            {"MajorCode": "76", "ReqGroupID": "HealthStudiesCommunityHealthElective", "SubGroup": "", "CourseCode": "SCN194", "CourseName": "HIV/AIDS Science and Society", "Effective": "Fall 2026", "UpdatedDate": "2/26/2026"},
+            {"MajorCode": "76", "ReqGroupID": "HealthStudiesCommunityHealthElective", "SubGroup": "", "CourseCode": "SCD200", "CourseName": "Introductory Nutrition", "Effective": "Fall 2026", "UpdatedDate": "2/26/2026"},
+            {"MajorCode": "76", "ReqGroupID": "HealthStudiesCommunityHealthElective", "SubGroup": "", "CourseCode": "SCN240", "CourseName": "Food and Culture", "Effective": "Fall 2026", "UpdatedDate": "2/26/2026"},
+            {"MajorCode": "77", "ReqGroupID": "HealthStudiesCommunityHealthElective", "SubGroup": "", "CourseCode": "SCH150", "CourseName": "Drugs Society and Human Behavior", "Effective": "Fall 2026", "UpdatedDate": "2/26/2026"},
+            {"MajorCode": "77", "ReqGroupID": "HealthStudiesCommunityHealthElective", "SubGroup": "", "CourseCode": "SCH210", "CourseName": "Human Sexuality", "Effective": "Fall 2026", "UpdatedDate": "2/26/2026"},
+            {"MajorCode": "77", "ReqGroupID": "HealthStudiesCommunityHealthElective", "SubGroup": "", "CourseCode": "SCN194", "CourseName": "HIV/AIDS Science and Society", "Effective": "Fall 2026", "UpdatedDate": "2/26/2026"},
+            {"MajorCode": "77", "ReqGroupID": "HealthStudiesCommunityHealthElective", "SubGroup": "", "CourseCode": "SCD200", "CourseName": "Introductory Nutrition", "Effective": "Fall 2026", "UpdatedDate": "2/26/2026"},
+            {"MajorCode": "77", "ReqGroupID": "HealthStudiesCommunityHealthElective", "SubGroup": "", "CourseCode": "SCN240", "CourseName": "Food and Culture", "Effective": "Fall 2026", "UpdatedDate": "2/26/2026"},
+            {"MajorCode": "78", "ReqGroupID": "HealthStudiesCommunityHealthElective", "SubGroup": "", "CourseCode": "SCH150", "CourseName": "Drugs Society and Human Behavior", "Effective": "Fall 2026", "UpdatedDate": "2/26/2026"},
+            {"MajorCode": "78", "ReqGroupID": "HealthStudiesCommunityHealthElective", "SubGroup": "", "CourseCode": "SCH210", "CourseName": "Human Sexuality", "Effective": "Fall 2026", "UpdatedDate": "2/26/2026"},
+            {"MajorCode": "78", "ReqGroupID": "HealthStudiesCommunityHealthElective", "SubGroup": "", "CourseCode": "SCN194", "CourseName": "HIV/AIDS Science and Society", "Effective": "Fall 2026", "UpdatedDate": "2/26/2026"},
+            {"MajorCode": "78", "ReqGroupID": "HealthStudiesCommunityHealthElective", "SubGroup": "", "CourseCode": "SCD200", "CourseName": "Introductory Nutrition", "Effective": "Fall 2026", "UpdatedDate": "2/26/2026"},
+            {"MajorCode": "78", "ReqGroupID": "HealthStudiesCommunityHealthElective", "SubGroup": "", "CourseCode": "SCN240", "CourseName": "Food and Culture", "Effective": "Fall 2026", "UpdatedDate": "2/26/2026"}
         ];
 
 var prereqData = [
@@ -16360,6 +16366,171 @@ var prereqData = [
                     <h3>Map Pacing</h3>
                     <p>This map shows a recommended sequence for students who wish to complete the program at a slower pace of 6 semesters. <em>The program is designed to be completed in 5 semesters.</em></p>
                 `
+            },
+            '11': {
+                title: 'Degree Map Notes – Communication Studies',
+                html: `
+                    <h3>Communication Electives</h3>
+                    <h4>Bucket 1 – pick 3 courses</h4>
+                    <ul>
+                        <li>HUC 112 – Small Group Communication</li>
+                        <li>HUC 117 – Communication and Technology</li>
+                        <li>HUC 118 – Gender and Communication</li>
+                        <li>HUC 120 – Introduction to Media Studies</li>
+                        <li>HUC 136 – Persuasion</li>
+                        <li>HUC 141 – Public Relations</li>
+                    </ul>
+                    <h4>Bucket 2 – pick 2 courses</h4>
+                    <ul>
+                        <li>HUC 142 – Public Relations Writing</li>
+                        <li>HUC 192 – Health Communication</li>
+                        <li>HUC 204 – Race and Communication</li>
+                        <li>HUC 212 – Organizational Communication</li>
+                        <li>HUC 220 – Experiential Learning in Communication Studies</li>
+                    </ul>
+                `
+            },
+            '73': {
+                title: 'Degree Map Notes – Health Studies General',
+                html: `
+                    <h3>Life and Physical Sciences</h3>
+                    <p>Students should choose one of the following in consultation with an advisor:</p>
+                    <ul>
+                        <li>SCB101 Topics in Biology</li>
+                        <li>SCC101 Topics in Chemistry</li>
+                        <li>SCB115 Principles of Biology</li>
+                        <li>SCC110 Foundations of Chemistry</li>
+                        <li>SCB203 Anatomy and Physiology I – <em>Required for Nursing, Radiologist Technologist, Occupational Therapist Assistant and Physical Therapist Assistant programs</em></li>
+                        <li>SCB208 Vertebrate Anatomy I – <em>Required for Veterinarian Technologist program</em></li>
+                    </ul>
+                    <h3>Community Health and Wellness Elective</h3>
+                    <p>Choose one 3 credit course:</p>
+                    <ul>
+                        <li>SCH150 Drugs, Society and Human Behavior</li>
+                        <li>SCH210 Human Sexuality</li>
+                        <li>SCN194 HIV/AIDS, Science and Society</li>
+                        <li>SCD200 Introductory Nutrition</li>
+                        <li>SCN240 Food and Culture</li>
+                    </ul>
+                    <h3>General Health Studies Electives</h3>
+                    <p>Take all courses for a total of 10 credits:</p>
+                    <ul>
+                        <li>HSS216 Motivational Interviewing – 3</li>
+                        <li>HUP114 Medical Ethics – 3</li>
+                        <li>BTO280 U.S. Healthcare Administration and Delivery – 3</li>
+                        <li>LRC103 Internet Research Strategies – 1</li>
+                    </ul>
+                `
+            },
+            '74': {
+                title: 'Degree Map Notes – PreNursing',
+                html: `
+                    <h3>Key Courses</h3>
+                    <p>Entry into the clinical program is highly competitive. Grades in the following "key courses" are weighted heavily in determining eligibility:</p>
+                    <ul>
+                        <li><a href="https://laguardia.catalog.cuny.edu/courses/0754911" target="_blank">ENG101</a> English Composition I (or <a href="https://laguardia.catalog.cuny.edu/courses/1160951" target="_blank">ENA101</a>)</li>
+                        <li><a href="https://laguardia.catalog.cuny.edu/courses/0773831" target="_blank">SSY101</a> General Psychology</li>
+                        <li><a href="https://laguardia.catalog.cuny.edu/courses/1283321" target="_blank">SCC110</a> Foundations of Chemistry</li>
+                        <li><a href="https://laguardia.catalog.cuny.edu/courses/0768821" target="_blank">SCB203</a> Human Anatomy &amp; Physiology I</li>
+                    </ul>
+                    <h3>Community Health and Wellness Elective</h3>
+                    <p>Choose one 3 credit course:</p>
+                    <ul>
+                        <li>SCH150 Drugs, Society and Human Behavior</li>
+                        <li>SCH210 Human Sexuality</li>
+                        <li>SCN194 HIV/AIDS, Science and Society</li>
+                        <li>SCD200 Introductory Nutrition</li>
+                        <li>SCN240 Food and Culture</li>
+                    </ul>
+                `
+            },
+            '75': {
+                title: 'Degree Map Notes – Pre Veterinary Technology',
+                html: `
+                    <h3>Key Courses</h3>
+                    <p>Entry into the clinical program is highly competitive. Grades in the following "key courses" are weighted heavily in determining eligibility:</p>
+                    <ul>
+                        <li><a href="https://laguardia.catalog.cuny.edu/courses/0754911" target="_blank">ENG101</a> English Composition I (or <a href="https://laguardia.catalog.cuny.edu/courses/1160951" target="_blank">ENA101</a>)</li>
+                        <li><a href="https://laguardia.catalog.cuny.edu/courses/0761921" target="_blank">MAT115</a>/<a href="https://laguardia.catalog.cuny.edu/courses/1300291" target="_blank">117</a> Algebra and Trigonometry</li>
+                        <li><a href="https://laguardia.catalog.cuny.edu/courses/1283321" target="_blank">SCC110</a> Foundations in Chemistry or <a href="https://laguardia.catalog.cuny.edu/courses/0769021" target="_blank">SCC201</a> General Chemistry I</li>
+                        <li><a href="https://laguardia.catalog.cuny.edu/courses/0768851" target="_blank">SCB208</a> Vertebrate Anatomy I</li>
+                    </ul>
+                    <h3>Community Health and Wellness Elective</h3>
+                    <p>Choose one 3 credit course:</p>
+                    <ul>
+                        <li>SCH150 Drugs, Society and Human Behavior</li>
+                        <li>SCH210 Human Sexuality</li>
+                        <li>SCN194 HIV/AIDS, Science and Society</li>
+                        <li>SCD200 Introductory Nutrition</li>
+                        <li>SCN240 Food and Culture</li>
+                    </ul>
+                `
+            },
+            '76': {
+                title: 'Degree Map Notes – Pre Radiologic Technologist',
+                html: `
+                    <h3>Key Courses</h3>
+                    <p>Entry into the clinical program is highly competitive. Grades in the following "key courses" are weighted heavily in determining eligibility:</p>
+                    <ul>
+                        <li><a href="https://laguardia.catalog.cuny.edu/courses/0754911" target="_blank">ENG101</a> English Composition I (or <a href="https://laguardia.catalog.cuny.edu/courses/1160951" target="_blank">ENA101</a>)</li>
+                        <li><a href="https://laguardia.catalog.cuny.edu/courses/0773361" target="_blank">SSN187</a> Urban Sociology</li>
+                        <li><a href="https://laguardia.catalog.cuny.edu/courses/0761921" target="_blank">MAT115</a>/<a href="https://laguardia.catalog.cuny.edu/courses/1300291" target="_blank">117</a> Algebra and Trigonometry</li>
+                        <li><a href="https://laguardia.catalog.cuny.edu/courses/0768821" target="_blank">SCB203</a> Human Anatomy &amp; Physiology I</li>
+                    </ul>
+                    <h3>Community Health and Wellness Elective</h3>
+                    <p>Choose one 3 credit course:</p>
+                    <ul>
+                        <li>SCH150 Drugs, Society and Human Behavior</li>
+                        <li>SCH210 Human Sexuality</li>
+                        <li>SCN194 HIV/AIDS, Science and Society</li>
+                        <li>SCD200 Introductory Nutrition</li>
+                        <li>SCN240 Food and Culture</li>
+                    </ul>
+                `
+            },
+            '77': {
+                title: 'Degree Map Notes – Pre Occupational Therapist Assistant',
+                html: `
+                    <h3>Key Courses</h3>
+                    <p>Entry into the clinical program is highly competitive. Grades in the following "key courses" are weighted heavily in determining eligibility:</p>
+                    <ul>
+                        <li><a href="https://laguardia.catalog.cuny.edu/courses/0754911" target="_blank">ENG101</a> English Composition I (or <a href="https://laguardia.catalog.cuny.edu/courses/1160951" target="_blank">ENA101</a>)</li>
+                        <li><a href="https://laguardia.catalog.cuny.edu/courses/0761921" target="_blank">MAT115</a>/<a href="https://laguardia.catalog.cuny.edu/courses/1300291" target="_blank">117</a> Algebra and Trigonometry</li>
+                        <li><a href="https://laguardia.catalog.cuny.edu/courses/0773831" target="_blank">SSY101</a> General Psychology I</li>
+                        <li><a href="https://laguardia.catalog.cuny.edu/courses/0768821" target="_blank">SCB203</a> Human Anatomy &amp; Physiology I</li>
+                    </ul>
+                    <h3>Community Health and Wellness Elective</h3>
+                    <p>Choose one 3 credit course:</p>
+                    <ul>
+                        <li>SCH150 Drugs, Society and Human Behavior</li>
+                        <li>SCH210 Human Sexuality</li>
+                        <li>SCN194 HIV/AIDS, Science and Society</li>
+                        <li>SCD200 Introductory Nutrition</li>
+                        <li>SCN240 Food and Culture</li>
+                    </ul>
+                `
+            },
+            '78': {
+                title: 'Degree Map Notes – Pre Physical Therapist Assistant',
+                html: `
+                    <h3>Key Courses</h3>
+                    <p>Entry into the clinical program is highly competitive. Grades in the following "key courses" are weighted heavily in determining eligibility:</p>
+                    <ul>
+                        <li><a href="https://laguardia.catalog.cuny.edu/courses/0754911" target="_blank">ENG101</a> English Composition I (or <a href="https://laguardia.catalog.cuny.edu/courses/1160951" target="_blank">ENA101</a>)</li>
+                        <li><a href="https://laguardia.catalog.cuny.edu/courses/0761921" target="_blank">MAT115</a>/<a href="https://laguardia.catalog.cuny.edu/courses/1300291" target="_blank">117</a> Algebra and Trigonometry</li>
+                        <li><a href="https://laguardia.catalog.cuny.edu/courses/0768821" target="_blank">SCB203</a> Human Anatomy &amp; Physiology I</li>
+                        <li><a href="https://laguardia.catalog.cuny.edu/courses/0773831" target="_blank">SSY101</a> General Psychology I</li>
+                    </ul>
+                    <h3>Community Health and Wellness Elective</h3>
+                    <p>Choose one 3 credit course:</p>
+                    <ul>
+                        <li>SCH150 Drugs, Society and Human Behavior</li>
+                        <li>SCH210 Human Sexuality</li>
+                        <li>SCN194 HIV/AIDS, Science and Society</li>
+                        <li>SCD200 Introductory Nutrition</li>
+                        <li>SCN240 Food and Culture</li>
+                    </ul>
+                `
             }
         };
         
@@ -16911,7 +17082,7 @@ var prereqData = [
             html += `<div class="course-status" onclick="event.stopPropagation(); cycleCourseState('ProgramElective-${reqGroupId}', this)"></div>`;
             html += `<span class="program-elective-title">${course.CourseName}${creditsDisplay}</span>`;
             html += requirementsTag;
-            html += `<span class="program-elective-hint">Click dropdown for options (${electives.length})</span>`;
+            html += `<span class="program-elective-hint">Click dropdown for options</span>`;
             html += `<span class="program-elective-toggle" id="program-elective-toggle-${uniqueId}">▶</span>`;
             html += '</div>';
             
@@ -16980,11 +17151,10 @@ var prereqData = [
                 if (Object.keys(subGroups).length > 0) {
                     // Render each SubGroup with collapsible content
                     let subGroupIndex = 0;
-                    Object.keys(subGroups).sort().forEach(subGroupName => {
+                    Object.keys(subGroups).sort((a, b) => a.replace(/\s+/g, ' ').localeCompare(b.replace(/\s+/g, ' '))).forEach(subGroupName => {
                         const subGroupId = `${uniqueId}-sg-${subGroupIndex}`;
-                        const itemCount = subGroups[subGroupName].length;
                         html += `<div class="program-elective-subgroup" id="subgroup-header-${subGroupId}" onclick="toggleElectiveSubGroup('${subGroupId}')">
-                            <span>${subGroupName} (${itemCount})</span>
+                            <span>${subGroupName}</span>
                             <span class="program-elective-subgroup-toggle">▶</span>
                         </div>`;
                         html += `<div class="program-elective-subgroup-items" id="subgroup-content-${subGroupId}">`;
@@ -16999,7 +17169,7 @@ var prereqData = [
                     if (noSubGroup.length > 0) {
                         const subGroupId = `${uniqueId}-sg-other`;
                         html += `<div class="program-elective-subgroup" id="subgroup-header-${subGroupId}" onclick="toggleElectiveSubGroup('${subGroupId}')">
-                            <span>Other Options (${noSubGroup.length})</span>
+                            <span>Other Options</span>
                             <span class="program-elective-subgroup-toggle">▶</span>
                         </div>`;
                         html += `<div class="program-elective-subgroup-items" id="subgroup-content-${subGroupId}">`;
