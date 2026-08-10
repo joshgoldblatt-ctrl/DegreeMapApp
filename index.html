@@ -1,3 +1,4 @@
+<!-- VERSION: 7.23 - Capstone badge redesign for visibility: changed from purple #8b5cf6 (nearly identical to Program Core's #6f42c1) to dark gold #b45309 with graduation cap icon. Applied at all 5 render sites (map view, comparison views, both quick print layouts); added missing .tag-capstone CSS rule so quick print shows the gold color instead of falling back to base gray -->
 <!-- VERSION: 7.22 - (1) Degree Map + Index refresh: Human Services (29) AS -> AA (index + all 44 map rows), Practical Nursing LPN (66) AAS -> Certificate, Industrial Design (30) Capstone flag added, Theater (63) three Fall only/Spring only notes, Rad Tech (67) "Sesion II" typo fixed, Vet Tech (68) Capstone flag on Pharmacology & Toxicology. (2) prereqData rebuilt from August 2026 source (1508 entries, was 812): Contact Hours and Academic Department dropped from data and Prereq List tab per Josh; placeholder codes (PERM*, Pathways/ELEC 1000-series) and study-group rows removed; developmental/historical courses kept. Duplicate resolutions: LIB204 uses Course ID 150634 (confirmed by program director), SSJ204 uses 9/9/2025 Eff Date, ELQ101 uses 3/6/2025 Eff Date -->
 <!-- VERSION: 7.21 - Programming and Software Development (56): MAC109 Introduction to Visual Programming (Semester 2) marked as Session II, joining MAC125. NOTE: edited in embedded data directly; Josh to mirror in source Degree_Map_Table.csv so future wholesale refreshes don't revert it -->
 <!-- VERSION: 7.20 - Added extended notes for Pre Veterinary Technology (75): key courses with catalog links + Community Health and Wellness elective list. DATA CORRECTION: source doc had SCB208 linked to 0769021 (SCC201's catalog ID); corrected to 0768851 per July 2026 course link table -->
@@ -34,7 +35,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>LaGuardia Degree Map App v7.22</title>
+    <title>LaGuardia Degree Map App v7.23</title>
     <style>
         * {
             margin: 0;
@@ -710,7 +711,12 @@
         }
         
         .tag.capstone {
-            background-color: #8b5cf6;
+            background-color: #b45309;
+            color: white;
+        }
+        
+        .tag-capstone {
+            background-color: #b45309;
             color: white;
         }
         
@@ -3807,7 +3813,7 @@
 <body>
     <div class="header">
         <h1>📚 LaGuardia Degree Map App</h1>
-        <div class="subtitle">Version 7.22 - Released August 10, 2026</a></div>
+        <div class="subtitle">Version 7.23 - Released August 10, 2026</a></div>
         <div class="subtitle">For Faculty & Staff only | Developed by Josh Goldblatt using Claude</a></div>
     </div>
     
@@ -20479,7 +20485,7 @@ var prereqData = [
                 html += `<span class="tag ${tagClass}">${course.Requirements}</span>`;
             }
             if (course.Capstone) {
-                html += '<span class="tag capstone">Capstone</span>';
+                html += '<span class="tag capstone">🎓 Capstone</span>';
             }
             if (course.Session) {
                 html += `<span class="tag session">${course.Session}</span>`;
@@ -20662,7 +20668,7 @@ var prereqData = [
                 html += `<span class="tag ${tagClass}">${course.Requirements}</span>`;
             }
             if (course.Capstone) {
-                html += '<span class="tag capstone">Capstone</span>';
+                html += '<span class="tag capstone">🎓 Capstone</span>';
             }
             if (course.Session) {
                 html += `<span class="tag session">${course.Session}</span>`;
@@ -20707,7 +20713,7 @@ var prereqData = [
                     html += `<span class="tag ${tagClass}">${course.Pathways}</span>`;
                 }
                 if (course.Capstone) {
-                    html += '<span class="tag capstone">Capstone</span>';
+                    html += '<span class="tag capstone">🎓 Capstone</span>';
                 }
                 if (course.Session) {
                     html += `<span class="tag session">${course.Session}</span>`;
@@ -23105,7 +23111,7 @@ var prereqData = [
                 html += `<span class="tag tag-session">${session}</span>`;
             }
             if (capstone) {
-                html += `<span class="tag tag-capstone">Capstone</span>`;
+                html += `<span class="tag tag-capstone">🎓 Capstone</span>`;
             }
             html += `</div>`;
             
@@ -23160,7 +23166,7 @@ var prereqData = [
                 html += `<span class="tag tag-session">${session}</span>`;
             }
             if (capstone) {
-                html += `<span class="tag tag-capstone">Capstone</span>`;
+                html += `<span class="tag tag-capstone">🎓 Capstone</span>`;
             }
             html += `</div>`;
             html += `</div></div>`;
