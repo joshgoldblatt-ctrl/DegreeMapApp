@@ -1,3 +1,4 @@
+<!-- VERSION: 7.24 - Capstone badge coverage fix: multi-option (pick_1) courses in the main map view now show the Capstone badge (renderPickCourse was missing the check - affected education programs' two-option capstones like ELE203/ELE205 and ELE204/ELL210 in Fall 2026 versions). Also added Capstone badges to both comparison views (renderVersionCourse + renderCompareCourse), which previously never showed Capstone for any course type; new compact gold badge CSS added for both views -->
 <!-- VERSION: 7.23 - Capstone badge redesign for visibility: changed from purple #8b5cf6 (nearly identical to Program Core's #6f42c1) to dark gold #b45309 with graduation cap icon. Applied at all 5 render sites (map view, comparison views, both quick print layouts); added missing .tag-capstone CSS rule so quick print shows the gold color instead of falling back to base gray -->
 <!-- VERSION: 7.22 - (1) Degree Map + Index refresh: Human Services (29) AS -> AA (index + all 44 map rows), Practical Nursing LPN (66) AAS -> Certificate, Industrial Design (30) Capstone flag added, Theater (63) three Fall only/Spring only notes, Rad Tech (67) "Sesion II" typo fixed, Vet Tech (68) Capstone flag on Pharmacology & Toxicology. (2) prereqData rebuilt from August 2026 source (1508 entries, was 812): Contact Hours and Academic Department dropped from data and Prereq List tab per Josh; placeholder codes (PERM*, Pathways/ELEC 1000-series) and study-group rows removed; developmental/historical courses kept. Duplicate resolutions: LIB204 uses Course ID 150634 (confirmed by program director), SSJ204 uses 9/9/2025 Eff Date, ELQ101 uses 3/6/2025 Eff Date -->
 <!-- VERSION: 7.21 - Programming and Software Development (56): MAC109 Introduction to Visual Programming (Semester 2) marked as Session II, joining MAC125. NOTE: edited in embedded data directly; Josh to mirror in source Degree_Map_Table.csv so future wholesale refreshes don't revert it -->
@@ -35,7 +36,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>LaGuardia Degree Map App v7.23</title>
+    <title>LaGuardia Degree Map App v7.24</title>
     <style>
         * {
             margin: 0;
@@ -1949,6 +1950,27 @@
             font-weight: 600;
         }
         
+        .version-course-capstone {
+            font-size: 10px;
+            padding: 2px 6px;
+            background: #b45309;
+            color: white;
+            border-radius: 3px;
+            white-space: nowrap;
+            font-weight: 600;
+        }
+        
+        .compare-course-capstone {
+            font-size: 10px;
+            padding: 2px 6px;
+            background: #b45309;
+            color: white;
+            border-radius: 3px;
+            white-space: nowrap;
+            font-weight: 600;
+            margin-left: 4px;
+        }
+        
         .version-change-badge {
             font-size: 10px;
             padding: 1px 6px;
@@ -3813,7 +3835,7 @@
 <body>
     <div class="header">
         <h1>📚 LaGuardia Degree Map App</h1>
-        <div class="subtitle">Version 7.23 - Released August 10, 2026</a></div>
+        <div class="subtitle">Version 7.24 - Released August 10, 2026</a></div>
         <div class="subtitle">For Faculty & Staff only | Developed by Josh Goldblatt using Claude</a></div>
     </div>
     
@@ -20588,6 +20610,11 @@ var prereqData = [
                 html += `<div class="course-tags"><span class="tag ${tagClass}">${course.Requirements}</span></div>`;
             }
             
+            // Add capstone tag if present
+            if (course.Capstone) {
+                html += '<span class="tag capstone">🎓 Capstone</span>';
+            }
+            
             // Add session tag if present  
             if (course.Session) {
                 html += `<span class="tag session">${course.Session}</span>`;
@@ -21450,6 +21477,7 @@ var prereqData = [
             }
             
             const reqHtml = requirements ? `<span class="compare-course-req">${requirements}</span>` : '';
+            const capstoneHtml = course.Capstone ? `<span class="compare-course-capstone">🎓 Capstone</span>` : '';
             const displayCode = codes[0] || '';
             const displayName = courseName.includes(',') && reqType !== 'pick_1_ProgramElective' ? courseName.split(',')[0].trim() : courseName;
             
@@ -21459,7 +21487,7 @@ var prereqData = [
                 <div class="compare-course ${matchClass}">
                     <span class="compare-course-code">${displayCode}</span>
                     <span class="compare-course-name">${displayName}</span>
-                    ${reqHtml}${electiveIndicator}
+                    ${reqHtml}${capstoneHtml}${electiveIndicator}
                 </div>
                 ${optionsHtml}
             `;
@@ -22196,11 +22224,13 @@ var prereqData = [
             const credits = course.Credits || '';
             const requirements = course.Requirements || '';
             const session = course.Session || '';
+            const capstone = course.Capstone || '';
             const note = course.Note || '';
             
             const creditsHtml = credits ? `<span class="version-course-credits">${credits}cr</span>` : '';
             const reqHtml = requirements ? `<span class="version-course-req">${requirements}</span>` : '';
             const sessionHtml = session ? `<span class="version-course-session">${session}</span>` : '';
+            const capstoneHtml = capstone ? `<span class="version-course-capstone">🎓 Capstone</span>` : '';
             const noteHtml = note ? `<div class="version-course-note">📝 ${note}</div>` : '';
             
             return `
@@ -22210,6 +22240,7 @@ var prereqData = [
                         <span class="version-course-name">${courseName}</span>
                         ${creditsHtml}
                         ${sessionHtml}
+                        ${capstoneHtml}
                         ${reqHtml}
                         ${badgeHtml}
                     </div>
