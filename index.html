@@ -1,3 +1,4 @@
+<!-- VERSION: 7.27 - Header layout: updates box moved to the right of the app title block (flex layout, wraps on narrow screens) to reduce vertical space. "Updates" tab renamed to "Map Revisions" (button label + active-state tab mapping; internal tab id unchanged) -->
 <!-- VERSION: 7.26 - Prereq section enhancements: (1) Designation column now shows full designation names per Josh's 18-code mapping (DNL, LNL, MLA remain as raw codes - full names not yet provided; COPR was in a filtered placeholder row). (2) Per-column filters added to Prereq List table: text filters for 6 columns + dropdown for Designation, combined with the global search using AND logic; detail rows collapse with filtered-out parents. (3) Updates box added to app header with Aug 26 announcements (Health Studies/Recreational Therapy approvals + prereq section description dropdowns) -->
 <!-- VERSION: 7.25 - (1) Approval wave: Recreational Therapy (71), RT-Health/Exercise/Sports (72), and all six Health Studies tracks (73-78) flipped from Pending Approval to Approved in index (Active) and degree map (Effective); index notes "New program approved for Fall 2026" added for 73-78. Updates tab badges changed PENDING -> APPROVED (NEW badge kept on Health Studies), View Map links now pass explicit Effective values, tab date updated. (2) prereqData rebuilt from August 2026 II source (1508 rows) with new structure: CourseCode, CourseName, Credits, ContactHours, BillableUnits, Designation, PreCoReqs, PreCoReqsLong, Description. Course descriptions joined via Course ID (leading zeros stripped from description table IDs - Excel artifact; 100% match). Same cleanup as v7.22 (44 placeholder/study-group rows removed; LIB204=ID 150634, SSJ204=9/9/2025, ELQ101=3/6/2025). (3) Prereq List tab: 7 columns, rows expandable via toggle to show Course Description + detailed Pre/Co-reqs; search updated to handle detail rows. (4) Map-view prereq popups now show Billable Units instead of Equated Credits -->
 <!-- VERSION: 7.24 - Capstone badge coverage fix: multi-option (pick_1) courses in the main map view now show the Capstone badge (renderPickCourse was missing the check - affected education programs' two-option capstones like ELE203/ELE205 and ELE204/ELL210 in Fall 2026 versions). Also added Capstone badges to both comparison views (renderVersionCourse + renderCompareCourse), which previously never showed Capstone for any course type; new compact gold badge CSS added for both views -->
@@ -38,7 +39,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>LaGuardia Degree Map App v7.26</title>
+    <title>LaGuardia Degree Map App v7.27</title>
     <style>
         * {
             margin: 0;
@@ -56,14 +57,26 @@
         .header {
             background: linear-gradient(135deg, #c41e3a 0%, #8b0000 100%);
             color: white;
-            padding: 20px;
-            text-align: center;
+            padding: 16px 20px;
             box-shadow: 0 2px 4px rgba(0,0,0,0.1);
         }
         
+        .header-inner {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 30px;
+            flex-wrap: wrap;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        .header-title-block {
+            text-align: center;
+        }
+        
         .header-updates-box {
-            max-width: 720px;
-            margin: 14px auto 0;
+            max-width: 480px;
             background: rgba(255, 255, 255, 0.12);
             border: 1px solid rgba(255, 255, 255, 0.35);
             border-radius: 8px;
@@ -3914,15 +3927,19 @@
 </head>
 <body>
     <div class="header">
-        <h1>📚 LaGuardia Degree Map App</h1>
-        <div class="subtitle">Version 7.26 - Released August 26, 2026</a></div>
-        <div class="subtitle">For Faculty & Staff only | Developed by Josh Goldblatt using Claude</a></div>
-        <div class="header-updates-box">
-            <div class="header-updates-title">📢 Updates — August 26, 2026</div>
-            <ul class="header-updates-list">
-                <li>The Health Studies and Recreational Therapy programs are approved for Fall 2026.</li>
-                <li>The pre/co-req section of the app includes updated courses — click a row's dropdown to see the course description.</li>
-            </ul>
+        <div class="header-inner">
+            <div class="header-title-block">
+                <h1>📚 LaGuardia Degree Map App</h1>
+                <div class="subtitle">Version 7.27 - Released August 26, 2026</a></div>
+                <div class="subtitle">For Faculty & Staff only | Developed by Josh Goldblatt using Claude</a></div>
+            </div>
+            <div class="header-updates-box">
+                <div class="header-updates-title">📢 Updates — August 26, 2026</div>
+                <ul class="header-updates-list">
+                    <li>The Health Studies and Recreational Therapy programs are approved for Fall 2026.</li>
+                    <li>The pre/co-req section of the app includes updated courses — click a row's dropdown to see the course description.</li>
+                </ul>
+            </div>
         </div>
     </div>
     
@@ -3931,7 +3948,7 @@
         <button class="tab-button" onclick="switchTab('prereq-list')">📖 Pre/Co-Req List</button>
         <button class="tab-button" onclick="switchTab('quick-print')">🖨️ Quick Print</button>
         <button class="tab-button" onclick="switchTab('compare-maps')">📊 Compare Maps</button>
-        <button class="tab-button" onclick="switchTab('updates')">📢 Updates</button>
+        <button class="tab-button" onclick="switchTab('updates')">📢 Map Revisions</button>
     </div>
     
     <div id="degree-maps" class="tab-content active">
@@ -10290,7 +10307,7 @@ var prereqData = [
                         'prereq-list': 'Pre/Co-Req',
                         'quick-print': 'Quick Print',
                         'compare-maps': 'Compare Maps',
-                        'updates': 'Updates'
+                        'updates': 'Map Revisions'
                     };
                     if (btn.textContent.includes(tabMap[tabName] || '')) {
                         btn.classList.add('active');
