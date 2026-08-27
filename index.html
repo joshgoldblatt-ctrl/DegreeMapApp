@@ -1,3 +1,4 @@
+<!-- VERSION: 7.29 - "Pre/Co-Req List" tab renamed to "Courses" (button label + active-state tab mapping; internal id prereq-list unchanged). Header updates box second line reworded per Josh to reference the Courses section -->
 <!-- VERSION: 7.28 - Prereq List sticky header fix: column names row and filter row were both sticky at top:0, so the filter row covered the names when scrolling. Now stacked - names row pinned at 0 (fixed 45px height, nowrap), filter row pinned at 45px beneath it; z-index layering keeps both above table rows -->
 <!-- VERSION: 7.27 - Header layout: updates box moved to the right of the app title block (flex layout, wraps on narrow screens) to reduce vertical space. "Updates" tab renamed to "Map Revisions" (button label + active-state tab mapping; internal tab id unchanged) -->
 <!-- VERSION: 7.26 - Prereq section enhancements: (1) Designation column now shows full designation names per Josh's 18-code mapping (DNL, LNL, MLA remain as raw codes - full names not yet provided; COPR was in a filtered placeholder row). (2) Per-column filters added to Prereq List table: text filters for 6 columns + dropdown for Designation, combined with the global search using AND logic; detail rows collapse with filtered-out parents. (3) Updates box added to app header with Aug 26 announcements (Health Studies/Recreational Therapy approvals + prereq section description dropdowns) -->
@@ -40,7 +41,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>LaGuardia Degree Map App v7.28</title>
+    <title>LaGuardia Degree Map App v7.29</title>
     <style>
         * {
             margin: 0;
@@ -3944,14 +3945,14 @@
         <div class="header-inner">
             <div class="header-title-block">
                 <h1>📚 LaGuardia Degree Map App</h1>
-                <div class="subtitle">Version 7.28 - Released August 26, 2026</a></div>
+                <div class="subtitle">Version 7.29 - Released August 26, 2026</a></div>
                 <div class="subtitle">For Faculty & Staff only | Developed by Josh Goldblatt using Claude</a></div>
             </div>
             <div class="header-updates-box">
                 <div class="header-updates-title">📢 Updates — August 26, 2026</div>
                 <ul class="header-updates-list">
                     <li>The Health Studies and Recreational Therapy programs are approved for Fall 2026.</li>
-                    <li>The pre/co-req section of the app includes updated courses — click a row's dropdown to see the course description.</li>
+                    <li>The Courses section has been updated with new pre/co-req info, and now click the dropdown to see the course description.</li>
                 </ul>
             </div>
         </div>
@@ -3959,7 +3960,7 @@
     
     <div class="tabs">
         <button class="tab-button active" onclick="switchTab('degree-maps')">🎓 Degree Maps</button>
-        <button class="tab-button" onclick="switchTab('prereq-list')">📖 Pre/Co-Req List</button>
+        <button class="tab-button" onclick="switchTab('prereq-list')">📖 Courses</button>
         <button class="tab-button" onclick="switchTab('quick-print')">🖨️ Quick Print</button>
         <button class="tab-button" onclick="switchTab('compare-maps')">📊 Compare Maps</button>
         <button class="tab-button" onclick="switchTab('updates')">📢 Map Revisions</button>
@@ -10318,7 +10319,7 @@ var prereqData = [
                 document.querySelectorAll('.tab-button').forEach(btn => {
                     const tabMap = {
                         'degree-maps': 'Degree Maps',
-                        'prereq-list': 'Pre/Co-Req',
+                        'prereq-list': 'Courses',
                         'quick-print': 'Quick Print',
                         'compare-maps': 'Compare Maps',
                         'updates': 'Map Revisions'
