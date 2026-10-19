@@ -1,3 +1,4 @@
+<!-- VERSION: 8.1 - (1) Student Map polish: 0.5in body margin on screen (print margin unchanged via @page), tinted semester title bands (blue "Semester N Courses", teal "Semester N To Dos") with print-color-adjust, emoji on title/bands/notes heading, gray footer band, notes heading divider. (2) Quick Print now offers a "Map version" toggle: Advisor (detailed, existing batch print, unchanged) or Student (one page per map) - the student version builds one combined document from the selected maps (honoring each row's Effective version) and opens it in a new tab with Print / Save as PDF. Refactor: buildStudentMapBody() + wrapStudentMapDocument() + openStudentMapWindow() shared by the single Student Map button and Quick Print so both layouts stay identical. (3) Removed "Credits to Graduate" from the Student Map footer: it was a sum of the map rows' Credits, which only equals the real total for 46 of 77 majors (pick rows and electives carry variable credits); no source column exists for the official figure. -->
 <!-- VERSION: 8.0 - Transfer & Career Journey and Degree Map Notes are now data-driven. (1) Three new embedded tables: journeyUniversalData (Journey_Tasks_Universal_Table.csv, 10 rows), journeyMajorData (Journey_Tasks_Major_Table.csv, 511 rows / 61 majors), degreeMapNotesData (Degree_Map_Notes_Table.csv, 197 rows / 66 majors). (2) Journey: hardcoded TC_JOURNEY_SCREEN_HTML / TC_JOURNEY_PRINT_HTML removed; getJourneyItems() builds each map's journey BY SEMESTER (universal items first, then major-specific) and buildJourneyHtml() renders a 2x2 semester table for the screen toggle, the single-map print page and the Quick Print batch page. Majors with no major-specific rows show universal items only. (3) Notes: extendedNotesData (hand-coded HTML for 10 majors) replaced by degreeMapNotesData; notes for 66 majors were extracted from the Word degree map docs, with the app's more recent versions kept for majors 3, 11, 65, 71, 73-78; "See the full curriculum" rows dropped (catalog link already in map header). (4) New light-markup renderer mdInline()/mdBlock(): [text](url), **bold**, *italic*, "- " bullets, "1. " numbered; text is HTML-escaped first. (5) NEW: "Print Student Map" button - opens a one-page student-facing map in a new tab (4 semester rows: courses | Transfer & Career To Dos, then Degree Map Notes, footer with department/effective/updated/credits) matching the Word doc and website layout; replaces the Word docs as the faculty-review and web-handoff artifact. Advisor print layouts unchanged (notes still hidden there). Data decisions: Major 64 uses Major 71's journey items; majors 73-78 and 65-70 have no major-specific journey items; universal items are the same for all majors. Source CSVs delivered alongside this version. BUG FIX: populatePrintElectivesSummary() referenced versionName (a local of loadDegreeMap) -> ReferenceError for every major with program electives, which silently aborted the rest of loadDegreeMap (the single-map T&C print page was never refreshed for those majors); now derives the name from majorCourses/majorInfo. -->
 <!-- VERSION: 7.32 - RT-Health/Exercise/Sports (72): HES201 (Semester 4) course name typo fixed, "Principles of Group Fitnett" -> "Principles of Group Fitness". NOTE: edited in embedded data; Josh to mirror in source Degree_Map_Table so the next refresh doesn't revert it (the M414 source file still carries the typo) -->
 <!-- VERSION: 7.31 -(1) Data refresh from Degree_Map_Table-M414_GOLDBLAT-L.csv + corrected Program_Elective_Table (1044 rows) + Index: new bucket_flex ReqType on 311 Flexible Core rows (no functional impact - routes to standard renderer like "all"); Major 73 renamed "Health Studies - Health Studies Focus" and restructured (former General electives HSS216/HUP114/BTO280/LRC103 now required rows); Majors 73-78 Community Health Elective replaced by shared HealthStudiesFoundationsElective group (HTR100 + SCH150/SCH210/SCN194/SCD200/SCN240); Rec Therapy (71) 4 course renames; RT-HES (72) Fitnett->Fitness. (2) NEW FEATURE: elective rows now support comma-separated MajorCode lists for sharing across maps (e.g. "73, 74, 75, 76, 77, 78") via electiveMatchesMajor() helper in getFilteredElectives - all elective lookups funnel through it. (3) Extended notes 73-78: header renamed to "Health Foundations Electives", lists updated to the six Foundations courses; Major 73 note retitled "Health Studies Focus" and General Health Studies Electives section removed. (4) Map Revisions tab: "General" link relabeled "Health Studies Focus". DATA CORRECTIONS at embed (Josh to mirror in source): SCD200 CourseCode trailing space trimmed, "Introductory Nutition" -> "Nutrition" -->
@@ -45,7 +46,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>LaGuardia Degree Map App v8.0</title>
+    <title>LaGuardia Degree Map App v8.1</title>
     <style>
         * {
             margin: 0;
@@ -1289,6 +1290,24 @@
             color: #666;
             font-size: 14px;
             min-width: 80px;
+        }
+        
+        .quick-print-version {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            font-size: 14px;
+            color: #333;
+            flex-wrap: wrap;
+        }
+        .quick-print-version-label {
+            font-weight: 600;
+        }
+        .quick-print-version label {
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 5px;
         }
         
         .quick-print-btn {
@@ -3981,7 +4000,7 @@
         <div class="header-inner">
             <div class="header-title-block">
                 <h1>📚 LaGuardia Degree Map App</h1>
-                <div class="subtitle">Version 8.0 - Released October 16, 2026</a></div>
+                <div class="subtitle">Version 8.1 - Released October 19, 2026</a></div>
                 <div class="subtitle">For Faculty & Staff only | Developed by Josh Goldblatt using Claude</a></div>
             </div>
             <div class="header-updates-box">
@@ -4086,7 +4105,7 @@
         <div class="quick-print-container">
             <div class="quick-print-header">
                 <h2>🖨️ Quick Print - Select Degree Maps</h2>
-                <p>Select one or more degree maps to print. Each map will print on a separate page.</p>
+                <p>Select one or more degree maps to print. Each map will print on a separate page. Choose the Advisor version (detailed, with elective pages) or the Student version (one-page map with Transfer &amp; Career To Dos and notes).</p>
             </div>
             
             <div class="quick-print-controls">
@@ -4095,6 +4114,12 @@
                     <select id="quick-print-dept-filter" onchange="filterQuickPrintList()">
                         <option value="">All Departments</option>
                     </select>
+                </div>
+                
+                <div class="quick-print-version" title="Advisor: the detailed map with program elective pages. Student: the one-page map with Transfer &amp; Career To Dos and notes, opens in a new tab.">
+                    <span class="quick-print-version-label">Map version:</span>
+                    <label><input type="radio" name="quick-print-version" value="advisor" checked> Advisor (detailed)</label>
+                    <label><input type="radio" name="quick-print-version" value="student"> Student (one page)</label>
                 </div>
                 
                 <div class="quick-print-actions">
@@ -14642,6 +14667,13 @@ var prereqData = [
                 });
             });
             
+            // v8.1: student version opens a combined one-page-per-map document in a new tab
+            var versionEl = document.querySelector('input[name="quick-print-version"]:checked');
+            if (versionEl && versionEl.value === 'student') {
+                printSelectedStudentMaps(mapsToPrint);
+                return;
+            }
+            
             // Create or get the batch print container
             let batchPrintContainer = document.getElementById('batch-print-container');
             if (!batchPrintContainer) {
@@ -15131,7 +15163,29 @@ var prereqData = [
             return '<li>' + main + studentReqSuffix(course) + extras + note + '</li>';
         }
 
-        function buildStudentMapHtml(majorCode, effective) {
+        var STUDENT_MAP_CSS =
+            '@page { size: letter portrait; margin: 0.5in; }' +
+            'body { font-family: Calibri, "Segoe UI", Arial, sans-serif; font-size: 10pt; color: #000; margin: 0; padding: 0.5in; background: #fff; }' +
+            '.page { page-break-after: always; } .page:last-child { page-break-after: auto; }' +
+            'h1 { font-size: 15pt; margin: 0 0 8px 0; color: #0d47a1; }' +
+            'h1 .deg { font-weight: 400; color: #333; }' +
+            'table.map { width: 100%; border-collapse: collapse; table-layout: fixed; }' +
+            'table.map td { width: 50%; vertical-align: top; border: 1px solid #b8c4d6; padding: 0 8px 6px 8px; }' +
+            'table.map tr { page-break-inside: avoid; }' +
+            '.cell-title { font-weight: 700; margin: 0 -8px 4px -8px; padding: 3px 8px; -webkit-print-color-adjust: exact; print-color-adjust: exact; }' +
+            '.cell-title.courses { background: #e3ecf8; color: #0d47a1; border-bottom: 2px solid #1565C0; }' +
+            '.cell-title.todos { background: #e0f2f1; color: #00695c; border-bottom: 2px solid #2e6e72; }' +
+            'ul { margin: 0; padding-left: 16px; } li { margin: 0 0 2px 0; }' +
+            '.req { color: #444; } .note { font-style: italic; color: #444; font-size: 9pt; margin-left: 2px; }' +
+            'a { color: #1155cc; }' +
+            '.meta { margin: 8px 0 10px 0; font-size: 10pt; background: #f3f4f6; padding: 5px 8px; border-radius: 4px; -webkit-print-color-adjust: exact; print-color-adjust: exact; }' +
+            '.notes h2 { font-size: 12pt; margin: 12px 0 4px 0; color: #0d47a1; border-bottom: 1px solid #b8c4d6; padding-bottom: 2px; }' +
+            '.notes h3 { font-size: 10.5pt; margin: 8px 0 2px 0; } .notes p { margin: 2px 0 4px 0; } .notes ul, .notes ol { margin: 2px 0 4px 0; }' +
+            '.toolbar { margin-bottom: 10px; } .toolbar button { font-size: 11pt; padding: 4px 12px; }' +
+            '@media print { body { padding: 0; } .toolbar { display: none; } a { color: #000; text-decoration: none; } }';
+
+        // Body of one student map (no <html> wrapper) — used by the single Student Map and by Quick Print's student version
+        function buildStudentMapBody(majorCode, effective) {
             var majorInfo = degreeListData.find(function(d) { return String(d.MajorCode) === String(majorCode); });
             if (!majorInfo) return '';
             var courses = effective ? getFilteredCourses(majorCode, effective)
@@ -15149,14 +15203,13 @@ var prereqData = [
             var semNums = Object.keys(bySem).map(Number).sort(function(a, b) { return a - b; });
             [1, 2, 3, 4].forEach(function(n) { if (semNums.indexOf(n) < 0) semNums.push(n); });
             semNums.sort(function(a, b) { return a - b; });
-            var credits = courses.reduce(function(s, c) { var v = parseFloat(c.Credits); return s + (isNaN(v) ? 0 : v); }, 0);
 
             var rows = semNums.map(function(n) {
                 var courseLis = (bySem[n] || []).map(studentCourseLine).join('');
                 var todoLis = (journey[n] || []).map(function(t) { return '<li>' + mdInline(t, {}) + '</li>'; }).join('');
                 return '<tr>' +
-                    '<td><div class="cell-title">Semester ' + n + ' Courses</div><ul>' + (courseLis || '<li><em>No courses listed</em></li>') + '</ul></td>' +
-                    '<td><div class="cell-title">Semester ' + n + ' To Dos</div><ul>' + (todoLis || '<li><em>None</em></li>') + '</ul></td>' +
+                    '<td><div class="cell-title courses">📚 Semester ' + n + ' Courses</div><ul>' + (courseLis || '<li><em>No courses listed</em></li>') + '</ul></td>' +
+                    '<td><div class="cell-title todos">🚀 Semester ' + n + ' To Dos</div><ul>' + (todoLis || '<li><em>None</em></li>') + '</ul></td>' +
                     '</tr>';
             }).join('');
 
@@ -15166,43 +15219,51 @@ var prereqData = [
             var dept = majorInfo.Department || '';
             var deptHtml = majorInfo.ProgramWebsite ? '<a href="' + majorInfo.ProgramWebsite + '">' + escapeHtml(dept) + '</a>' : escapeHtml(dept);
 
-            return '<!DOCTYPE html><html><head><meta charset="utf-8"><title>' + escapeHtml(name) + ' Degree Map</title>' +
-                '<style>' +
-                '@page { size: letter portrait; margin: 0.5in; }' +
-                'body { font-family: Calibri, "Segoe UI", Arial, sans-serif; font-size: 10pt; color: #000; margin: 0; }' +
-                'h1 { font-size: 15pt; margin: 0 0 6px 0; }' +
-                'h1 .deg { font-weight: 400; color: #333; }' +
-                'table.map { width: 100%; border-collapse: collapse; table-layout: fixed; }' +
-                'table.map td { width: 50%; vertical-align: top; border: 1px solid #999; padding: 4px 8px 6px 8px; }' +
-                'table.map tr { page-break-inside: avoid; }' +
-                '.cell-title { font-weight: 700; margin-bottom: 2px; }' +
-                'ul { margin: 0; padding-left: 16px; } li { margin: 0 0 2px 0; }' +
-                '.req { color: #444; } .note { font-style: italic; color: #444; font-size: 9pt; margin-left: 2px; }' +
-                'a { color: #1155cc; }' +
-                '.meta { margin: 8px 0 10px 0; font-size: 10pt; }' +
-                '.notes h2 { font-size: 12pt; margin: 12px 0 4px 0; } .notes h3 { font-size: 10.5pt; margin: 8px 0 2px 0; } .notes p { margin: 2px 0 4px 0; } .notes ul, .notes ol { margin: 2px 0 4px 0; }' +
-                '.toolbar { margin-bottom: 10px; } .toolbar button { font-size: 11pt; padding: 4px 12px; }' +
-                '@media print { .toolbar { display: none; } a { color: #000; text-decoration: none; } }' +
-                '</style></head><body>' +
-                '<div class="toolbar"><button onclick="window.print()">🖨 Print / Save as PDF</button></div>' +
-                '<h1>' + escapeHtml(name) + ' <span class="deg">' + escapeHtml(degreeType) + ' Degree Map, LaGuardia Community College</span></h1>' +
+            return '<div class="page">' +
+                '<h1>🗺️ ' + escapeHtml(name) + ' <span class="deg">' + escapeHtml(degreeType) + ' Degree Map, LaGuardia Community College</span></h1>' +
                 '<table class="map">' + rows + '</table>' +
                 '<div class="meta"><strong>' + deptHtml + '</strong> | <strong>Effective</strong> ' + escapeHtml(effTerm) +
-                ' | <strong>Updated</strong> ' + updated + (credits ? ' | <strong>Credits to Graduate</strong> ' + credits : '') +
+                ' | <strong>Updated</strong> ' + updated +
                 (majorInfo.CollegeCatalogue ? ' | <a href="' + majorInfo.CollegeCatalogue + '">Full curriculum</a>' : '') + '</div>' +
-                (notesHtml ? '<div class="notes"><h2>Degree Map Notes</h2>' + notesHtml + '</div>' : '') +
-                '</body></html>';
+                (notesHtml ? '<div class="notes"><h2>📋 Degree Map Notes</h2>' + notesHtml + '</div>' : '') +
+                '</div>';
         }
 
-        function printStudentMap() {
-            if (!currentMajor) return;
-            var html = buildStudentMapHtml(currentMajor, currentEffectiveDate);
+        function wrapStudentMapDocument(title, bodyHtml) {
+            return '<!DOCTYPE html><html><head><meta charset="utf-8"><title>' + escapeHtml(title) + '</title>' +
+                '<style>' + STUDENT_MAP_CSS + '</style></head><body>' +
+                '<div class="toolbar"><button onclick="window.print()">🖨 Print / Save as PDF</button></div>' +
+                bodyHtml + '</body></html>';
+        }
+
+        function buildStudentMapHtml(majorCode, effective) {
+            var majorInfo = degreeListData.find(function(d) { return String(d.MajorCode) === String(majorCode); });
+            var body = buildStudentMapBody(majorCode, effective);
+            if (!body) return '';
+            return wrapStudentMapDocument((majorInfo ? majorInfo.NameOfMajor : 'Degree Map') + ' Degree Map', body);
+        }
+
+        function openStudentMapWindow(html) {
             var w = window.open('', '_blank');
             if (!w) { alert('Please allow pop-ups for this site to open the Student Map.'); return; }
             w.document.open();
             w.document.write(html);
             w.document.close();
             w.focus();
+        }
+
+        function printStudentMap() {
+            if (!currentMajor) return;
+            var html = buildStudentMapHtml(currentMajor, currentEffectiveDate);
+            if (html) openStudentMapWindow(html);
+        }
+
+        // Quick Print, student version (v8.1): one combined document, each selected map on its own page
+        function printSelectedStudentMaps(mapsToPrint) {
+            var body = mapsToPrint.map(function(m) { return buildStudentMapBody(m.majorCode, m.effective); }).join('');
+            if (!body) return;
+            var title = mapsToPrint.length === 1 ? 'Degree Map' : 'Degree Maps (' + mapsToPrint.length + ')';
+            openStudentMapWindow(wrapStudentMapDocument(title, body));
         }
         
         // File upload handlers (not needed but kept for compatibility)
