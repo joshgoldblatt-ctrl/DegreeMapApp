@@ -1,3 +1,4 @@
+<!-- VERSION: 8.4 - Student Map print margins made self-contained: left/right margins come from body padding and top/bottom from per-map padding (plus @page top/bottom when the print dialog honors it), so the map keeps ~0.5in margins even when the browser print dialog is set to Margins: None/Minimum (which produced an edge-to-edge PDF). Also: "Degree Map Notes" heading and sub-headings no longer strand at the bottom of a page (break-after: avoid). Screen view unchanged. -->
 <!-- VERSION: 8.3 - Student Map (single and Quick Print student version): the new tab now opens the print dialog automatically on load, matching Print Map and the advisor Quick Print; the tab stays open with the Print / Save as PDF button for reprints -->
 <!-- VERSION: 8.2 - Degree Map Notes bullet marker changed from "- " to "• " in Degree_Map_Notes_Table.csv and the embedded degreeMapNotesData (59 Body cells across 33 majors). Reason: Excel treats a cell that begins with "-" as a formula and shows #NAME?, and saving from Excel would overwrite those cells with the literal "#NAME?". mdBlock() now accepts "• ", "- " or "* " as bullet markers, so either form renders. No visible change in the app. -->
 <!-- VERSION: 8.1 - (1) Student Map polish: 0.5in body margin on screen (print margin unchanged via @page), tinted semester title bands (blue "Semester N Courses", teal "Semester N To Dos") with print-color-adjust, emoji on title/bands/notes heading, gray footer band, notes heading divider. (2) Quick Print now offers a "Map version" toggle: Advisor (detailed, existing batch print, unchanged) or Student (one page per map) - the student version builds one combined document from the selected maps (honoring each row's Effective version) and opens it in a new tab with Print / Save as PDF. Refactor: buildStudentMapBody() + wrapStudentMapDocument() + openStudentMapWindow() shared by the single Student Map button and Quick Print so both layouts stay identical. (3) Removed "Credits to Graduate" from the Student Map footer: it was a sum of the map rows' Credits, which only equals the real total for 46 of 77 majors (pick rows and electives carry variable credits); no source column exists for the official figure. -->
@@ -48,7 +49,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>LaGuardia Degree Map App v8.3</title>
+    <title>LaGuardia Degree Map App v8.4</title>
     <style>
         * {
             margin: 0;
@@ -4002,7 +4003,7 @@
         <div class="header-inner">
             <div class="header-title-block">
                 <h1>📚 LaGuardia Degree Map App</h1>
-                <div class="subtitle">Version 8.3 - Released October 20, 2026</a></div>
+                <div class="subtitle">Version 8.4 - Released October 20, 2026</a></div>
                 <div class="subtitle">For Faculty & Staff only | Developed by Josh Goldblatt using Claude</a></div>
             </div>
             <div class="header-updates-box">
@@ -15166,9 +15167,13 @@ var prereqData = [
         }
 
         var STUDENT_MAP_CSS =
-            '@page { size: letter portrait; margin: 0.5in; }' +
+            // Margins are built into the content so the layout survives a print dialog set to "Margins: None":
+            // left/right come from body padding (applies on every printed page); top/bottom come from each .page's
+            // padding plus @page top/bottom when the dialog honors it ("Default").
+            '@page { size: letter portrait; margin: 0.5in 0; }' +
             'body { font-family: Calibri, "Segoe UI", Arial, sans-serif; font-size: 10pt; color: #000; margin: 0; padding: 0.5in; background: #fff; }' +
             '.page { page-break-after: always; } .page:last-child { page-break-after: auto; }' +
+            '@media print { body { padding: 0 0.5in; } .page { padding: 0.5in 0; } }' +
             'h1 { font-size: 15pt; margin: 0 0 8px 0; color: #0d47a1; }' +
             'h1 .deg { font-weight: 400; color: #333; }' +
             'table.map { width: 100%; border-collapse: collapse; table-layout: fixed; }' +
@@ -15181,10 +15186,11 @@ var prereqData = [
             '.req { color: #444; } .note { font-style: italic; color: #444; font-size: 9pt; margin-left: 2px; }' +
             'a { color: #1155cc; }' +
             '.meta { margin: 8px 0 10px 0; font-size: 10pt; background: #f3f4f6; padding: 5px 8px; border-radius: 4px; -webkit-print-color-adjust: exact; print-color-adjust: exact; }' +
-            '.notes h2 { font-size: 12pt; margin: 12px 0 4px 0; color: #0d47a1; border-bottom: 1px solid #b8c4d6; padding-bottom: 2px; }' +
+            '.notes h2 { font-size: 12pt; margin: 12px 0 4px 0; color: #0d47a1; border-bottom: 1px solid #b8c4d6; padding-bottom: 2px; break-after: avoid; page-break-after: avoid; }' +
+            '.notes h3 { break-after: avoid; page-break-after: avoid; } .notes p, .notes li { break-inside: avoid; page-break-inside: avoid; }' +
             '.notes h3 { font-size: 10.5pt; margin: 8px 0 2px 0; } .notes p { margin: 2px 0 4px 0; } .notes ul, .notes ol { margin: 2px 0 4px 0; }' +
             '.toolbar { margin-bottom: 10px; } .toolbar button { font-size: 11pt; padding: 4px 12px; }' +
-            '@media print { body { padding: 0; } .toolbar { display: none; } a { color: #000; text-decoration: none; } }';
+            '@media print { .toolbar { display: none; } a { color: #000; text-decoration: none; } }';
 
         // Body of one student map (no <html> wrapper) — used by the single Student Map and by Quick Print's student version
         function buildStudentMapBody(majorCode, effective) {
