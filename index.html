@@ -1,3 +1,4 @@
+<!-- VERSION: 8.3 - Student Map (single and Quick Print student version): the new tab now opens the print dialog automatically on load, matching Print Map and the advisor Quick Print; the tab stays open with the Print / Save as PDF button for reprints -->
 <!-- VERSION: 8.2 - Degree Map Notes bullet marker changed from "- " to "• " in Degree_Map_Notes_Table.csv and the embedded degreeMapNotesData (59 Body cells across 33 majors). Reason: Excel treats a cell that begins with "-" as a formula and shows #NAME?, and saving from Excel would overwrite those cells with the literal "#NAME?". mdBlock() now accepts "• ", "- " or "* " as bullet markers, so either form renders. No visible change in the app. -->
 <!-- VERSION: 8.1 - (1) Student Map polish: 0.5in body margin on screen (print margin unchanged via @page), tinted semester title bands (blue "Semester N Courses", teal "Semester N To Dos") with print-color-adjust, emoji on title/bands/notes heading, gray footer band, notes heading divider. (2) Quick Print now offers a "Map version" toggle: Advisor (detailed, existing batch print, unchanged) or Student (one page per map) - the student version builds one combined document from the selected maps (honoring each row's Effective version) and opens it in a new tab with Print / Save as PDF. Refactor: buildStudentMapBody() + wrapStudentMapDocument() + openStudentMapWindow() shared by the single Student Map button and Quick Print so both layouts stay identical. (3) Removed "Credits to Graduate" from the Student Map footer: it was a sum of the map rows' Credits, which only equals the real total for 46 of 77 majors (pick rows and electives carry variable credits); no source column exists for the official figure. -->
 <!-- VERSION: 8.0 - Transfer & Career Journey and Degree Map Notes are now data-driven. (1) Three new embedded tables: journeyUniversalData (Journey_Tasks_Universal_Table.csv, 10 rows), journeyMajorData (Journey_Tasks_Major_Table.csv, 511 rows / 61 majors), degreeMapNotesData (Degree_Map_Notes_Table.csv, 197 rows / 66 majors). (2) Journey: hardcoded TC_JOURNEY_SCREEN_HTML / TC_JOURNEY_PRINT_HTML removed; getJourneyItems() builds each map's journey BY SEMESTER (universal items first, then major-specific) and buildJourneyHtml() renders a 2x2 semester table for the screen toggle, the single-map print page and the Quick Print batch page. Majors with no major-specific rows show universal items only. (3) Notes: extendedNotesData (hand-coded HTML for 10 majors) replaced by degreeMapNotesData; notes for 66 majors were extracted from the Word degree map docs, with the app's more recent versions kept for majors 3, 11, 65, 71, 73-78; "See the full curriculum" rows dropped (catalog link already in map header). (4) New light-markup renderer mdInline()/mdBlock(): [text](url), **bold**, *italic*, "- " bullets, "1. " numbered; text is HTML-escaped first. (5) NEW: "Print Student Map" button - opens a one-page student-facing map in a new tab (4 semester rows: courses | Transfer & Career To Dos, then Degree Map Notes, footer with department/effective/updated/credits) matching the Word doc and website layout; replaces the Word docs as the faculty-review and web-handoff artifact. Advisor print layouts unchanged (notes still hidden there). Data decisions: Major 64 uses Major 71's journey items; majors 73-78 and 65-70 have no major-specific journey items; universal items are the same for all majors. Source CSVs delivered alongside this version. BUG FIX: populatePrintElectivesSummary() referenced versionName (a local of loadDegreeMap) -> ReferenceError for every major with program electives, which silently aborted the rest of loadDegreeMap (the single-map T&C print page was never refreshed for those majors); now derives the name from majorCourses/majorInfo. -->
@@ -47,7 +48,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>LaGuardia Degree Map App v8.2</title>
+    <title>LaGuardia Degree Map App v8.3</title>
     <style>
         * {
             margin: 0;
@@ -4001,7 +4002,7 @@
         <div class="header-inner">
             <div class="header-title-block">
                 <h1>📚 LaGuardia Degree Map App</h1>
-                <div class="subtitle">Version 8.2 - Released October 20, 2026</a></div>
+                <div class="subtitle">Version 8.3 - Released October 20, 2026</a></div>
                 <div class="subtitle">For Faculty & Staff only | Developed by Josh Goldblatt using Claude</a></div>
             </div>
             <div class="header-updates-box">
@@ -15234,7 +15235,10 @@ var prereqData = [
             return '<!DOCTYPE html><html><head><meta charset="utf-8"><title>' + escapeHtml(title) + '</title>' +
                 '<style>' + STUDENT_MAP_CSS + '</style></head><body>' +
                 '<div class="toolbar"><button onclick="window.print()">🖨 Print / Save as PDF</button></div>' +
-                bodyHtml + '</body></html>';
+                bodyHtml +
+                // v8.3: open the print dialog automatically once the page has rendered, matching the advisor print paths
+                '<scr' + 'ipt>window.addEventListener("load", function() { setTimeout(function() { window.print(); }, 250); });</scr' + 'ipt>' +
+                '</body></html>';
         }
 
         function buildStudentMapHtml(majorCode, effective) {
