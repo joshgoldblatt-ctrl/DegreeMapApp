@@ -1,3 +1,4 @@
+<!-- VERSION: 8.6 - Student view on screen: larger type (body 15px, title 23px, pills 11px, notes headings 18/16px, slightly more line spacing). Print sizes for the student map (single and Quick Print) pinned to the previous values, so printed output is unchanged. -->
 <!-- VERSION: 8.5 - (1) DATA: Degree Map Table refreshed (1843 rows) with new "Requirements Short" column (PC, RC-ENG, RC-MAT, RC-LPS, FC, FC-Req, FC-Rec); Major 12 renamed "Computer Technology" (map rows + index row - Josh to mirror the index); LIN150 note "Session I only" (41, 43); Major 71 Fall 2026 sem 2 Flexible Core placeholder replaced by SCB204/SSY230 pick with note; 17 course names had trailing/non-breaking spaces, trimmed at embed (Josh to clean source). (2) NEW: Advisor View / Student View toggle in the map viewer (persists for the session). Student view renders the one-page layout inline (version dropdown kept; status checkboxes, Advisor Notes and the T&C toggle are advisor-only). Print Map prints whichever view is active via body.student-view print CSS; the separate "Print Student Map" button and the new-tab/window.open approach are gone. (3) Quick Print student version now prints in-app through the batch print container (runBatchPrint() shared with the advisor version), one map per page. (4) Student map course lines show pills: Requirements Short (colors follow the advisor tag palette by Requirements group, tooltip = full Requirements), Capstone (gold), Session (gray); course Note stays as an italic line. (5) Advisor prints (single and Quick Print) no longer include the Transfer & Career Journey page; the student view/print carries it. buildJourneyPrintHtml and the tc-journey-print-page element removed; screen toggle unchanged. -->
 <!-- VERSION: 8.4 - Student Map print margins made self-contained: left/right margins come from body padding and top/bottom from per-map padding (plus @page top/bottom when the print dialog honors it), so the map keeps ~0.5in margins even when the browser print dialog is set to Margins: None/Minimum (which produced an edge-to-edge PDF). Also: "Degree Map Notes" heading and sub-headings no longer strand at the bottom of a page (break-after: avoid). Screen view unchanged. -->
 <!-- VERSION: 8.3 - Student Map (single and Quick Print student version): the new tab now opens the print dialog automatically on load, matching Print Map and the advisor Quick Print; the tab stays open with the Print / Save as PDF button for reprints -->
@@ -50,7 +51,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>LaGuardia Degree Map App v8.5</title>
+    <title>LaGuardia Degree Map App v8.6</title>
     <style>
         * {
             margin: 0;
@@ -638,22 +639,22 @@
 
 
         /* ── Student view (v8.5) ──────────────────────────────────────────── */
-        .student-map { font-family: Calibri, "Segoe UI", Arial, sans-serif; font-size: 13px; color: #000; background: #fff; padding: 20px 24px; border-radius: 8px; border: 1px solid #ddd; }
-        .student-map h1 { font-size: 20px; margin: 0 0 10px 0; color: #0d47a1; }
+        .student-map { font-family: Calibri, "Segoe UI", Arial, sans-serif; font-size: 15px; color: #000; background: #fff; padding: 20px 24px; border-radius: 8px; border: 1px solid #ddd; }
+        .student-map h1 { font-size: 23px; margin: 0 0 12px 0; color: #0d47a1; }
         .student-map h1 .deg { font-weight: 400; color: #333; }
         .student-map table.map { width: 100%; border-collapse: collapse; table-layout: fixed; }
         .student-map table.map td { width: 50%; vertical-align: top; border: 1px solid #b8c4d6; padding: 0 10px 8px 10px; }
         .student-map .cell-title { font-weight: 700; margin: 0 -10px 6px -10px; padding: 4px 10px; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
         .student-map .cell-title.courses { background: #e3ecf8; color: #0d47a1; border-bottom: 2px solid #1565C0; }
         .student-map .cell-title.todos { background: #e0f2f1; color: #00695c; border-bottom: 2px solid #2e6e72; }
-        .student-map ul { margin: 0; padding-left: 18px; } .student-map li { margin: 0 0 4px 0; line-height: 1.35; }
-        .student-map .note { font-style: italic; color: #444; font-size: 12px; margin-left: 2px; }
+        .student-map ul { margin: 0; padding-left: 20px; } .student-map li { margin: 0 0 5px 0; line-height: 1.4; }
+        .student-map .note { font-style: italic; color: #444; font-size: 13px; margin-left: 2px; }
         .student-map a { color: #1155cc; }
         .student-map .meta { margin: 10px 0 12px 0; background: #f3f4f6; padding: 6px 10px; border-radius: 4px; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
-        .student-map .notes h2 { font-size: 16px; margin: 14px 0 6px 0; color: #0d47a1; border-bottom: 1px solid #b8c4d6; padding-bottom: 2px; }
-        .student-map .notes h3 { font-size: 14px; margin: 10px 0 2px 0; } .student-map .notes p { margin: 2px 0 6px 0; } .student-map .notes ul, .student-map .notes ol { margin: 2px 0 6px 0; }
+        .student-map .notes h2 { font-size: 18px; margin: 16px 0 6px 0; color: #0d47a1; border-bottom: 1px solid #b8c4d6; padding-bottom: 2px; }
+        .student-map .notes h3 { font-size: 16px; margin: 12px 0 2px 0; } .student-map .notes p { margin: 2px 0 6px 0; } .student-map .notes ul, .student-map .notes ol { margin: 2px 0 6px 0; }
         /* pills: same palette as the advisor view tags */
-        .student-map .sp { display: inline-block; padding: 1px 6px; border-radius: 9px; font-size: 10px; font-weight: 600; color: #fff; vertical-align: 1px; margin-left: 4px; white-space: nowrap; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+        .student-map .sp { display: inline-block; padding: 1px 7px; border-radius: 10px; font-size: 11px; font-weight: 600; color: #fff; vertical-align: 1px; margin-left: 4px; white-space: nowrap; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
         .student-map .sp.req-rc { background: #3b82f6; }
         .student-map .sp.req-pc { background: #6f42c1; }
         .student-map .sp.req-fc { background: #10b981; }
@@ -3199,6 +3200,7 @@
             body.student-view .view-controls { display: none !important; }
             body.student-view .student-map { border: none !important; border-radius: 0 !important; padding: 0.25in !important; font-size: 10pt !important; }
             body.student-view .student-map h1 { font-size: 15pt !important; }
+            body.student-view .student-map .sp { font-size: 10px !important; } body.student-view .student-map .note { font-size: 9pt !important; } body.student-view .student-map .notes h2 { font-size: 12pt !important; } body.student-view .student-map .notes h3 { font-size: 10.5pt !important; } body.student-view .student-map li { margin-bottom: 2px !important; line-height: 1.3 !important; }
             body.student-view .student-map a { color: #000 !important; text-decoration: none !important; }
             .student-map table.map tr { page-break-inside: avoid; }
             .student-map .notes h2, .student-map .notes h3 { break-after: avoid; page-break-after: avoid; }
@@ -3207,6 +3209,7 @@
             body.batch-print-mode .batch-print-map.student-map { border: none !important; border-radius: 0 !important; padding: 0.25in !important; font-size: 10pt !important; page-break-after: always; }
             body.batch-print-mode .batch-print-map.student-map:last-child { page-break-after: auto; }
             body.batch-print-mode .batch-print-map.student-map h1 { font-size: 15pt !important; }
+            body.batch-print-mode .batch-print-map.student-map .sp { font-size: 10px !important; } body.batch-print-mode .batch-print-map.student-map .note { font-size: 9pt !important; } body.batch-print-mode .batch-print-map.student-map .notes h2 { font-size: 12pt !important; } body.batch-print-mode .batch-print-map.student-map .notes h3 { font-size: 10.5pt !important; } body.batch-print-mode .batch-print-map.student-map li { margin-bottom: 2px !important; line-height: 1.3 !important; }
             body.batch-print-mode .batch-print-map.student-map a { color: #000 !important; text-decoration: none !important; }
             /* Batch Print Styles */
             /* Batch Print Styles - only apply when in batch print mode */
@@ -4047,7 +4050,7 @@
         <div class="header-inner">
             <div class="header-title-block">
                 <h1>📚 LaGuardia Degree Map App</h1>
-                <div class="subtitle">Version 8.5 - Released October 21, 2026</a></div>
+                <div class="subtitle">Version 8.6 - Released October 21, 2026</a></div>
                 <div class="subtitle">For Faculty & Staff only | Developed by Josh Goldblatt using Claude</a></div>
             </div>
             <div class="header-updates-box">
