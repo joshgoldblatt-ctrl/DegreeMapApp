@@ -1,3 +1,4 @@
+<!-- VERSION: 8.8 - NEW "Updates" tab (between Compare Maps and Map Revisions): a dated log of edits to existing maps, rendered from the new mapUpdatesData table (source Map_Updates_Table.csv: Date, MajorCode, SortOrder, Type change|note, Item). Grouped by date (newest first) then program, with a View Map link per program; "before → after" items render as struck-through before + after; course codes auto-link to the catalog; notes render as a highlighted callout. First entry: Philosophy, October 22, 2026 (HUP275 Spring I only → Fall I only and moved to Semester 3; a Philosophy Elective moved from Semester 3 to 4; note on enrollment / spring conference). Header announcements box and Map Revisions tab unchanged. -->
 <!-- VERSION: 8.7 - (1) DATA: Degree Map Table refresh (1863 rows): Philosophy (52) Fall 2023 map revised via a 10/22/2026 UpdatedDate set of 20 rows (HUP275 Landmarks in Philosophy moved from Semester 4 to Semester 3, note "Offered Fall I only"); Journey_Tasks_Major_Table: Philosophy "Complete a research project in HUP 275" moved from Semester 4 to Semester 3 (511 rows). (2) BUG FIX: rows with several comma-separated codes but ReqType "all"/"all_LPS" (e.g. 52 SSH103-106 and HUN190/192/195, 61 HUC104/192/220, 41 MAT120/MAT201 and SCB201/SCC201/SCP201/SCP231, 58 SCB101/SCB103, 66 MAT106/MAT105) were rendered as a single code, so no catalog link or prereq matched. The main map, Quick Print and Student view now treat any comma-separated CourseCode as a choose-one row (per-code links, prereqs, pills) regardless of ReqType; new hasMultipleCodes() helper. Compare views already showed the full code string and are unchanged. -->
 <!-- VERSION: 8.6 - Student view on screen: larger type (body 15px, title 23px, pills 11px, notes headings 18/16px, slightly more line spacing). Print sizes for the student map (single and Quick Print) pinned to the previous values, so printed output is unchanged. -->
 <!-- VERSION: 8.5 - (1) DATA: Degree Map Table refreshed (1843 rows) with new "Requirements Short" column (PC, RC-ENG, RC-MAT, RC-LPS, FC, FC-Req, FC-Rec); Major 12 renamed "Computer Technology" (map rows + index row - Josh to mirror the index); LIN150 note "Session I only" (41, 43); Major 71 Fall 2026 sem 2 Flexible Core placeholder replaced by SCB204/SSY230 pick with note; 17 course names had trailing/non-breaking spaces, trimmed at embed (Josh to clean source). (2) NEW: Advisor View / Student View toggle in the map viewer (persists for the session). Student view renders the one-page layout inline (version dropdown kept; status checkboxes, Advisor Notes and the T&C toggle are advisor-only). Print Map prints whichever view is active via body.student-view print CSS; the separate "Print Student Map" button and the new-tab/window.open approach are gone. (3) Quick Print student version now prints in-app through the batch print container (runBatchPrint() shared with the advisor version), one map per page. (4) Student map course lines show pills: Requirements Short (colors follow the advisor tag palette by Requirements group, tooltip = full Requirements), Capstone (gold), Session (gray); course Note stays as an italic line. (5) Advisor prints (single and Quick Print) no longer include the Transfer & Career Journey page; the student view/print carries it. buildJourneyPrintHtml and the tc-journey-print-page element removed; screen toggle unchanged. -->
@@ -52,7 +53,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>LaGuardia Degree Map App v8.7</title>
+    <title>LaGuardia Degree Map App v8.8</title>
     <style>
         * {
             margin: 0;
@@ -2712,7 +2713,7 @@
             .progress-checkbox, .empty-state, .view-controls,
             .course-code-badge, .semester-toggle,
             .extended-notes-toggle, .extended-notes-content,
-            #quick-print, #prereq-list, #compare-maps, #updates {
+            #quick-print, #prereq-list, #compare-maps, #updates, #map-updates {
                 display: none !important;
             }
             
@@ -3951,6 +3952,18 @@
             margin-bottom: 8px;
         }
         
+        /* Updates log (v8.8) */
+        .upd-program { margin-bottom: 14px; }
+        .upd-program:last-child { margin-bottom: 0; }
+        .upd-program-head { display: flex; align-items: center; gap: 12px; font-weight: 700; font-size: 14px; color: #374151; padding: 6px 10px; background: #f3f4f6; border-radius: 4px; margin-bottom: 8px; }
+        .upd-items { margin: 0; padding-left: 28px; font-size: 13px; line-height: 1.5; }
+        .upd-items li { margin-bottom: 5px; }
+        .upd-before { color: #6b7280; text-decoration: line-through; text-decoration-color: #c41e3a; }
+        .upd-arrow { color: #c41e3a; font-weight: 700; margin: 0 6px; }
+        .upd-note { list-style: none; margin-left: -18px; padding: 6px 10px; background: #fffbeb; border-left: 3px solid #c8922c; border-radius: 0 4px 4px 0; font-style: italic; color: #4b5563; }
+        .upd-items a { color: #1565C0; }
+        .upd-empty { color: #6b7280; font-size: 14px; padding: 20px; text-align: center; }
+
         .update-program-list {
             padding-left: 8px;
         }
@@ -4051,7 +4064,7 @@
         <div class="header-inner">
             <div class="header-title-block">
                 <h1>📚 LaGuardia Degree Map App</h1>
-                <div class="subtitle">Version 8.7 - Released October 22, 2026</a></div>
+                <div class="subtitle">Version 8.8 - Released October 23, 2026</a></div>
                 <div class="subtitle">For Faculty & Staff only | Developed by Josh Goldblatt using Claude</a></div>
             </div>
             <div class="header-updates-box">
@@ -4069,6 +4082,7 @@
         <button class="tab-button" onclick="switchTab('prereq-list')">📖 Courses</button>
         <button class="tab-button" onclick="switchTab('quick-print')">🖨️ Quick Print</button>
         <button class="tab-button" onclick="switchTab('compare-maps')">📊 Compare Maps</button>
+        <button class="tab-button" onclick="switchTab('map-updates')">📋 Updates</button>
         <button class="tab-button" onclick="switchTab('updates')">📢 Map Revisions</button>
     </div>
     
@@ -4280,6 +4294,15 @@
     </div>
     
     <!-- Updates Tab -->
+    <div id="map-updates" class="tab-content">
+        <div class="updates-container">
+            <div class="updates-intro">
+                A running log of edits to existing degree maps (course moves, notes, corrections), newest first. New catalog versions and program approvals are listed under <strong>Map Revisions</strong>.
+            </div>
+            <div id="map-updates-list"></div>
+        </div>
+    </div>
+
     <div id="updates" class="tab-content">
         <div class="updates-container">
             <div class="updates-intro">
@@ -10402,6 +10425,61 @@ var prereqData = [
             return [];
         }
         
+        // ── Updates log tab (v8.8) ─────────────────────────────────────────
+        function formatUpdateDate(iso) {
+            var m = String(iso || '').match(/^(\d{4})-(\d{2})-(\d{2})$/);
+            if (!m) return escapeHtml(iso);
+            var months = ['January','February','March','April','May','June','July','August','September','October','November','December'];
+            return months[parseInt(m[2], 10) - 1] + ' ' + parseInt(m[3], 10) + ', ' + m[1];
+        }
+        // Light markup + auto-linked course codes (XXX123 / XXX123A) + before → after styling
+        function renderUpdateItem(text) {
+            var parts = String(text || '').split(/\s*(?:→|-->|->)\s*/);
+            function inline(t) {
+                return mdInline(t, {}).replace(/\b([A-Z]{3}\d{3}[A-Z]?)\b/g, function(code) {
+                    var url = getCourseUrl(code);
+                    return url ? '<a href="' + url + '" target="_blank" rel="noopener">' + code + '</a>' : code;
+                });
+            }
+            if (parts.length === 2) {
+                return '<span class="upd-before">' + inline(parts[0]) + '</span><span class="upd-arrow">→</span>' + inline(parts[1]);
+            }
+            return inline(text);
+        }
+        function renderMapUpdates() {
+            var list = document.getElementById('map-updates-list');
+            if (!list) return;
+            if (!mapUpdatesData.length) { list.innerHTML = '<div class="upd-empty">No updates logged yet.</div>'; return; }
+            var byDate = {};
+            mapUpdatesData.forEach(function(r) { (byDate[r.Date] = byDate[r.Date] || []).push(r); });
+            var dates = Object.keys(byDate).sort().reverse();
+            var html = '';
+            dates.forEach(function(d) {
+                var byMajor = {};
+                byDate[d].forEach(function(r) { (byMajor[String(r.MajorCode)] = byMajor[String(r.MajorCode)] || []).push(r); });
+                var majors = Object.keys(byMajor).sort(function(a, b) {
+                    var na = (degreeListData.find(function(x) { return String(x.MajorCode) === a; }) || {}).NameOfMajor || '';
+                    var nb = (degreeListData.find(function(x) { return String(x.MajorCode) === b; }) || {}).NameOfMajor || '';
+                    return na.localeCompare(nb);
+                });
+                html += '<div class="update-entry"><div class="update-entry-header"><span>Map Updates</span><span class="update-entry-date">' + formatUpdateDate(d) + '</span></div><div class="update-entry-body">';
+                majors.forEach(function(mc) {
+                    var info = degreeListData.find(function(x) { return String(x.MajorCode) === mc; });
+                    var name = info ? info.NameOfMajor + ' (' + info['Degree Type'] + ')' : 'Major ' + mc;
+                    var rows = byMajor[mc].slice().sort(function(a, b) { return (a.SortOrder || 0) - (b.SortOrder || 0); });
+                    html += '<div class="upd-program"><div class="upd-program-head"><span>' + escapeHtml(name) + '</span>' +
+                        '<a class="update-link update-link-map" onclick="switchTab(\'degree-maps\'); setTimeout(function() { loadDegreeMap(\'' + mc + '\'); }, 100)">View Map</a></div><ul class="upd-items">';
+                    rows.forEach(function(r) {
+                        if ((r.Type || '').toLowerCase() === 'note') html += '<li class="upd-note"><strong>Note:</strong> ' + renderUpdateItem(r.Item) + '</li>';
+                        else html += '<li>' + renderUpdateItem(r.Item) + '</li>';
+                    });
+                    html += '</ul></div>';
+                });
+                html += '</div></div>';
+            });
+            list.innerHTML = html;
+        }
+
         // Tab switching
         function switchTab(tabName) {
             // Hide all tabs
@@ -10428,6 +10506,7 @@ var prereqData = [
                         'prereq-list': 'Courses',
                         'quick-print': 'Quick Print',
                         'compare-maps': 'Compare Maps',
+                        'map-updates': 'Updates',
                         'updates': 'Map Revisions'
                     };
                     if (btn.textContent.includes(tabMap[tabName] || '')) {
@@ -11311,6 +11390,14 @@ var prereqData = [
             {"MajorCode": "72", "Semester": 3, "SortOrder": 20, "ToDoItem": "Complete onboarding for the internship you will take part in for HES202"},
             {"MajorCode": "72", "Semester": 4, "SortOrder": 10, "ToDoItem": "In HES201, research and showcase your coursework in an ePortfolio presentation"},
             {"MajorCode": "72", "Semester": 4, "SortOrder": 20, "ToDoItem": "In HES202, you will complete an internship at an exercise facility"}
+        ];
+        // ── Map Updates log data (v8.8) ────────────────────────────────────
+        // Source: Map_Updates_Table.csv (3 rows). Date = YYYY-MM-DD; Type = "change" or "note";
+        // Item uses the light markup; "before → after" renders as a before/after line; course codes are auto-linked.
+        var mapUpdatesData = [
+            {"Date": "2026-10-22", "MajorCode": "52", "SortOrder": 10, "Type": "change", "Item": "HUP275 Landmarks in Philosophy (Capstone) (Writing Intensive) (Spring I only) → HUP275 Landmarks in Philosophy (Capstone) (Writing Intensive) (Fall I only) and moved to Semester 3"},
+            {"Date": "2026-10-22", "MajorCode": "52", "SortOrder": 20, "Type": "change", "Item": "A Philosophy Elective moved from Semester 3 to Semester 4"},
+            {"Date": "2026-10-22", "MajorCode": "52", "SortOrder": 30, "Type": "note", "Item": "HUP275 is being moved to Fall I to help with low enrollment in the course. The course will now also help prepare students for a spring philosophy conference"}
         ];
         // ── Degree Map Notes data (v8.0) ───────────────────────────────────
         // Source: Degree_Map_Notes_Table.csv (197 rows). Body uses light markup:
@@ -15410,6 +15497,7 @@ var prereqData = [
             
             // Initialize UI immediately
             populateMajorList();
+            renderMapUpdates();
             populatePrereqTable();
             
             // Set up event listeners
