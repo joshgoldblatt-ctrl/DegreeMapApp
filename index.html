@@ -1,7 +1,7 @@
 <!--
 ================================================================================
   App:          LaGuardia Degree Map App
-  Version:      9.3
+  Version:      9.4
   Released:     November 6, 2026
   Developed by: Josh Goldblatt using Claude
 ================================================================================
@@ -14,6 +14,7 @@
   App Tables CSVs. Changelog lines follow below (newest first).
 ================================================================================
 -->
+<!-- VERSION: 9.4 - DATA: Music Recording Technology (48, Fall 2022): removed the second Flexible Core Course row in Semester 4; the map now has 3 Flexible Core rows (Semesters 1, 3, 4) and totals 60 credits (was 63). Josh is mirroring this in the source Degree Map Table. -->
 <!-- VERSION: 9.3 - DATA: Index Table is now the key for major names: en dashes ("Liberal Arts – History"), "– General" names for Biology, Business Administration, Communication Studies, English and Fine Arts, Biotechnology -> "Biology – Biotechnology"; new NameOfProgram column embedded (no UI yet); Paramedic added as MajorCode 79 (no map; source had a duplicate 73 - Josh to mirror); trailing spaces trimmed. NameOfMajor synced to the Index in the Degree Map, Elective, Notes and Journey tables (older map versions keep their historical name with an en dash, e.g. "Liberal Arts – Journalism"). Degree Map: Liberal Arts – Health Humanities Fall 2027; Pending version (Health Course options SCH210, SCH285 added, SCH215 removed); Psychology prereq notes (SSY201). Notes: Creative Writing and Journalism course-availability notes, Journalism ENG209 no longer offered, Latin American Studies Program Core elective list; tabs after bullets normalized. APP: Effective flags beginning with "Pending" (not only "Pending Approval") count as pending, so a pending version is never the default; sidebar search treats hyphen and en dash alike. -->
 <!-- VERSION: 9.2 - NEW: Student view gains the course status boxes (not started / take next / in progress / completed) and Advisor Notes, both sharing the same saved progress and notes as the Advisor view; student prints show the status symbols with a legend line and the note on its own page after the map; Clear Progress available in both views. FIX: progress keys for code-less rows (Flexible Core buckets, program-elective slots) used to be one key per major, so marking one marked all of them after a reload; keys now include the semester and position (ProgramElective-<group>-S<sem>-<n>, Row-S<sem>-<n>). Saved progress on those rows resets once; coded courses keep their keys. -->
 <!-- VERSION: 9.1 - FIX: Advisor Notes printed from the <textarea>, which prints at its on-screen box size, so notes longer than the box were cut off in print/PDF. Notes now print from a hidden mirror div (same text, pre-wrap) that grows to any length and flows across pages; the textarea is hidden in print and the section no longer forces break-inside: avoid. Screen behavior, Quick Print and student prints unchanged. -->
@@ -76,7 +77,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>LaGuardia Degree Map App v9.3</title>
+    <title>LaGuardia Degree Map App v9.4</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,600;9..144,700&family=Source+Sans+3:wght@400;500;600;700&display=swap" rel="stylesheet">
@@ -3868,7 +3869,7 @@
                     </ul>
                 </div>
                 <div class="meta-box">
-                    <b>Version:</b><span>9.3</span>
+                    <b>Version:</b><span>9.4</span>
                     <b>Released:</b><span>November 6, 2026</span>
                     <b>Developed by:</b><span>Josh Goldblatt using Claude</span>
                 </div>
@@ -4518,7 +4519,6 @@
             {"MajorCode": "48", "NameOfMajor": "Music Recording Technology", "Active": "Active", "Degree Type": "Associate in Applied Science", "Semester": "Semester 4", "CourseName": "Mixing Music I", "DisplayName": "", "CourseCode": "HUX108", "Credits": "3", "Requirements": "Program Core", "Requirements Short": "PC", "Capstone": "", "CAPS Attribute": "", "Session": "", "Note": "", "ReqType": "all", "ReqGroupID": "", "UpdatedDate": "", "UpdateNote": "", "Effective": "Fall 2022"},
             {"MajorCode": "48", "NameOfMajor": "Music Recording Technology", "Active": "Active", "Degree Type": "Associate in Applied Science", "Semester": "Semester 4", "CourseName": "Recording Workshop", "DisplayName": "", "CourseCode": "HUX110", "Credits": "3", "Requirements": "Program Core", "Requirements Short": "PC", "Capstone": "", "CAPS Attribute": "", "Session": "", "Note": "", "ReqType": "all", "ReqGroupID": "", "UpdatedDate": "", "UpdateNote": "", "Effective": "Fall 2022"},
             {"MajorCode": "48", "NameOfMajor": "Music Recording Technology", "Active": "Active", "Degree Type": "Associate in Applied Science", "Semester": "Semester 4", "CourseName": "Post-Production Audio", "DisplayName": "", "CourseCode": "HUX112", "Credits": "3", "Requirements": "Program Core", "Requirements Short": "PC", "Capstone": "", "CAPS Attribute": "", "Session": "", "Note": "", "ReqType": "all", "ReqGroupID": "", "UpdatedDate": "", "UpdateNote": "", "Effective": "Fall 2022"},
-            {"MajorCode": "48", "NameOfMajor": "Music Recording Technology", "Active": "Active", "Degree Type": "Associate in Applied Science", "Semester": "Semester 4", "CourseName": "Flexible Core Course", "DisplayName": "", "CourseCode": "", "Credits": "3", "Requirements": "Flexible Core Bucket", "Requirements Short": "FC", "Capstone": "", "CAPS Attribute": "", "Session": "", "Note": "", "ReqType": "bucket_flex", "ReqGroupID": "", "UpdatedDate": "", "UpdateNote": "", "Effective": "Fall 2022"},
             {"MajorCode": "48", "NameOfMajor": "Music Recording Technology", "Active": "Active", "Degree Type": "Associate in Applied Science", "Semester": "Semester 4", "CourseName": "Flexible Core Course", "DisplayName": "", "CourseCode": "", "Credits": "3", "Requirements": "Flexible Core Bucket", "Requirements Short": "FC", "Capstone": "", "CAPS Attribute": "", "Session": "", "Note": "", "ReqType": "bucket_flex", "ReqGroupID": "", "UpdatedDate": "", "UpdateNote": "", "Effective": "Fall 2022"},
             {"MajorCode": "49", "NameOfMajor": "New Media Technology", "Active": "Active", "Degree Type": "Associate in Applied Science", "Semester": "Semester 1", "CourseName": "First Year Seminar for Liberal Arts", "DisplayName": "", "CourseCode": "LIF101", "Credits": "3", "Requirements": "Program Core - FYS", "Requirements Short": "PC", "Capstone": "", "CAPS Attribute": "", "Session": "", "Note": "", "ReqType": "all", "ReqGroupID": "", "UpdatedDate": "", "UpdateNote": "", "Effective": "Fall 2024"},
             {"MajorCode": "49", "NameOfMajor": "New Media Technology", "Active": "Active", "Degree Type": "Associate in Applied Science", "Semester": "Semester 1", "CourseName": "English Composition I, Composition I Accelerated", "DisplayName": "English Composition I", "CourseCode": "ENG101, ENA101", "Credits": "3", "Requirements": "Required Core - English I", "Requirements Short": "RC-ENG", "Capstone": "", "CAPS Attribute": "", "Session": "", "Note": "", "ReqType": "pick_1_ENG", "ReqGroupID": "", "UpdatedDate": "", "UpdateNote": "", "Effective": "Fall 2024"},
