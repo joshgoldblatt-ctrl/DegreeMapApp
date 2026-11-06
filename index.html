@@ -1,7 +1,7 @@
 <!--
 ================================================================================
   App:          LaGuardia Degree Map App
-  Version:      9.1
+  Version:      9.2
   Released:     November 6, 2026
   Developed by: Josh Goldblatt using Claude
 ================================================================================
@@ -14,6 +14,7 @@
   App Tables CSVs. Changelog lines follow below (newest first).
 ================================================================================
 -->
+<!-- VERSION: 9.2 - NEW: Student view gains the course status boxes (not started / take next / in progress / completed) and Advisor Notes, both sharing the same saved progress and notes as the Advisor view; student prints show the status symbols with a legend line and the note on its own page after the map; Clear Progress available in both views. FIX: progress keys for code-less rows (Flexible Core buckets, program-elective slots) used to be one key per major, so marking one marked all of them after a reload; keys now include the semester and position (ProgramElective-<group>-S<sem>-<n>, Row-S<sem>-<n>). Saved progress on those rows resets once; coded courses keep their keys. -->
 <!-- VERSION: 9.1 - FIX: Advisor Notes printed from the <textarea>, which prints at its on-screen box size, so notes longer than the box were cut off in print/PDF. Notes now print from a hidden mirror div (same text, pre-wrap) that grows to any length and flows across pages; the textarea is hidden in print and the section no longer forces break-inside: avoid. Screen behavior, Quick Print and student prints unchanged. -->
 <!-- VERSION: 9.0 - DESIGN: screen styling converted to the LaGuardia Standard Design. :root design tokens (ink / paper / card / line, accent red, teal, gold, green), Fraunces for headings and Source Sans 3 for body text (Google Fonts, system fallbacks), standard header (app name h1 + purpose subtitle + Version/Released/Developed-by meta-box; the announcements box stays as a card), pill tabs (active = solid ink, emoji removed), pill buttons, card/panel surfaces for the program list, map viewer, Courses table, Quick Print, Compare panels and Updates. Requirement tags remapped to the token palette (Required Core teal, Program Core ink, Flex Required accent, Flex Recommended accent tint, Flex Bucket green, Capstone gold, Session muted); course status take-next teal / in-progress gold / completed green; Compare Versions new green / modified gold / moved teal / modified+moved ink / removed accent. Unchanged: all print output (advisor, student, Quick Print, Compare prints), the on-screen Student view, all data and logic. -->
 <!-- VERSION: 8.11 - DATA: Degree Map Table refresh (1866 rows). Music Performance (47): Semester 3 single Flexible Core Course row with note "Select 3" replaced by three Flexible Core Course rows; Semester 4 "Select 2" row replaced by two rows, so each flex course is listed on its own line like every other map. No other changes. -->
@@ -74,7 +75,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>LaGuardia Degree Map App v9.1</title>
+    <title>LaGuardia Degree Map App v9.2</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,600;9..144,700&family=Source+Sans+3:wght@400;500;600;700&display=swap" rel="stylesheet">
@@ -730,8 +731,17 @@
         .student-map .sp.req-fcrec { background: #fb923c; }
         .student-map .sp.cap { background: #b45309; }
         .student-map .sp.sess { background: #6b7280; }
+        /* v9.2 student status boxes */
+        .student-map ul.ss-list { list-style: none; padding-left: 0; }
+        .student-map ul.ss-list li { position: relative; padding-left: 24px; }
+        .student-map .ss { position: absolute; left: 0; top: 2px; width: 17px; height: 17px; border: 1.5px solid #9ca3af; border-radius: 4px; background: #fff; cursor: pointer; font-size: 11px; line-height: 14px; text-align: center; color: #fff; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+        .student-map .ss:hover { border-color: #1565c0; }
+        .student-map .ss.take-next { background: #3b82f6; border-color: #3b82f6; } .student-map .ss.take-next::after { content: "★"; }
+        .student-map .ss.in-progress { background: #f59e0b; border-color: #f59e0b; } .student-map .ss.in-progress::after { content: "◐"; }
+        .student-map .ss.completed { background: #22c55e; border-color: #22c55e; } .student-map .ss.completed::after { content: "✔"; }
+        .student-map li.completed > a, .student-map li.completed { text-decoration: none; }
+        .student-map .ss-legend { font-size: 12px; color: #555; margin: -6px 0 8px 0; }
         .view-mode-toggle.map-view-toggle .view-mode-btn.active { background: var(--accent); color: #fff; }
-        body.student-view #map-actions button:first-child { display: none; }  /* Clear Progress is advisor-only */
         /* Transfer & Career Journey */
         .tc-journey-toggle {
             display: flex;
@@ -3007,6 +3017,14 @@
             body.student-view .student-map .sp { font-size: 10px !important; } body.student-view .student-map .note { font-size: 9pt !important; } body.student-view .student-map .notes h2 { font-size: 12pt !important; } body.student-view .student-map .notes h3 { font-size: 10.5pt !important; } body.student-view .student-map li { margin-bottom: 2px !important; line-height: 1.3 !important; }
             body.student-view .student-map a { color: #000 !important; text-decoration: none !important; }
             .student-map table.map tr { page-break-inside: avoid; }
+            /* v9.2: status boxes print as symbols (same as the advisor print) */
+            .student-map .ss { border: none !important; background: none !important; color: #000 !important; width: auto !important; height: auto !important; top: 0 !important; font-size: 10pt !important; line-height: inherit !important; }
+            .student-map .ss::before { content: "☐"; } .student-map .ss::after { content: none !important; }
+            .student-map .ss.take-next::before { content: "★"; } .student-map .ss.in-progress::before { content: "◐"; } .student-map .ss.completed::before { content: "☑"; }
+            .student-map ul.ss-list li { padding-left: 16px !important; }
+            .student-map .ss-legend { font-size: 8.5pt !important; color: #000 !important; }
+            body.student-view .advisor-notes-section.has-content { padding: 0.25in !important; }
+            body.student-view .map-viewer { columns: auto !important; }  /* multicol container swallows the forced page break before the notes */
             .student-map .notes h2, .student-map .notes h3 { break-after: avoid; page-break-after: avoid; }
             .student-map .notes p, .student-map .notes li { break-inside: avoid; page-break-inside: avoid; }
             /* Quick Print student version: one map per page, same look */
@@ -3849,7 +3867,7 @@
                     </ul>
                 </div>
                 <div class="meta-box">
-                    <b>Version:</b><span>9.1</span>
+                    <b>Version:</b><span>9.2</span>
                     <b>Released:</b><span>November 6, 2026</span>
                     <b>Developed by:</b><span>Josh Goldblatt using Claude</span>
                 </div>
@@ -11755,7 +11773,7 @@ var prereqData = [
             let html = `
                 <!-- View controls for compact mode -->
                 <div class="view-controls">
-                    <div class="view-mode-toggle map-view-toggle" title="Advisor view: detailed map with status checkboxes, electives and prereqs. Student view: the one-page map with Transfer &amp; Career To Dos and notes.">
+                    <div class="view-mode-toggle map-view-toggle" title="Advisor view: detailed map with electives and prereqs. Student view: the one-page map with Transfer &amp; Career To Dos and notes. Status boxes and Advisor Notes work in both views.">
                         <button class="view-mode-btn ${mapViewMode === 'advisor' ? 'active' : ''}" onclick="setMapViewMode('advisor')">Advisor View</button>
                         <button class="view-mode-btn ${mapViewMode === 'student' ? 'active' : ''}" onclick="setMapViewMode('student')">Student View</button>
                     </div>
@@ -11778,6 +11796,7 @@ var prereqData = [
                 document.getElementById('map-actions').style.display = 'flex';
                 document.body.classList.add('student-view');
                 var pes = document.getElementById('print-electives-summary'); if (pes) pes.innerHTML = '';
+                injectAdvisorNotes(majorCode);  // v9.2: notes available in the student view too (same note per major)
                 return;
             }
             document.body.classList.remove('student-view');
@@ -11857,6 +11876,7 @@ var prereqData = [
             });
             
             // Build semester displays
+            resetStateKeys();
             sortedSemesters.forEach((semester, semesterIndex) => {
                 html += `
                     <div class="semester-container">
@@ -12033,7 +12053,8 @@ var prereqData = [
             // Generate unique ID for this elective group
             const uniqueId = `${majorCode}-${reqGroupId}-${Math.random().toString(36).substr(2, 9)}`;
             
-            const courseKey = `${currentMajor}-ProgramElective-${reqGroupId}`;
+            const stateSuffix = stateKeySuffix(course);
+            const courseKey = `${currentMajor}-${stateSuffix}`;
             const courseState = courseStates[courseKey] || 'not-started';
             
             // Build credits display
@@ -12048,7 +12069,7 @@ var prereqData = [
             
             let html = `<div class="program-elective-container course-item ${courseState}">`;
             html += `<div class="program-elective-header" onclick="toggleProgramElective('${uniqueId}')">`;
-            html += `<div class="course-status" onclick="event.stopPropagation(); cycleCourseState('ProgramElective-${reqGroupId}', this)"></div>`;
+            html += `<div class="course-status" onclick="event.stopPropagation(); cycleCourseState('${stateSuffix}', this)"></div>`;
             html += `<span class="program-elective-title">${course.CourseName}${creditsDisplay}</span>`;
             html += requirementsTag;
             html += `<span class="program-elective-hint">Click dropdown for options</span>`;
@@ -12163,14 +12184,15 @@ var prereqData = [
         
         // Render a single course
         function renderCourse(course) {
-            const courseKey = `${currentMajor}-${course.CourseCode}`;
+            const stateSuffix = stateKeySuffix(course);
+            const courseKey = `${currentMajor}-${stateSuffix}`;
             const courseState = courseStates[courseKey] || 'not-started';
             
             let html = `<div class="course-item ${courseState}">`;
             html += '<div class="course-header">';
             
             // Add status indicator (clickable)
-            html += `<div class="course-status" onclick="cycleCourseState('${course.CourseCode}', this)"></div>`;
+            html += `<div class="course-status" onclick="cycleCourseState('${stateSuffix}', this)"></div>`;
             
             // Course code badge - only show if there's a code (with catalog link)
             if (course.CourseCode && course.CourseCode.trim()) {
@@ -12230,13 +12252,14 @@ var prereqData = [
             const names = course.CourseName ? course.CourseName.split(',').map(n => n.trim()) : [];
             const displayName = (course.DisplayName || '').trim();
             
-            const courseKey = `${currentMajor}-${course.CourseCode.replace(/,/g, '_')}`;
+            const stateSuffix = stateKeySuffix(course);
+            const courseKey = `${currentMajor}-${stateSuffix}`;
             const courseState = courseStates[courseKey] || 'not-started';
             
             let html = `<div class="course-item special-pick-course ${courseState}">`;
             html += '<div class="course-header">';
             
-            html += `<div class="course-status" onclick="cycleCourseState('${course.CourseCode.replace(/,/g, '_')}', this)"></div>`;
+            html += `<div class="course-status" onclick="cycleCourseState('${stateSuffix}', this)"></div>`;
             
             // Credits display
             const creditsDisplay = course.Credits ? `<span class="course-credits">(${course.Credits} cr)</span>` : '';
@@ -12357,13 +12380,14 @@ var prereqData = [
         // Render single required course (all_LPS, all_FLEX - no choice)
         function renderSingleRequiredCourse(course) {
             // This is similar to renderCourse but with special handling for LPS/FLEX labeling
-            const courseKey = `${currentMajor}-${course.CourseCode}`;
+            const stateSuffix = stateKeySuffix(course);
+            const courseKey = `${currentMajor}-${stateSuffix}`;
             const courseState = courseStates[courseKey] || 'not-started';
             
             let html = `<div class="course-item ${courseState}">`;
             html += '<div class="course-header">';
             
-            html += `<div class="course-status" onclick="cycleCourseState('${course.CourseCode}', this)"></div>`;
+            html += `<div class="course-status" onclick="cycleCourseState('${stateSuffix}', this)"></div>`;
             
             // Course code badge - only show if there's a code (with catalog link)
             if (course.CourseCode && course.CourseCode.trim()) {
@@ -12545,6 +12569,32 @@ var prereqData = [
         // Progress tracking - cycle through states
         const STATE_ORDER = ['not-started', 'take-next', 'in-progress', 'completed'];
         
+        // v9.2: one key scheme for both views. Coded rows keep their historical key (the code, commas -> _).
+        // Code-less rows (Flexible Core buckets, program-elective slots) used to share one key per major, so marking one
+        // marked them all after a reload; they now get the semester and their position in it: e.g. "ProgramElective-LibArts-S3-2".
+        var stateKeyCounters = {};
+        function resetStateKeys() { stateKeyCounters = {}; }
+        function stateKeySuffix(course) {
+            var code = (course.CourseCode || '').trim();
+            if (course.ReqType !== 'pick_1_ProgramElective' && code) return code.replace(/,/g, '_');
+            var base = course.ReqType === 'pick_1_ProgramElective' ? 'ProgramElective-' + (course.ReqGroupID || '') : 'Row';
+            var m = String(course.Semester || '').match(/\d+/);
+            var k = base + '-S' + (m ? m[0] : '0');
+            stateKeyCounters[k] = (stateKeyCounters[k] || 0) + 1;
+            return k + '-' + stateKeyCounters[k];
+        }
+        // Student view status box (shares courseStates with the advisor view)
+        function cycleStudentState(el) {
+            var key = el.getAttribute('data-key');
+            var li = el.closest('li');
+            var cur = courseStates[key] || 'not-started';
+            var next = STATE_ORDER[(STATE_ORDER.indexOf(cur) + 1) % STATE_ORDER.length];
+            STATE_ORDER.forEach(function(st) { if (li) li.classList.remove(st); el.classList.remove(st); });
+            if (next === 'not-started') delete courseStates[key]; else courseStates[key] = next;
+            if (li) li.classList.add(next); el.classList.add(next);
+            localStorage.setItem('courseStates', JSON.stringify(courseStates));
+        }
+
         function cycleCourseState(courseCode, statusElement) {
             const courseKey = `${currentMajor}-${courseCode}`;
             const courseItem = statusElement.closest('.course-item');
@@ -15112,7 +15162,7 @@ var prereqData = [
             else if (req.indexOf('Flexible Core') === 0) cls = 'req-fc';
             return ' <span class="sp ' + cls + '" title="' + escapeHtml(req) + '">' + escapeHtml(short) + '</span>';
         }
-        function studentCourseLine(course) {
+        function studentCourseLine(course, majorCode) {
             var codes = (course.CourseCode || '').split(',').map(function(c) { return c.trim(); }).filter(Boolean);
             var names = (course.CourseName || '').split(',').map(function(n) { return n.trim(); });
             var displayName = (course.DisplayName || '').trim();
@@ -15144,7 +15194,11 @@ var prereqData = [
             if (course.Capstone) extras += ' <span class="sp cap" title="Capstone course">🎓 Capstone</span>';
             if (course.Session) extras += ' <span class="sp sess">' + escapeHtml(course.Session) + '</span>';
             var note = course.Note ? '<div class="note">' + escapeHtml(course.Note) + '</div>' : '';
-            return '<li>' + main + studentReqSuffix(course) + extras + note + '</li>';
+            // v9.2: status box shares courseStates with the advisor view
+            var key = String(majorCode) + '-' + stateKeySuffix(course);
+            var st = courseStates[key] || 'not-started';
+            var box = '<span class="ss ' + st + '" data-key="' + escapeHtml(key) + '" title="Click to change status" onclick="cycleStudentState(this)"></span>';
+            return '<li class="' + st + '">' + box + main + studentReqSuffix(course) + extras + note + '</li>';
         }
 
         // Body of one student map (no <html> wrapper) — used by the single Student Map and by Quick Print's student version
@@ -15167,11 +15221,12 @@ var prereqData = [
             [1, 2, 3, 4].forEach(function(n) { if (semNums.indexOf(n) < 0) semNums.push(n); });
             semNums.sort(function(a, b) { return a - b; });
 
+            resetStateKeys();
             var rows = semNums.map(function(n) {
-                var courseLis = (bySem[n] || []).map(studentCourseLine).join('');
+                var courseLis = (bySem[n] || []).map(function(c) { return studentCourseLine(c, majorCode); }).join('');
                 var todoLis = (journey[n] || []).map(function(t) { return '<li>' + mdInline(t, {}) + '</li>'; }).join('');
                 return '<tr>' +
-                    '<td><div class="cell-title courses">📚 Semester ' + n + ' Courses</div><ul>' + (courseLis || '<li><em>No courses listed</em></li>') + '</ul></td>' +
+                    '<td><div class="cell-title courses">📚 Semester ' + n + ' Courses</div><ul class="ss-list">' + (courseLis || '<li><em>No courses listed</em></li>') + '</ul></td>' +
                     '<td><div class="cell-title todos">🚀 Semester ' + n + ' To Dos</div><ul>' + (todoLis || '<li><em>None</em></li>') + '</ul></td>' +
                     '</tr>';
             }).join('');
@@ -15184,6 +15239,7 @@ var prereqData = [
 
             return '<div class="student-page">' +
                 '<h1>🗺️ ' + escapeHtml(name) + ' <span class="deg">' + escapeHtml(degreeType) + ' Degree Map, LaGuardia Community College</span></h1>' +
+                '<div class="ss-legend"><strong>Status:</strong> ☐ Not Started &nbsp;|&nbsp; ★ Take Next &nbsp;|&nbsp; ◐ In Progress &nbsp;|&nbsp; ☑ Completed</div>' +
                 '<table class="map">' + rows + '</table>' +
                 '<div class="meta"><strong>' + deptHtml + '</strong> | <strong>Effective</strong> ' + escapeHtml(effTerm) +
                 ' | <strong>Updated</strong> ' + updated +
