@@ -1,8 +1,8 @@
 <!--
 ================================================================================
   App:          LaGuardia Degree Map App
-  Version:      9.0
-  Released:     October 31, 2026
+  Version:      9.1
+  Released:     November 6, 2026
   Developed by: Josh Goldblatt using Claude
 ================================================================================
   PURPOSE
@@ -14,6 +14,7 @@
   App Tables CSVs. Changelog lines follow below (newest first).
 ================================================================================
 -->
+<!-- VERSION: 9.1 - FIX: Advisor Notes printed from the <textarea>, which prints at its on-screen box size, so notes longer than the box were cut off in print/PDF. Notes now print from a hidden mirror div (same text, pre-wrap) that grows to any length and flows across pages; the textarea is hidden in print and the section no longer forces break-inside: avoid. Screen behavior, Quick Print and student prints unchanged. -->
 <!-- VERSION: 9.0 - DESIGN: screen styling converted to the LaGuardia Standard Design. :root design tokens (ink / paper / card / line, accent red, teal, gold, green), Fraunces for headings and Source Sans 3 for body text (Google Fonts, system fallbacks), standard header (app name h1 + purpose subtitle + Version/Released/Developed-by meta-box; the announcements box stays as a card), pill tabs (active = solid ink, emoji removed), pill buttons, card/panel surfaces for the program list, map viewer, Courses table, Quick Print, Compare panels and Updates. Requirement tags remapped to the token palette (Required Core teal, Program Core ink, Flex Required accent, Flex Recommended accent tint, Flex Bucket green, Capstone gold, Session muted); course status take-next teal / in-progress gold / completed green; Compare Versions new green / modified gold / moved teal / modified+moved ink / removed accent. Unchanged: all print output (advisor, student, Quick Print, Compare prints), the on-screen Student view, all data and logic. -->
 <!-- VERSION: 8.11 - DATA: Degree Map Table refresh (1866 rows). Music Performance (47): Semester 3 single Flexible Core Course row with note "Select 3" replaced by three Flexible Core Course rows; Semester 4 "Select 2" row replaced by two rows, so each flex course is listed on its own line like every other map. No other changes. -->
 <!-- VERSION: 8.10 - DATA RELEASE. (1) Degree Map Index Table: new "Program Code" column (1-44; a catalog program shared by its options, e.g. Business Administration 5 = majors 5/7/8) embedded on degreeListData (not yet displayed); MajorCode unchanged after evaluating decimal/hyphen schemes (integer ID kept as the stable key); catalog links now point to the /requirements pages; Healthcare Management and Facilities Management websites un-swapped; Rec Therapy (71/72) website now recreational-therapy. (2) Degree Map Table: Culinary (15) and Nutrition (50) SCD266 note 180 -> 120 hours fieldwork; SCD251 "Fall only"/"Fall II only" notes removed. (3) Journey (512 rows): Culinary/Nutrition items updated (Academy of Nutrition and Dietetics, Restaurant Management Professional certificates, 120-hour internship); Political Science (42) new semester 3 item and reworded semester 2 item. FIX at embed: "(Restaurant Management Professional] (" bracket typo -> proper link (15, 50). (4) Notes (197 rows): Animal Science scheduling, Culinary/Nutrition headings, Creative Writing faculty-rotation note, Journalism Fall 2026 update + core course list, Music Performance scheduling/registration, New Media reorganized; Music Recording Technology note removed. FIX at embed: New Media "Tracks" link had a space before the URL and pointed at MSRT-AAS -> NMDTH-AAS; Animal Science "is s offered" typo; trailing spaces trimmed (47). (5) Program Elective Table: NameOfMajor column added (informational; shared rows list all majors separated by semicolons), no row changes. Corrected CSVs delivered to Josh to mirror. -->
@@ -73,7 +74,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>LaGuardia Degree Map App v9.0</title>
+    <title>LaGuardia Degree Map App v9.1</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,600;9..144,700&family=Source+Sans+3:wght@400;500;600;700&display=swap" rel="stylesheet">
@@ -696,6 +697,7 @@
             color: var(--ink);
             line-height: 1.5;
         }
+        .advisor-notes-print { display: none; }
         .advisor-notes-textarea:focus {
             outline: none;
             border-color: var(--teal-soft);
@@ -3568,8 +3570,8 @@
             .advisor-notes-section.has-content {
                 display: block !important;
                 page-break-before: always !important;
-                page-break-inside: avoid !important;
-                break-inside: avoid !important;
+                page-break-inside: auto !important;
+                break-inside: auto !important;
                 margin-top: 0 !important;
                 border-top: none !important;
                 padding-top: 20px !important;
@@ -3586,18 +3588,22 @@
                 color: #000 !important;
                 margin-bottom: 6px !important;
                 display: block !important;
+                break-after: avoid !important;
             }
+            /* v9.1: print the mirror div, not the textarea (a textarea prints at its on-screen box size and clips long notes) */
             .advisor-notes-textarea {
-                border: none !important;
-                padding: 0 !important;
+                display: none !important;
+            }
+            .advisor-notes-print {
+                display: block !important;
+                font-family: Arial, sans-serif !important;
                 font-size: 10pt !important;
-                resize: none !important;
-                width: 100% !important;
+                line-height: 1.5 !important;
                 color: #000 !important;
-                background: transparent !important;
-                box-shadow: none !important;
                 white-space: pre-wrap !important;
-                overflow: visible !important;
+                overflow-wrap: break-word !important;
+                orphans: 3;
+                widows: 3;
             }
 
 
@@ -3843,8 +3849,8 @@
                     </ul>
                 </div>
                 <div class="meta-box">
-                    <b>Version:</b><span>9.0</span>
-                    <b>Released:</b><span>October 31, 2026</span>
+                    <b>Version:</b><span>9.1</span>
+                    <b>Released:</b><span>November 6, 2026</span>
                     <b>Developed by:</b><span>Josh Goldblatt using Claude</span>
                 </div>
         </div>
@@ -15257,8 +15263,15 @@ var prereqData = [
             textarea.setAttribute('data-major', String(majorCode));
             textarea.oninput = function() { saveAdvisorNotes(this.getAttribute('data-major')); };
 
+            // Print mirror (v9.1): a div with the same text, shown only in print so long notes flow across pages
+            var mirror = document.createElement('div');
+            mirror.className = 'advisor-notes-print';
+            mirror.id = 'advisor-notes-print';
+            mirror.textContent = savedText;
+
             body.appendChild(label);
             body.appendChild(textarea);
+            body.appendChild(mirror);
             section.appendChild(btn);
             section.appendChild(body);
             viewer.appendChild(section);
@@ -15278,6 +15291,8 @@ var prereqData = [
             if (!textarea || !section) return;
             var text = textarea.value;
             advisorNotesStore[String(majorCode)] = text;
+            var mirror = document.getElementById('advisor-notes-print');
+            if (mirror) mirror.textContent = text;
             if (text.trim().length > 0) {
                 section.classList.add('has-content');
             } else {
